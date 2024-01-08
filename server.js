@@ -12,7 +12,6 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/keyboard/:id', async (req, res) => {
 app.use(express.json());
 
 app.post('/users/:userID', async (req, res) => {
@@ -33,8 +32,6 @@ app.post('/users/:userID', async (req, res) => {
     res.status(500).json({ error: 'Serverfehler' });
   }
 });
-
-
 
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
@@ -214,6 +211,4 @@ app.post('/login', async (req, res) => {
 
   }
 
-});
-
-
+  });
