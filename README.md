@@ -3,8 +3,11 @@
 https://reactrouter.com/en/main/hooks/use-navigate
 
 used frameworks: 
-prisma
-react
+
+backend: express 
+orm: prisma
+
+frontend:react
 eslint
 
 einrichten und starten:
@@ -21,6 +24,8 @@ npm run dev
 prisma: 
 npm run prisma-migrate
 npm run prisma-generate
+
+nicht vergessen die .env anzulegen
 npm run prisma-seed
 
 npm run prisma-studio
