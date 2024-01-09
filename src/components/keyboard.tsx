@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./css/keyboard.css";
-import Fetch from "./api";
+import { fetchPoints, fetchUserdata } from "./api";
 
 const Keyboard = () => {
   const [pressedKey, setPressedKey] = useState(null);
-  // const [userData, setUserData] = useState(null);
 
-  const userData = Fetch("/users/1");
+
+  // hier ein beispiel wird auf die userdaten zugegriffen 
+  // mit der userid also 1 ,2 usw findet man die nutzer.
+
+
+  const userData = fetchUserdata("/users/1");
   console.log(userData);
+
+
+  // hier kann man auf die punktestände zugreifen
+  // mit der id hinter leaderboard kann man sich die topX der besten 
+  // punkteständ anzeigen lassen
+
+  const points = fetchPoints("/points/leaderboard/2");
+  console.log(points);
+  console.log(points?.[0].id);
+
+  // grade wird alles noch mehrfach geloggt , da weiß 
+  //ich aber zurzeit noch keine lösubng 
+
+
+
 
 
   const handleKeyDown = (event: { keyCode: any; }) => {
