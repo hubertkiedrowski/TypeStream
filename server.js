@@ -3,11 +3,14 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PrismaClient } from "@prisma/client";
-
+import cors from 'cors'
 const app = express()
 const port = 3000
-
 const prisma = new PrismaClient();
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,34 +18,19 @@ app.use(bodyParser.json());
 app.get('/keyboard/:id', async (req, res) => {
 app.use(express.json());
 
-app.post('/users/:userID', async (req, res) => {
-  const { userID } = req.body;
-
-  try {
-    const user = await prisma.user.findFirst({
-      where: { id: userID },
-    });
-
-    if (user) {
-      res.json({ user });
-    } else {
-      res.status(404).json({ error: 'Benutzer nicht gefunden' });
-    }
-  } catch (error) {
-    console.error('Fehler beim Abfragen des Benutzers:', error);
-    res.status(500).json({ error: 'Serverfehler' });
-  }
-});
-
-
-
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
-  const user = await prisma.user.findFirst({
-    where: { id: userID },
-  })
-  res.json({ firstName: user.firstName, lastName: user.lastName })
+  if (userID > 0) {
+    const user = await prisma.user.findFirst({
+      where: { id: userID },
+    })
+    res.json(user)
+  } else if (userID == 0) {
+    const user = await prisma.user.findMany()
+    res.json(user)
+  }
 })
+
 // Findet die obersten x Punktestände 
 app.get('/points/leaderboard/:topX', async (req, res) => {
   const topX = Number(req.params.topX);

@@ -1,9 +1,34 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import "./css/keyboard.css";
+import { fetchPoints, fetchUserdata } from "./api";
 
 const Keyboard = () => {
   const [pressedKey, setPressedKey] = useState(null);
+
+
+  // hier ein beispiel wird auf die userdaten zugegriffen 
+  // mit der userid also 1 ,2 usw findet man die nutzer.
+
+
+  const userData = fetchUserdata("/users/1");
+  console.log(userData);
+
+
+  // hier kann man auf die punktestände zugreifen
+  // mit der id hinter leaderboard kann man sich die topX der besten 
+  // punkteständ anzeigen lassen
+
+  const points = fetchPoints("/points/leaderboard/2");
+  console.log(points);
+  console.log(points?.[0].id);
+
+  // grade wird alles noch mehrfach geloggt , da weiß 
+  //ich aber zurzeit noch keine lösubng 
+
+
+
+
+
   const handleKeyDown = (event: { keyCode: any; }) => {
 
     const keyCode = event.keyCode;
@@ -16,10 +41,9 @@ const Keyboard = () => {
       keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
       keyElement.style.borderTop = "1px solid #000";
     }
-
   };
 
-  const handleKeyUp = (event: { keyCode: any; }) => {
+  const handleKeyUp = async (event: { keyCode: any; }) => {
     const keyCode = event.keyCode;
     console.log(keyCode);
     const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
