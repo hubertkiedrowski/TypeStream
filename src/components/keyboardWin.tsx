@@ -5,6 +5,7 @@ import "./css/keyboardWin.css";
 const KeyboardWin = () => {
 
     const [pressedKey, setPressedKey] = useState(null);
+
     const handleKeyDown = (event: { keyCode: any; }) => {
 
         const keyCode = event.keyCode;
@@ -14,12 +15,12 @@ const KeyboardWin = () => {
         if (keyElement) {
             keyElement.style.color = "#007fff";
             keyElement.style.textShadow = "0 0 5px #007fff";
-            keyElement.style.margin = "0px";
+            keyElement.style.marginTop = "-1px";
             keyElement.style.boxShadow = "inset 0 0 15px #333, 0 0 3px #333";
             keyElement.style.borderTop = "1px solid #000";
         }
 
-    };
+    }; 
 
     const handleKeyUp = (event: { keyCode: any; }) => {
         const keyCode = event.keyCode;
@@ -30,9 +31,10 @@ const KeyboardWin = () => {
             keyElement.style.color = "#fff";
             keyElement.style.background = "#333";
             keyElement.style.textShadow = "";
+            keyElement.style.marginTop = "0px";
             keyElement.style.marginLeft = "2px";
             keyElement.style.marginBottom = "2px";
-            keyElement.style.boxShadow = "";
+            keyElement.style.boxShadow = "";     
             keyElement.style.borderTop = "";
 
             
@@ -274,7 +276,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin c19 space">
 
-
+                    Space
 
                     </div>
                     <div className="keyWin c18">
