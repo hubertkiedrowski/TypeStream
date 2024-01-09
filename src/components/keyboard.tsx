@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import "./css/keyboard.css";
-import { getUsers } from "./frontendFetching";
+import { getUsers } from "./api";
 
 const Keyboard = () => {
   const [pressedKey, setPressedKey] = useState(null);
@@ -20,8 +20,10 @@ const Keyboard = () => {
 
   };
 
-  const handleKeyUp = (event: { keyCode: any; }) => {
-    getUsers()
+  const handleKeyUp = async (event: { keyCode: any; }) => {
+
+    await console.log(getUsers());
+
     const keyCode = event.keyCode;
     console.log(keyCode);
     const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;

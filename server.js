@@ -1,12 +1,15 @@
 import express from 'express'
 import { PrismaClient } from "@prisma/client";
-
+import cors from 'cors'
 const app = express()
 const port = 3000
-
 const prisma = new PrismaClient();
-
+app.use(cors({
+  origin: 'http://localhost:5173', // Ersetze dies durch den tatsächlichen Ursprung deiner React-Anwendung
+  credentials: true,
+}));
 app.use(express.json());
+
 
 // app.post('/users/:userID', async (req, res) => {
 //   const userID = Number(req.params.userID)
@@ -26,8 +29,6 @@ app.use(express.json());
 //   }
 // });
 
-
-
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
   if (userID > 0) {
@@ -39,9 +40,8 @@ app.get('/users/:userID', async (req, res) => {
     const user = await prisma.user.findMany()
     res.json(user)
   }
-
-
 })
+
 // Findet die obersten x Punktestände 
 app.get('/points/leaderboard/:topX', async (req, res) => {
   const topX = Number(req.params.topX);

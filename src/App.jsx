@@ -6,7 +6,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import KeyboardInputField from "./components/KeyboardInputField";
 import Keyboard from "./components/keyboard";
 import Navbar from "./components/navbar";
 import Home from "./components/home";
