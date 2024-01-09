@@ -15,7 +15,7 @@ const KeyboardWin = () => {
         if (keyElement) {
             keyElement.style.color = "#007fff";
             keyElement.style.textShadow = "0 0 5px #007fff";
-            keyElement.style.marginTop = "-1px";
+            keyElement.style.marginTop = "-3px";
             keyElement.style.boxShadow = "inset 0 0 15px #333, 0 0 3px #333";
             keyElement.style.borderTop = "1px solid #000";
         }
@@ -60,52 +60,52 @@ const KeyboardWin = () => {
             <div className="keyboard">
 
                 <div className="section-a">
-                    <div className="keyWin c27 function space1">
+                    <div className="keyWin function space1">
                         Esc
                     </div>
 
-                    <div className="keyWin c112 function">
+                    <div className="keyWin function">
                         F1
                     </div>
-                    <div className="keyWin c113 function">
+                    <div className="keyWin function">
                         F2
                     </div>
-                    <div className="keyWin c114 function">
+                    <div className="keyWin function">
                         F3
                     </div>
 
-                    <div className="keyWin c115 function space2">
+                    <div className="keyWin function space2">
                         F4
                     </div>
-                    <div className="keyWin c116 function">
+                    <div className="keyWin function">
                         F5
                     </div>
-                    <div className="keyWin c117 function">
+                    <div className="keyWin function">
                         F6
                     </div>
-                    <div className="keyWin c118 function">
+                    <div className="keyWin function">
                         F7
                     </div>
-                    <div className="keyWin c119 function space2">
+                    <div className="keyWin function space2">
                         F8
                     </div>
 
-                    <div className="keyWin c120 function">
+                    <div className="keyWin function">
                         F9
                     </div>
-                    <div className="keyWin c121 function">
+                    <div className="keyWin function">
                         F10
                     </div>
-                    <div className="keyWin c122 function">
+                    <div className="keyWin function">
                         F11
                     </div>
-                    <div className="keyWin c123 function">
+                    <div className="keyWin function">
                         F12
                     </div>
 
 
                     <div className="keyWin c192 num dual">
-                        ~<br />`
+                        ^<br />°
                     </div>
 
                     <div className="keyWin c49 num dual">
@@ -135,21 +135,21 @@ const KeyboardWin = () => {
                     <div className="keyWin c57 num dual">
                         (<br />9
                     </div>
-                    <div className="keyWin c58 num dual">
+                    <div className="keyWin c48 num dual">
                         )<br />0
                     </div>
-                    <div className="keyWin c109 num dual">
-                        _<br />-
+                    <div className="keyWin c191 num dual">
+                        ß <br /> ?
                     </div>
-                    <div className="keyWin c61 num dual">
-                        +<br />=
+                    <div className="keyWin num dual">
+                        ´ `
                     </div>
-                    <div className="keyWin c8 backspace">
+                    <div className="keyWin backspace">
                         Backspace
                     </div>
 
 
-                    <div className="keyWin c9 tab">
+                    <div className="keyWin tab">
                         Tab
                     </div>
 
@@ -168,8 +168,8 @@ const KeyboardWin = () => {
                     <div className="keyWin c84 letter">
                         T
                     </div>
-                    <div className="keyWin c89 letter">
-                        Y
+                    <div className="keyWin c90 letter">
+                        Z
                     </div>
                     <div className="keyWin c85 letter">
                         U
@@ -183,16 +183,16 @@ const KeyboardWin = () => {
                     <div className="keyWin c80 letter">
                         P
                     </div>
-                    <div className="keyWin c219 dual">
-                        {'{'}<br />{'['}
+                    <div className="keyWin c219 letter">
+                        Ü
                     </div>
-                    <div className="keyWin c221 dual">
-                        {'}'}<br />{']'}
+                    <div className="keyWin dual">
+                        *<br />+ ~
                     </div>
                     <div className="keyWin c220 letter dual slash">
                         |<br />\
                     </div>
-                    <div className="keyWin c20 caps">
+                    <div className="keyWin caps">
                         Caps<br />Lock
                     </div>
                     <div className="keyWin c65 letter">
@@ -222,21 +222,26 @@ const KeyboardWin = () => {
                     <div className="keyWin c76 letter">
                         L
                     </div>
-                    <div className="keyWin c59 dual">
-                        :<br />;
+                    <div className="keyWin c59 letter">
+                        Ö
                     </div>
-                    <div className="keyWin c222 dual">
-                        "<br />'
+                    <div className="keyWin c222 letter">
+                        Ä
                     </div>
-                    <div className="keyWin c13 enter">
+                    <div className="keyWin enter">
                         Enter
                     </div>
 
                     <div className="keyWin c16 shift left">
                         Shift
                     </div>
-                    <div className="keyWin c90 letter">
-                        Z
+                    <div className="keyWin dual">
+                        {'<'}
+                        <br/>
+                        {'>'} |
+                    </div>
+                    <div className="keyWin c89 letter">
+                        Y
                     </div>
                     <div className="keyWin c88 letter">
                         X
@@ -254,42 +259,42 @@ const KeyboardWin = () => {
                         M
                     </div>
                     <div className="keyWin c188 dual">
-                        {'<'} <br /> ,
+                        , <br /> ;
                     </div>
                     <div className="keyWin c190 dual">
-                        {'>'} <br />.
+                        . <br /> :
                     </div>
-                    <div className="keyWin c191 dual">
-                        ? <br />/
+                    <div className="keyWin c109 dual">
+                    _<br />-
                     </div>
                     <div className="keyWin c16 shift right">
                         Shift
                     </div>
-                    <div className="keyWin c17 ctrl">
-                        Ctrl
+                    <div className="keyWin ctrl">
+                        Strg
                     </div>
-                    <div className="keyWin c91">
-                        &hearts;
+                    <div className="keyWin other">
+                        Win
                     </div>
-                    <div className="keyWin c18">
+                    <div className="keyWin other">
                         Alt
                     </div>
-                    <div className="keyWin c19 space">
+                    <div className="keyWin c32 space">
 
                     Space
 
                     </div>
-                    <div className="keyWin c18">
-                        Alt
+                    <div className="keyWin other">
+                        alt gr
                     </div>
-                    <div className="keyWin c91">
-                        &hearts;
+                    <div className="keyWin other">
+                        Win
                     </div>
-                    <div className="keyWin ">
+                    <div className="keyWin other">
                         Prnt
                     </div>
-                    <div className="keyWin c17 ctrl">
-                        Ctrl
+                    <div className="keyWin ctrl">
+                        Strg
                     </div>
                 </div>
 
@@ -297,31 +302,31 @@ const KeyboardWin = () => {
                     <div className="keyWin function small">
                         Prnt Scrn
                     </div>
-                    <div className="keyWin c145 function small">
+                    <div className="keyWin function small">
                         Scroll Lock
                     </div>
-                    <div className="keyWin c19 function small">
+                    <div className="keyWin function small">
                         Pause Break
                     </div>
 
                     <div className="sec-func">
-                        <div className="keyWin c45">
+                        <div className="keyWin leftKeys">
                             Insert
                         </div>
-                        <div className="keyWin c36">
+                        <div className="keyWin leftKeys">
                             Home
                         </div>
-                        <div className="keyWin c33 dual">
-                            Page Up
+                        <div className="keyWin leftKeys">
+                            Up
                         </div>
-                        <div className="keyWin c46">
+                        <div className="keyWin leftKeys">
                             Del
                         </div>
-                        <div className="keyWin c35">
+                        <div className="keyWin leftKeys">
                             End
                         </div>
-                        <div className="keyWin c34 dual">
-                            Page Down
+                        <div className="keyWin leftKeys">
+                            Down
                         </div>
 
                         <div className="arrows">

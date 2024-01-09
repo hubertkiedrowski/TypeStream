@@ -24,6 +24,10 @@
   transition: box-shadow 0.7s ease;
 }
 
+.leftKeys {
+  font-size: 12px;
+}
+
 .section-a{width:650px; height:260px; float:left;}
 .section-b{width:150px; height:260px; float:left;}
 
@@ -31,31 +35,14 @@
 .small{font-size:10px; line-height:13px; text-align: center; padding:0 5px; padding-top:2px; height:28px !important;}
 .space1{margin-right: 43px !important;}
 .space2{margin-right: 25px !important;}
-.dual {font-size: 14px; line-height: 20px; width:30px; }
+.dual {font-size: 12px; line-height: 20px; width:30px; }
 .backspace {width:84px; font-size: 12px;}
 .tab {width: 50px; line-height: 40px; font-size:13px;}
 .letter{width:30px;}
 .slash{width:64px;}
 .caps{width:70px; font-size:12px; line-height:18px;}
-.enter {
-  width: 92px;
-  text-align: center;
-  padding-left: 0;
-}
-
-.enter .keyWin {
-  height: 40px;
-  line-height: 29px; /* Anpassung an die line-height der anderen Tasten */
-  font-size: 12px;
-}
-
-.enter:hover .keyWin {
-  box-shadow: 0px 0px 10px #14B524;
-  z-index: 1000;
-}
-
-
-.shift.left{width: 90px;line-height: 40px; font-size:13px;}
+.enter{width:92px; height:40px; text-align: center; padding-left:0;}
+.shift.left{width: 50px;line-height: 40px; font-size:13px;}
 .shift.right{width: 104px;line-height: 40px; font-size:13px;}
 .ctrl{width: 50px; line-height: 40px; font-size:13px;}
 .space{width:234px;}
@@ -67,11 +54,7 @@
 
 .keyWin:hover{box-shadow:0px 0px 10px #14B524; z-index:1000;}
 
-.keyWin:active,
-.keydown {
-  color: #888;
-  background: #c20f0f;
-  margin: 0px;;
-  -webkit-box-shadow: inset 0 0 25px #333, 0 0 3px #333;
-  -moz-box-shadow: inset 0 0 25px #333, 0 0 3px #333;
+.other {
+  font-size: 13px;
 }
+
