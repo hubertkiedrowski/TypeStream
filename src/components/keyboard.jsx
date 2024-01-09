@@ -15,6 +15,8 @@ const Keyboard = () => {
   const [currentLine, setCurrentLine] = useState(0);
   const [nextLine, setNextLine] = useState(1);
   const [isDone, setIsDone] = useState(false);
+  const [blinkIndex, setBlinkIndex] = useState(null);
+
 
 
   useEffect(() => {
@@ -35,7 +37,10 @@ const Keyboard = () => {
       setEnteredText("");
       setLastCorrectIndex(0);
       setTargetText(lines[nextLine]);
-      setColoredTargetText(lines[nextLine].split("").map(() => "#aaa"));
+      // Füge hier ein Leerzeichen am Ende der Zeile hinzu, wenn es keines gibt
+      const updatedTargetText = lines[nextLine].endsWith(" ") ? lines[nextLine] : lines[nextLine] + " ";
+      setTargetText(updatedTargetText);
+      setColoredTargetText(updatedTargetText.split("").map(() => "#aaa"));
       setCurrentLine(nextLine);
       setNextLine(nextLine + 1);
     } else {
@@ -62,6 +67,7 @@ const Keyboard = () => {
   const checkInput = () => {
     const currentChar = enteredText[currentIndex];
     const targetChar = targetText[currentIndex];
+
     if (currentChar === targetChar) {
       console.log(`Richtig! Eingegeben: ${currentChar}`);
       const updatedColors = coloredTargetText.slice();
@@ -73,6 +79,7 @@ const Keyboard = () => {
           (i) => i !== currentIndex
       );
       setIncorrectLetters(updatedIncorrectLetters);
+
       if (currentIndex === targetText.length - 1) {
         setColoredTargetText(targetText.split("").map(() => "#aaa"));
       }
@@ -80,6 +87,15 @@ const Keyboard = () => {
       console.log(
           `Falsch! Eingegeben: ${currentChar}, Erwartet: ${targetChar}`
       );
+
+      // Überprüfe, ob ein Leerzeichen erwartet wird
+      if (targetChar === " ") {
+        setBlinkIndex(currentIndex);
+        setTimeout(() => {
+          setBlinkIndex(null);
+        }, 500);
+      }
+
       setErrorCount((prevCount) => prevCount + 1);
       setCurrentIndex(lastCorrectIndex);
       setEnteredText(targetText.slice(0, lastCorrectIndex));
@@ -91,6 +107,12 @@ const Keyboard = () => {
   const handleKeyDown = (event) => {
     if (!isDone && currentIndex < targetText.length) {
       const keyCode = event.keyCode;
+
+      // Prevent default behavior for the space bar
+      if (keyCode === 32) {
+        event.preventDefault();
+      }
+
       setPressedKey(keyCode);
       const keyElement = document.querySelector(`.key.c${keyCode}`);
       if (keyElement) {
@@ -104,6 +126,7 @@ const Keyboard = () => {
       if (key === "¾") {
         key = ".";
       }
+
       setEnteredText((prevText) => prevText + key);
     }
   };
@@ -142,21 +165,35 @@ const Keyboard = () => {
         </div>
 
         {!isDone ? (
-            <div style={{ color: "Grey", fontSize: '30px' }}>
-              {coloredTargetText.map((color, index) => (
-                  <span key={index} style={{ color: incorrectLetters.includes(index) ? 'PaleVioletRed' : color }}>
-        {targetText[index]}
-      </span>
+            <div style={{ color: "Grey", fontSize: "30px" }}>
+              {targetText.split("").map((char, index) => (
+                  <span
+                      key={index}
+                      style={{
+                        backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
+                      }}
+                  >
+        {char === " " ? "\u00A0" : char}
+    </span>
               ))}
-              <div style={{ color: "DimGrey", fontSize: '28px' }}>
-                {lines[nextLine]}
-              </div>
+              {/* Füge hier das Leerzeichen am Ende der Textzeile hinzu */}
+              {targetText[targetText.length - 1] === " " && (
+                  <span
+                      style={{
+                        backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
+                      }}
+                  >
+    {" "}
+  </span>
+              )}
+              <div style={{ color: "DimGrey", fontSize: "28px" }}>{lines[nextLine]}</div>
             </div>
         ) : (
-            <div style={{ color: "Khaki", fontSize: '30px' }}>
-              {targetText}
-            </div>
+            <div style={{ color: "Khaki", fontSize: "30px" }}>{targetText}</div>
         )}
+
 
         <div id="keyboard">
           <ul className="cf">
