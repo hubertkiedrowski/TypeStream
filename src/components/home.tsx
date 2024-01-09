@@ -25,13 +25,12 @@ const Home = () => {
                 <div className="form">
 
                     <div className="login">
-                        <h2>Meld dich jetzt an!</h2>
+                        <h2>Sign In</h2>
                         <button onClick={onClickLogin}>Login</button>
                     </div>
 
                     <div className="regist">
-                        <h2>Werd Teil der</h2>
-                        <h2>Keyboard-Gang!</h2>
+                        <h2>Sign Up</h2>
                         <button onClick={onClickRegist}>Sign Up!</button>
                     </div>
 
