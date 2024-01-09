@@ -1,19 +1,24 @@
-import axios from "axios";
-import { User } from "./Interfaces/User";
-import { Point } from "./Interfaces/Point";
+import React, { useEffect } from 'react';
 
-const axiosInstance = axios.create({
-  baseURL: "https://localhost:3000",
-});
+const Fetch = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/users/1', {
+          credentials: 'include',
+        });
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-export async function getUsers(): Promise<User[]> {
-  try {
-    const response = await axiosInstance.get<User[]>("https://localhost:3000/users/1", {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    throw error;
-  }
-}
+    fetchData();
+  }, []);
+
+  return null;
+};
+
+export default Fetch;
