@@ -8,7 +8,7 @@ export const fetchUserdata = (endpoint: string) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (endpoint !== "passwort") {
+      if (endpoint !== "password") {
         try {
           const response = await fetch('http://localhost:3000' + endpoint, {
             credentials: 'include',
