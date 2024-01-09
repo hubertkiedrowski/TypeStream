@@ -3,8 +3,13 @@ import "./css/keyboard.css";
 import Fetch from "./api";
 
 const Keyboard = () => {
-  console.log(Fetch());
   const [pressedKey, setPressedKey] = useState(null);
+  // const [userData, setUserData] = useState(null);
+
+  const userData = Fetch("/users/1");
+  console.log(userData);
+
+
   const handleKeyDown = (event: { keyCode: any; }) => {
 
     const keyCode = event.keyCode;
