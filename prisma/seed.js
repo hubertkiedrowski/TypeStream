@@ -11,7 +11,7 @@ async function main() {
       firstName: "Harry",
       lastName: "Schnodder",
       userName: "Narbengesicht69",
-      password: "123456",
+      password: "$2a$10$PrkGZhUYCu6guZNqdUWUQOOtZ4w9pS2zEfRbv4u.fC4Flthps0rua",
     },
   });
 
@@ -21,7 +21,8 @@ async function main() {
       firstName: "Albert",
       lastName: "Doubledoor",
       userName: "freshDumble",
-      password: "123456",
+      password: "$2a$10$PrkGZhUYCu6guZNqdUWUQOOtZ4w9pS2zEfRbv4u.fC4Flthps0rua",
+
     },
   });
 
@@ -66,4 +67,4 @@ main()
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);
-  });
+});

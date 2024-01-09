@@ -11,6 +11,8 @@ import Navbar from "./components/navbar";
 import Home from "./components/home";
 import Ueberuns from "./components/ueberUns";
 import Login from "./components/login";
+import Regist from "./components/regist";
+import LoginErfolgreich from "./components/loginErfolgreich"
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route exact path="/ueberuns" element={<Ueberuns />} />
         <Route exact path="/keyboard" element={<Keyboard />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/regist" element={<Regist />} />
+        <Route exact path="/loginErfolgreich" element={<LoginErfolgreich />} />
       </Routes>
     </Router>
   );
