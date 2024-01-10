@@ -41,7 +41,6 @@ const Keyboard = () => {
 
   const handleKeyUp = async (event: { keyCode: any; }) => {
     const keyCode = event.keyCode;
-    console.log(keyCode);
     const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
 
     if (keyElement) {
