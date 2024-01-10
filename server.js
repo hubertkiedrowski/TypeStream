@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PrismaClient } from "@prisma/client";
-import cors from 'cors'
 const app = express()
 const port = 3000
 const prisma = new PrismaClient();
@@ -12,7 +11,6 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.json());
