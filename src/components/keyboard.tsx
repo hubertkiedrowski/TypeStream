@@ -20,14 +20,10 @@ const Keyboard = () => {
 
   const points = fetchPoints("/points/leaderboard/2");
   console.log(points);
-  console.log(points?.[0].id);
+  console.log(points?.[0].userId);
 
   // grade wird alles noch mehrfach geloggt , da weiß 
   //ich aber zurzeit noch keine lösubng 
-
-
-
-
 
   const handleKeyDown = (event: { keyCode: any; }) => {
 

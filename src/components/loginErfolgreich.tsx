@@ -6,11 +6,12 @@ const LoginErfolgreich = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    console.log(location)
     const { userName } = location.state;
 
 
     return (
-        <>  
+        <>
             <div className="warpper">
 
                 <h1>Login Erfolgreich!</h1>
