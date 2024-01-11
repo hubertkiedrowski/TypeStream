@@ -1,9 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./css/keyboard.css";
 import { fetchPoints, fetchUserdata } from "./api";
+import {
+  loadNextLines,
+  checkInput,
+  handleKeyDown,
+  handleKeyUp,
+} from "./keyboardFunctions";
 
 const Keyboard = () => {
-  const [pressedKey, setPressedKey] = useState(null);
+  const [targetText, setTargetText] = useState<string>("");
+  const [pressedKey, setPressedKey] = useState<number | null>(null);
+  const [enteredText, setEnteredText] = useState<string>("");
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [errorCount, setErrorCount] = useState<number>(0);
+  const [lastCorrectIndex, setLastCorrectIndex] = useState<number>(0);
+  const [coloredTargetText, setColoredTargetText] = useState<string[]>(
+      targetText.split("").map(() => "#aaa")
+  );
+  const [incorrectLetters, setIncorrectLetters] = useState<number[]>([]);
+  const [lines, setLines] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState<number>(0);
+  const [nextLine, setNextLine] = useState<number>(1);
+  const [isDone, setIsDone] = useState<boolean>(false);
+  const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
 
 
   // hier ein beispiel wird auf die userdaten zugegriffen 
@@ -25,6 +45,151 @@ const Keyboard = () => {
   // grade wird alles noch mehrfach geloggt , da weiß 
   //ich aber zurzeit noch keine lösubng 
 
+
+
+  useEffect(() => {
+    fetch("./src/components/challenge1.txt")
+        .then((response) => response.text())
+        .then((data) => {
+          const linesArray = data.split("\n");
+          setLines(linesArray);
+          setTargetText(linesArray[0]);
+          setColoredTargetText(linesArray[0].split("").map(() => "#aaa"));
+        })
+        .catch((error) =>
+            console.error("Fehler beim Lesen der Datei:", error)
+        );
+    
+  }, []);
+
+
+
+  const loadNextLines = (): void => {
+    if (nextLine < lines.length) {
+      setCurrentIndex(0);
+      setEnteredText("");
+      setLastCorrectIndex(0);
+      setTargetText(lines[nextLine]);
+      setColoredTargetText(lines[nextLine].split("").map(() => "#aaa"));
+      setCurrentLine(nextLine);
+      setNextLine(nextLine + 1);
+    } else {
+      setCurrentLine(0);
+      setNextLine(1);
+    }
+  };
+
+  useEffect(() => {
+    if (currentIndex === targetText.length) {
+      console.log("Du hast alles korrekt eingegeben!");
+      const allLinesEntered = nextLine === lines.length;
+      if (allLinesEntered) {
+        console.log("Alle Zeilen fertig!");
+        setTargetText("You're done!");
+        setIsDone(true);
+      } else {
+        loadNextLines();
+      }
+    }
+  }, [currentIndex, targetText, nextLine, lines]);
+
+  const checkInput = (): void => {
+    const currentChar = enteredText[currentIndex];
+    const targetChar = targetText[currentIndex];
+    if (currentChar === targetChar) {
+      console.log(`Richtig! Eingegeben: ${currentChar}`);
+      const updatedColors = coloredTargetText.slice();
+      updatedColors[currentIndex] = "LightGreen";
+      setColoredTargetText(updatedColors);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setLastCorrectIndex(currentIndex + 1);
+      const updatedIncorrectLetters = incorrectLetters.filter(
+          (i) => i !== currentIndex
+      );
+      setIncorrectLetters(updatedIncorrectLetters);
+      if (currentIndex === targetText.length - 1) {
+        setColoredTargetText(targetText.split("").map(() => "#aaa"));
+      }
+    } else {
+      console.log(
+          `Falsch! Eingegeben: ${currentChar}, Erwartet: ${targetChar}`
+      );
+      // Überprüfe, ob ein Leerzeichen erwartet wird
+      if (targetChar === " ") {
+        setBlinkIndex(currentIndex);
+        setTimeout(() => {
+          setBlinkIndex(null);
+        }, 500);
+      }
+      setErrorCount((prevCount) => prevCount + 1);
+      setCurrentIndex(lastCorrectIndex);
+      setEnteredText(targetText.slice(0, lastCorrectIndex));
+      const updatedIncorrectLetters = [...incorrectLetters, currentIndex];
+      setIncorrectLetters(updatedIncorrectLetters);
+    }
+  };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (!isDone && currentIndex < targetText.length) {
+        const key = event.key.toLowerCase(); // Convert key to lowercase
+        const keyCode = event.keyCode;
+
+        // Prevent default behavior for all keys
+        event.preventDefault();
+
+        const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
+        if (keyElement) {
+          keyElement.style.color = "#007fff";
+          keyElement.style.textShadow = "0 0 10px #007fff";
+          keyElement.style.margin = "7px 5px 3px";
+          keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
+          keyElement.style.borderTop = "1px solid #000";
+        }
+
+        // Handle letters and special characters
+        if (keyCode === 188) {
+          // Handle comma
+          setEnteredText((prevText) => prevText + ",");
+        } else if (keyCode === 190) {
+          // Handle period
+          setEnteredText((prevText) => prevText + ".");
+        } else if (/^[a-zA-Z]$/.test(key)) {
+          // Handle letters
+          setEnteredText((prevText) => prevText + key.toUpperCase());
+        } else {
+          // Handle other keys normally
+          setEnteredText((prevText) => prevText + key);
+        }
+      }
+    };
+    const handleKeyUp = (event: KeyboardEvent): void => {
+      if (!isDone && currentIndex < targetText.length) {
+        const keyCode = event.keyCode;
+        const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
+
+        if (keyElement) {
+          keyElement.style.color = "#aaa";
+          keyElement.style.textShadow = "none";
+          keyElement.style.margin = "5px 5px 3px";
+          keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
+          keyElement.style.borderTop = "1px solid #000";
+
+          setPressedKey(keyCode);
+          checkInput();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput]);
+
+  /*
   const handleKeyDown = (event: { keyCode: any; }) => {
 
     const keyCode = event.keyCode;
@@ -63,9 +228,48 @@ const Keyboard = () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [pressedKey]);
+  
+  */
 
   return (
     <>
+
+      <>
+        <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "PaleVioletRed" }}>
+          Fehler: {errorCount}
+        </div>
+
+        {!isDone ? (
+            <div style={{ color: "Grey", fontSize: "30px" }}>
+              {targetText.split("").map((char, index) => (
+                  <span
+                      key={index}
+                      style={{
+                        backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
+                      }}
+                  >
+            {char === " " ? "\u00A0" : char}
+          </span>
+              ))}
+              {/* Füge hier das Leerzeichen am Ende der Textzeile hinzu */}
+              {targetText[targetText.length - 1] === " " && (
+                  <span
+                      style={{
+                        backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
+                      }}
+                  >
+            {" "}
+          </span>
+              )}
+              <div style={{ color: "DimGrey", fontSize: "28px" }}>{lines[nextLine]}</div>
+            </div>
+        ) : (
+            <div style={{ color: "Khaki", fontSize: "30px" }}>{targetText}</div>
+        )}
+      </>
+      
       <div id="keyboard">
         <ul className="cf">
           <li>
