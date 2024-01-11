@@ -19,14 +19,16 @@ const Home = () => {
             <div className="wrapper">
 
                 <div className="headerDiv">
-                    <h1 className="header">Spaß mit Keyboards!!</h1>
+                    <div className="typing-container">
+                        <h1 className="typing-text">Spaß mit Keyboards!!</h1>
+                    </div>
                 </div>
 
                 <div className="form">
 
                     <div className="login">
                         <h2>Sign In</h2>
-                        <button onClick={onClickLogin}>Login</button>
+                        <button onClick={onClickLogin}>Sign in!</button>
                     </div>
 
                     <div className="regist">
