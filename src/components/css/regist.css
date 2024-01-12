@@ -1,0 +1,56 @@
+.warpper{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 4, fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+h2{
+    font-size: 30px;
+    color: white;
+}
+
+.formular{
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    border: 3px solid black;
+    border-radius: 20px;;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 80%;
+}
+
+label{
+    display: flex;
+    align-self: left;
+}
+
+.forget{
+    display: flex;
+    align-self: left;
+    margin: 3px;
+    font-size: 50%;
+}
+
+.forget:hover{
+    text-decoration: underline;
+}
+
+label{
+    margin: 5px;
+}
+
+form{
+    margin: 10px;
+}
+
+button{
+    width: 150px;
+    margin-top: 8px;
+    align-self: center;
+}
+
