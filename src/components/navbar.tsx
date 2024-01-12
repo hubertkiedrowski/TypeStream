@@ -14,7 +14,7 @@ const Navbar = () => {
                         </li>
 
                         <li className="schrift">
-                            <Link to="/keyboard" className="schrift">Keyboard</Link>
+                            <Link to="/chooseKeyboard" className="schrift">Keyboard</Link>
                         </li>
 
                         <li className="schrift">
