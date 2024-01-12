@@ -4,9 +4,9 @@ import "./css/keyboardWin.css";
 
 const KeyboardWin = () => {
 
-    const [pressedKey, setPressedKey] = useState(null);
+    const [pressedKey, setPressedKey] = useState<number|null>(null);
 
-    const handleKeyDown = (event: { keyCode: any; }) => {
+    const handleKeyDown = (event: { keyCode: number; }) => {
 
         const keyCode = event.keyCode;
         setPressedKey(keyCode);
@@ -22,7 +22,7 @@ const KeyboardWin = () => {
 
     }; 
 
-    const handleKeyUp = (event: { keyCode: any; }) => {
+    const handleKeyUp = (event: { keyCode: number; }) => {
         const keyCode = event.keyCode;
         console.log(keyCode);
         const keyElement = document.querySelector(`.keyWin.c${keyCode}`) as HTMLElement;
