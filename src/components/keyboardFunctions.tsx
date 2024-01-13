@@ -57,10 +57,9 @@ export const checkInput = (
         console.log(
             `Falsch! Eingegeben: ${currentChar}, Erwartet: ${targetChar}`
         );
-        // Überprüfe, ob ein Leerzeichen erwartet wird
         if (targetChar === " ") {
             setBlinkIndex(currentIndex);
-            setTimeout(() => {
+            setTimeout(() => {‚
                 setBlinkIndex(null);
             }, 500);
         }
@@ -85,7 +84,6 @@ export const handleKeyDown = (
         const key = event.key.toLowerCase(); // Convert key to lowercase
         const keyCode = event.keyCode;
 
-        // Prevent default behavior for all keys
         event.preventDefault();
 
         const keyElement = document.querySelector(
@@ -99,18 +97,18 @@ export const handleKeyDown = (
             keyElement.style.borderTop = "1px solid #000";
         }
 
-        // Handle letters and special characters
+        // special characters
         if (keyCode === 188) {
-            // Handle comma
+            // ,
             setEnteredText((prevText) => prevText + ",");
         } else if (keyCode === 190) {
-            // Handle period
+            // .
             setEnteredText((prevText) => prevText + ".");
         } else if (/^[a-zA-Z]$/.test(key)) {
-            // Handle letters
+            // letters
             setEnteredText((prevText) => prevText + key.toUpperCase());
         } else {
-            // Handle other keys normally
+            // other
             setEnteredText((prevText) => prevText + key);
         }
     }
