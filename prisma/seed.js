@@ -44,7 +44,7 @@ async function main() {
 
   await prisma.point.create({
     data: {
-      timePlayed: 23,
+      timePlayed: 24,
       score: 100000,
       userId: user2.id
     },
