@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { handleKeyDown, handleKeyUp, loadNextLines, /*checkInput*/ } from "./keyboardfunctions";
 import "./css/keyboard.css";
-import { fetchPoints, fetchUserdata } from "./api";
-import {
-  loadNextLines,
-  checkInput,
-  handleKeyDown,
-  handleKeyUp,
-} from "./keyboardFunctions";
 
 const Keyboard = () => {
   const [targetText, setTargetText] = useState<string>("");
@@ -25,28 +19,6 @@ const Keyboard = () => {
   const [isDone, setIsDone] = useState<boolean>(false);
   const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
 
-
-  // hier ein beispiel wird auf die userdaten zugegriffen 
-  // mit der userid also 1 ,2 usw findet man die nutzer.
-
-
-  const userData = fetchUserdata("/users/1");
-  console.log(userData);
-
-
-  // hier kann man auf die punktestände zugreifen
-  // mit der id hinter leaderboard kann man sich die topX der besten 
-  // punkteständ anzeigen lassen
-
-  const points = fetchPoints("/points/leaderboard/2");
-  console.log(points);
-  console.log(points?.[0].userId);
-
-  // grade wird alles noch mehrfach geloggt , da weiß 
-  //ich aber zurzeit noch keine lösubng 
-
-
-
   useEffect(() => {
     fetch("./src/components/challenge1.txt")
         .then((response) => response.text())
@@ -59,25 +31,9 @@ const Keyboard = () => {
         .catch((error) =>
             console.error("Fehler beim Lesen der Datei:", error)
         );
-    
+
   }, []);
-
-
-
-  const loadNextLines = (): void => {
-    if (nextLine < lines.length) {
-      setCurrentIndex(0);
-      setEnteredText("");
-      setLastCorrectIndex(0);
-      setTargetText(lines[nextLine]);
-      setColoredTargetText(lines[nextLine].split("").map(() => "#aaa"));
-      setCurrentLine(nextLine);
-      setNextLine(nextLine + 1);
-    } else {
-      setCurrentLine(0);
-      setNextLine(1);
-    }
-  };
+  
 
   useEffect(() => {
     if (currentIndex === targetText.length) {
@@ -88,7 +44,7 @@ const Keyboard = () => {
         setTargetText("You're done!");
         setIsDone(true);
       } else {
-        loadNextLines();
+        loadNextLines(lines, nextLine, setTargetText, setEnteredText, setLastCorrectIndex, setCurrentIndex, setColoredTargetText, setCurrentLine, setNextLine);
       }
     }
   }, [currentIndex, targetText, nextLine, lines]);
@@ -128,108 +84,98 @@ const Keyboard = () => {
       setIncorrectLetters(updatedIncorrectLetters);
     }
   };
+
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (!isDone && currentIndex < targetText.length) {
-        const key = event.key.toLowerCase(); // Convert key to lowercase
-        const keyCode = event.keyCode;
+    const handleKeyDownListener = (event: KeyboardEvent) =>
+        handleKeyDown(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput);
+    const handleKeyUpListener = (event: KeyboardEvent) =>
+        handleKeyUp(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput);
 
-        // Prevent default behavior for all keys
-        event.preventDefault();
-
-        const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
-        if (keyElement) {
-          keyElement.style.color = "#007fff";
-          keyElement.style.textShadow = "0 0 10px #007fff";
-          keyElement.style.margin = "7px 5px 3px";
-          keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-          keyElement.style.borderTop = "1px solid #000";
-        }
-
-        // Handle letters and special characters
-        if (keyCode === 188) {
-          // Handle comma
-          setEnteredText((prevText) => prevText + ",");
-        } else if (keyCode === 190) {
-          // Handle period
-          setEnteredText((prevText) => prevText + ".");
-        } else if (/^[a-zA-Z]$/.test(key)) {
-          // Handle letters
-          setEnteredText((prevText) => prevText + key.toUpperCase());
-        } else {
-          // Handle other keys normally
-          setEnteredText((prevText) => prevText + key);
-        }
-      }
-    };
-    const handleKeyUp = (event: KeyboardEvent): void => {
-      if (!isDone && currentIndex < targetText.length) {
-        const keyCode = event.keyCode;
-        const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
-
-        if (keyElement) {
-          keyElement.style.color = "#aaa";
-          keyElement.style.textShadow = "none";
-          keyElement.style.margin = "5px 5px 3px";
-          keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-          keyElement.style.borderTop = "1px solid #000";
-
-          setPressedKey(keyCode);
-          checkInput();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("keydown", handleKeyDownListener);
+    document.addEventListener("keyup", handleKeyUpListener);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener("keydown", handleKeyDownListener);
+      document.removeEventListener("keyup", handleKeyUpListener);
     };
   }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput]);
 
+
   /*
-  const handleKeyDown = (event: { keyCode: any; }) => {
+   useEffect(() => {
+ 
+     /*
+     const handleKeyDownListener = (event: KeyboardEvent) =>
+         handleKeyDown(
+             event,
+             isDone,
+             currentIndex,
+             targetText,
+             setEnteredText,
+             setPressedKey,
+             () => checkInput(
+                 currentIndex,
+                 targetText,
+                 enteredText,
+                 lastCorrectIndex,
+                 coloredTargetText,
+                 incorrectLetters,
+                 setEnteredText,
+                 setCurrentIndex,
+                 setLastCorrectIndex,
+                 setColoredTargetText,
+                 setErrorCount,
+                 setBlinkIndex,
+                 setIncorrectLetters
+             )
+         );
+ 
+     const handleKeyUpListener = (event: KeyboardEvent) =>
+         handleKeyUp(
+             event,
+             isDone,
+             currentIndex,
+             targetText,
+             setEnteredText,
+             setPressedKey,
+             () => checkInput(
+                 currentIndex,
+                 targetText,
+                 enteredText,
+                 lastCorrectIndex,
+                 coloredTargetText,
+                 incorrectLetters,
+                 setEnteredText,
+                 setCurrentIndex,
+                 setLastCorrectIndex,
+                 setColoredTargetText,
+                 setErrorCount,
+                 setBlinkIndex,
+                 setIncorrectLetters
+             )
+         );
 
-    const keyCode = event.keyCode;
-    setPressedKey(keyCode);
-    const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
-    if (keyElement) {
-      keyElement.style.color = "#007fff";
-      keyElement.style.textShadow = "0 0 10px #007fff";
-      keyElement.style.margin = "7px 5px 3px";
-      keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-      keyElement.style.borderTop = "1px solid #000";
-    }
-  };
 
-  const handleKeyUp = async (event: { keyCode: any; }) => {
-    const keyCode = event.keyCode;
-    const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
 
-    if (keyElement) {
-      keyElement.style.color = "#aaa";
-      keyElement.style.textShadow = "none";
-      keyElement.style.margin = "5px 5px 3px";
-      keyElement.style.boxShadow = "0 0 25px #333, 0 0 3px #333";
-      keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
+    //const handleKeyDownListener = (event: KeyboardEvent) =>
+    //    handleKeyDown(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput);
 
-      keyElement.style.borderTop = "1px solid #000";
-      setPressedKey(keyCode);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    //const handleKeyUpListener = (event: KeyboardEvent) =>
+    //    handleKeyUp(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, checkInput);
+    
+
+    
+
+    document.addEventListener("keydown", handleKeyDownListener);
+    document.addEventListener("keyup", handleKeyUpListener);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener("keydown", handleKeyDownListener);
+      document.removeEventListener("keyup", handleKeyUpListener);
     };
-  }, [pressedKey]);
-  
-  */
+  }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
+
+*/
 
   return (
     <>
