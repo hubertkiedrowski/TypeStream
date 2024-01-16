@@ -30,10 +30,6 @@ npm run prisma-seed
 
 npm run prisma-studio
 ```
-Anmeldedaten:
-Username: mgns
-E-Mail: magnus.brix@gmx.de
-Passwort: 123456
 
 npm run dev
 
