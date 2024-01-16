@@ -1,10 +1,14 @@
-/* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import "./css/keyboard.css";
+import { fetchPoints, fetchUserdata } from "./api";
 
 const Keyboard = () => {
-  const [pressedKey, setPressedKey] = useState(null);
-  const handleKeyDown = (event: { keyCode: any; }) => {
+  const [pressedKey, setPressedKey] = useState<number | null>(null);
+
+
+
+
+  const handleKeyDown = (event: { keyCode: number }) => {
 
     const keyCode = event.keyCode;
     setPressedKey(keyCode);
@@ -16,12 +20,10 @@ const Keyboard = () => {
       keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
       keyElement.style.borderTop = "1px solid #000";
     }
-
   };
 
-  const handleKeyUp = (event: { keyCode: any; }) => {
+  const handleKeyUp = async (event: { keyCode: number; }) => {
     const keyCode = event.keyCode;
-    console.log(keyCode);
     const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
 
     if (keyElement) {

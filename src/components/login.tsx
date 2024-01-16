@@ -1,7 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import "./css/login.css";
 import { useNavigate } from 'react-router-dom';
-import * as bcrypt from 'bcryptjs';
 
 
 interface FormData {
@@ -47,8 +46,8 @@ const Login = () => {
                 body: JSON.stringify(formData),
             });
 
-            if(response.ok) {
-                
+            if (response.ok) {
+
                 console.log('Benutzer erfolgreich eingeloggt!');
                 navigate('/loginErfolgreich', { state: { userName: formData.userName } });
 
@@ -66,7 +65,7 @@ const Login = () => {
             setLoginError(true);
 
         }
-    }; 
+    };
 
     const handleButtonClick = () => {
 
@@ -75,48 +74,48 @@ const Login = () => {
     }
 
     return (
-        <>  
+        <>
             <div className="warpper">
 
                 <div className="formular">
 
-                <h2>Login</h2>
+                    <h2>Login</h2>
 
-                <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
 
-                    <label className="innerForm" >Username</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        value={formData.userName}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Username</label>
+                        <input
+                            type="text"
+                            name="userName"
+                            value={formData.userName}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Email</label>
-                    <input
-                        type="text"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Email</label>
+                        <input
+                            type="text"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <a href="" className="forget">Forget password?</a>
+                        <a href="" className="forget">Forget password?</a>
 
-                    {loginError && <p>Login fehlgeschlagen!</p>}
+                        {loginError && <p>Login fehlgeschlagen!</p>}
 
-                    <button type="submit">Login</button>
+                        <button type="submit">Login</button>
 
-                    <button onClick={handleButtonClick}>Regist</button>
+                        <button onClick={handleButtonClick}>Regist</button>
 
-                </form>
+                    </form>
 
                 </div>
 
