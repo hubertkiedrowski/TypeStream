@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import "./css/leaderboard.css";
 import Profiles from './profiles';
 import { Link } from 'react-router-dom';
-import { LeaderboardData } from './database';
-import { fetchUserdata } from './api';
 
 
 
@@ -20,9 +18,8 @@ const Leaderboard = () => {
                 <h1 className= "leaderboard">Leaderboard</h1>
 
                 <div className="duration">
-                    <button onClick={handleClick} data-id="7">7 Days</button>
-                    <button onClick={handleClick} data-id="30">30 days</button>
-                    <button onClick={handleClick} data-id="0">All Time</button>
+                    <button onClick={handleClick} data-id="7">Challenge 1</button>
+                    <button onClick={handleClick} data-id="30">Challenge 2</button>
                 </div>
                 <span></span>
                 <Profiles />              
