@@ -45,7 +45,6 @@ async function main() {
   await createPoint(4226, 5236, user2.id);
   await createPoint(8567, 9764, user2.id);
 
-
 }
 main()
   .then(async () => {
