@@ -1,18 +1,8 @@
 import React from 'react';
-import "./css/home.css";
-import { Link, useNavigate } from 'react-router-dom';
+import "./css/navbar.css";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-
-    const navigate = useNavigate();
-
-    const onClickLogin = () => {
-        navigate("/login");
-    }
-
-    const onClickRegist = () => {
-        navigate("/regist");
-    }
 
     return (
 
@@ -40,6 +30,7 @@ const Home = () => {
                 </div>
 
             </div>
+
 
 
 
