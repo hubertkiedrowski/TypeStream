@@ -46,16 +46,6 @@ app.get('/users/:userID', async (req, res) => {
     const user = await prisma.user.findMany()
     res.json(user)
   }
-
-});
-
-app.get('/users/:userID', async (req, res) => {
-  const userID = Number(req.params.userID)
-  const user = await prisma.user.findFirst({
-    where: { id: userID },
-  })
-  res.json({ firstName: user.firstName, lastName: user.lastName })
-
 })
 
 // Findet die obersten x Punktestände 
@@ -229,4 +219,6 @@ app.post('/login', async (req, res) => {
 
   }
 
-  });
+});
+
+
