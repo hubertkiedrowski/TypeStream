@@ -15,6 +15,7 @@ const Home = () => {
     }
 
     return (
+
         <>  
             <div className="wrapper">
 
@@ -38,7 +39,9 @@ const Home = () => {
 
                 </div>
 
-            </div>
+
+        <>
+            
         </>
     );
 }

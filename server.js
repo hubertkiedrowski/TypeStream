@@ -3,34 +3,30 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PrismaClient } from "@prisma/client";
-
 const app = express()
 const port = 3000
-
 const prisma = new PrismaClient();
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
-app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.json());
 
-app.post('/users/:userID', async (req, res) => {
-  const { userID } = req.body;
-
-  try {
+app.get('/users/:userID', async (req, res) => {
+  const userID = Number(req.params.userID)
+  if (userID > 0) {
     const user = await prisma.user.findFirst({
       where: { id: userID },
-    });
-
-    if (user) {
-      res.json({ user });
-    } else {
-      res.status(404).json({ error: 'Benutzer nicht gefunden' });
-    }
-  } catch (error) {
-    console.error('Fehler beim Abfragen des Benutzers:', error);
-    res.status(500).json({ error: 'Serverfehler' });
+    })
+    res.json(user)
+  } else if (userID == 0) {
+    const user = await prisma.user.findMany()
+    res.json(user)
   }
+
 });
 
 app.get('/users/:userID', async (req, res) => {
@@ -39,7 +35,9 @@ app.get('/users/:userID', async (req, res) => {
     where: { id: userID },
   })
   res.json({ firstName: user.firstName, lastName: user.lastName })
+
 })
+
 // Findet die obersten x Punktestände 
 app.get('/points/leaderboard/:topX', async (req, res) => {
   const topX = Number(req.params.topX);
@@ -118,12 +116,12 @@ app.listen(port, () => {
 
 // Regist
 app.post('/regist', async (req, res) => {
-  const{ firstName, lastName, email, userName, password, repeatpassword } = req.body;
+  const { firstName, lastName, email, userName, password, repeatpassword } = req.body;
 
-  if (password == repeatpassword && firstName != "" && lastName != "" && email != "" && userName != "" && password != "" && repeatpassword != ""){
+  if (password == repeatpassword && firstName != "" && lastName != "" && email != "" && userName != "" && password != "" && repeatpassword != "") {
 
     try {
-    
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Speicher User in datenbank
@@ -137,24 +135,24 @@ app.post('/regist', async (req, res) => {
         },
       });
 
-      res.status(201).json({ message: 'Benutzer erfolreich Registriert!'})
+      res.status(201).json({ message: 'Benutzer erfolreich Registriert!' })
       console.log("Regist erfolgreich!");
-      
+
     } catch (error) {
 
       console.log('Fehler beim Registrieren:', error);
-      res.status(500).json( {message: 'Interner Serverfehler' });
+      res.status(500).json({ message: 'Interner Serverfehler' });
 
     }
 
-  }else {
+  } else {
     console.log('Empfangene Daten:', req.body);
     console.log('Passwörter verglichen:', password, repeatpassword);
 
     console.log("Passwörter nicht gleich!")
-    res.status(400).json({ message: 'Passwörter stimmen nicht überein' });  
+    res.status(400).json({ message: 'Passwörter stimmen nicht überein' });
   }
-  
+
 
 })
 
@@ -165,8 +163,8 @@ app.post('/login', async (req, res) => {
   // Logge den Authorization-Header
   console.log('Authorization-Header:', authHeader);
 
-  if(!authHeader || !authHeader.startsWith('Basic')) {
-      return res.status(401).json({ message: 'Ungültige Anmeldeinformationen' });
+  if (!authHeader || !authHeader.startsWith('Basic')) {
+    return res.status(401).json({ message: 'Ungültige Anmeldeinformationen' });
   }
 
   const base64Credentials = authHeader.split(' ')[1];
@@ -185,21 +183,21 @@ app.post('/login', async (req, res) => {
       },
     });
 
-    if(!user){
+    if (!user) {
       return res.status(401).json({ message: 'Ungültige Anmeldeinformationen2' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     console.log("PasswordMatch: ", passwordMatch);
 
-    if(passwordMatch) {
+    if (passwordMatch) {
 
       res.status(200).json({ email: user.email, userName: user.userName })
       console.log("Login erfolgreich!");
 
     } else {
 
-      res.status(401).json({ message: 'Ungültige Anmeldeinformationen!3'})
+      res.status(401).json({ message: 'Ungültige Anmeldeinformationen!3' })
       console.log("Login fehlgeschlagen!");
 
     }
