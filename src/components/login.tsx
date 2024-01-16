@@ -39,6 +39,7 @@ const Login = () => {
 
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Basic ${base64Auth}`,
