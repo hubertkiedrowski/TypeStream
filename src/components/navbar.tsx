@@ -24,6 +24,10 @@ const Navbar = () => {
                         <li className="schrift">
                             <Link to="/login" className="schrift">Login</Link>
                         </li>
+
+                        <li className="schrift">
+                            <Link to="/leaderboard" className="schrift">Leaderboard</Link>
+                        </li>
                     </ul>
                 </div>
             </nav>

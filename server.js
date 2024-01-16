@@ -8,7 +8,7 @@ const port = 3000
 const prisma = new PrismaClient();
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:5173', 
+  origin: 'http://localhost:5173',
   headers: ['Content-Type', 'Authorization', 'Access-Control-Allow-Headers'],
 }));
 
