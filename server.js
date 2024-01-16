@@ -7,7 +7,7 @@ const app = express()
 const port = 3000
 const prisma = new PrismaClient();
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.origin_URL || 'http://localhost:5173',
   credentials: true,
 }));
 
@@ -209,4 +209,4 @@ app.post('/login', async (req, res) => {
 
   }
 
-  });
+});
