@@ -5,9 +5,6 @@ import { fetchPoints, fetchUserdata } from "./api";
 const Keyboard = () => {
   const [pressedKey, setPressedKey] = useState<number | null>(null);
 
-
-
-
   const handleKeyDown = (event: { keyCode: number }) => {
 
     const keyCode = event.keyCode;
