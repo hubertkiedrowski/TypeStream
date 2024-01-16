@@ -7,33 +7,13 @@ const app = express()
 const port = 3000
 const prisma = new PrismaClient();
 app.use(cors({
+  origin: 'http://localhost:5173',
   credentials: true,
-  origin: 'http://localhost:5173', 
-  headers: ['Content-Type', 'Authorization', 'Access-Control-Allow-Headers'],
 }));
 
 app.use(bodyParser.json());
 
 app.use(express.json());
-
-app.post('/users/:userID', async (req, res) => {
-  const { userID } = req.body;
-
-  try {
-    const user = await prisma.user.findFirst({
-      where: { id: userID },
-    });
-
-    if (user) {
-      res.json({ user });
-    } else {
-      res.status(404).json({ error: 'Benutzer nicht gefunden' });
-    }
-  } catch (error) {
-    console.error('Fehler beim Abfragen des Benutzers:', error);
-    res.status(500).json({ error: 'Serverfehler' });
-  }
-});
 
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
@@ -46,6 +26,16 @@ app.get('/users/:userID', async (req, res) => {
     const user = await prisma.user.findMany()
     res.json(user)
   }
+
+});
+
+app.get('/users/:userID', async (req, res) => {
+  const userID = Number(req.params.userID)
+  const user = await prisma.user.findFirst({
+    where: { id: userID },
+  })
+  res.json({ firstName: user.firstName, lastName: user.lastName })
+
 })
 
 // Findet die obersten x Punktestände 
@@ -219,6 +209,4 @@ app.post('/login', async (req, res) => {
 
   }
 
-});
-
-
+  });
