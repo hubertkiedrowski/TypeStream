@@ -4,7 +4,6 @@ nav {
     left: 0;
     right: 0;
     width: 70%; /* Vollständige Breite des Viewports */
-    background-color: #333; /* Hintergrundfarbe anpassen */
     padding: 10px; /* Optional: Abstand zum Inhalt hinzufügen */
     display: flex;
     justify-content: center;
@@ -12,13 +11,14 @@ nav {
   }
 
   .schrift{
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    /*font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
     font-size: 25px;
-    color: black;
+    color: whitesmoke;
   }
 
   .schrift:hover{
-    color: whitesmoke;
+    color: black;
   }
 
   .container3 {
@@ -28,7 +28,9 @@ nav {
 
 .container{
     display: grid;
-    border: 1px solid black;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: #333; /* Hintergrundfarbe anpassen */
 }
 
 .container1{
