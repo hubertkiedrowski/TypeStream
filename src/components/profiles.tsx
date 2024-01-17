@@ -7,6 +7,7 @@ import Userdata from "./userdata";
 
 const Item = () => {
   //Userdata();
+  //const points = fetchPoints("/points/leaderboard/5");
   return (
     <>
       {

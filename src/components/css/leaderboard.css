@@ -1,25 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-/* body {
-    background: #ffffff;
-  }
 
-* > * {
-    font-family: "Poppins", cursive;
-    margin: 0;
-}
-
-:root{
-    --color-dark: #2C3131;
-    --color-light: #F3F3F2;
-}
-
-#main{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-} */
 
 .board {
     text-align: center;
