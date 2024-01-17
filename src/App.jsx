@@ -14,7 +14,8 @@ import Ueberuns from "./components/ueberUns";
 import Login from "./components/login";
 import ChooseKeyboard from "./components/chooseKeyboard";
 import Regist from "./components/regist";
-import LoginErfolgreich from "./components/loginErfolgreich"
+import LoginErfolgreich from "./components/loginErfolgreich";
+import Leaderboard from "./components/leaderboard";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/regist" element={<Regist />} />
         <Route exact path="/loginErfolgreich" element={<LoginErfolgreich />} />
+        <Route exact path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
   );
