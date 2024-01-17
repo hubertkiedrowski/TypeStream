@@ -1,5 +1,3 @@
-
-
 export const handleKeyDown = (
     event: KeyboardEvent,
     isDone: boolean,
@@ -10,10 +8,10 @@ export const handleKeyDown = (
     checkInput: () => void
 ): void => {
     if (!isDone && currentIndex < targetText.length) {
-        const key = event.key.toLowerCase();
-        const keyCode = event.keyCode;
-
         event.preventDefault();
+
+        const key = event.key.toUpperCase();
+        const keyCode = event.keyCode;
 
         const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
         if (keyElement) {
@@ -25,16 +23,17 @@ export const handleKeyDown = (
         }
 
         if (keyCode === 188) {
-            setEnteredText((prevText: string) => prevText + ",");
+            setEnteredText((prevText: string) => (prevText + ",").toUpperCase());
         } else if (keyCode === 190) {
-            setEnteredText((prevText: string) => prevText + ".");
-        } else if (/^[a-zA-Z]$/.test(key)) {
-            setEnteredText((prevText: string) => prevText + key.toUpperCase());
+            setEnteredText((prevText: string) => (prevText + ".").toUpperCase());
+        } else if (/^[a-zA-Z]$/.test(event.key)) {
+            setEnteredText((prevText: string) => (prevText + event.key.toUpperCase()));
         } else {
-            setEnteredText((prevText: string) => prevText + key);
+            setEnteredText((prevText: string) => (prevText + event.key).toUpperCase());
         }
     }
 };
+
 
 export const handleKeyUp = (
     event: KeyboardEvent,
@@ -61,7 +60,6 @@ export const handleKeyUp = (
         }
     }
 };
-
 export const loadNextLines = (
     lines: string[],
     nextLine: number,
@@ -88,61 +86,53 @@ export const loadNextLines = (
 };
 
 
-/*
 export const checkInput = (
+    currentChar: string,
+    targetChar: string,
     currentIndex: number,
     targetText: string,
-    enteredText: string,
-    lastCorrectIndex: number,
-    coloredTargetText: string[],
-    incorrectLetters: number[],
+    coloredTargetText: any,
+    incorrectLetters: any,
+    lastCorrectIndex: any,
     setEnteredText: React.Dispatch<React.SetStateAction<string>>,
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>,
     setLastCorrectIndex: React.Dispatch<React.SetStateAction<number>>,
     setColoredTargetText: React.Dispatch<React.SetStateAction<string[]>>,
-    setErrorCount: React.Dispatch<React.SetStateAction<number>>,
+    setIncorrectLetters: React.Dispatch<React.SetStateAction<number[]>>,
     setBlinkIndex: React.Dispatch<React.SetStateAction<number | null>>,
-    setIncorrectLetters: React.Dispatch<React.SetStateAction<number[]>>
+    setErrorCount: React.Dispatch<React.SetStateAction<number>>
 ): void => {
-    const currentChar = enteredText[currentIndex];
-    const targetChar = targetText[currentIndex];
+    const upperCaseCurrentChar = currentChar.toUpperCase();
+    const upperCaseTargetChar = targetChar.toUpperCase();
 
-    if (currentChar === targetChar) {
-        console.log(`Richtig! Eingegeben: ${currentChar}`);
+    if (upperCaseCurrentChar === upperCaseTargetChar) {
+        console.log(`Correct! Entered: ${upperCaseCurrentChar}`);
         const updatedColors = coloredTargetText.slice();
         updatedColors[currentIndex] = "LightGreen";
         setColoredTargetText(updatedColors);
         setCurrentIndex((prevIndex) => prevIndex + 1);
         setLastCorrectIndex(currentIndex + 1);
-
         const updatedIncorrectLetters = incorrectLetters.filter(
-            (i) => i !== currentIndex
+            (i: number) => i !== currentIndex
         );
         setIncorrectLetters(updatedIncorrectLetters);
-
         if (currentIndex === targetText.length - 1) {
             setColoredTargetText(targetText.split("").map(() => "#aaa"));
         }
     } else {
         console.log(
-            `Falsch! Eingegeben: ${currentChar}, Erwartet: ${targetChar}`
+            `Incorrect! Entered: ${upperCaseCurrentChar}, Expected: ${upperCaseTargetChar}`
         );
-
-        // Überprüfe, ob ein Leerzeichen erwartet wird
-        if (targetChar === " ") {
+        if (upperCaseTargetChar === " ") {
             setBlinkIndex(currentIndex);
             setTimeout(() => {
                 setBlinkIndex(null);
             }, 500);
         }
-
         setErrorCount((prevCount) => prevCount + 1);
         setCurrentIndex(lastCorrectIndex);
         setEnteredText(targetText.slice(0, lastCorrectIndex));
-
         const updatedIncorrectLetters = [...incorrectLetters, currentIndex];
         setIncorrectLetters(updatedIncorrectLetters);
     }
 };
-*/
-
