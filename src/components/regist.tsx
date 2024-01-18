@@ -9,11 +9,15 @@ interface FormData {
     userName: string;
     password: string;
     repeatpassword: string,
-  }
+}
 
 const Regist = () => {
 
     const navigate = useNavigate();
+
+    const handleButtonClickLogin = () => {
+        navigate('/login');
+    }
 
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
@@ -34,12 +38,6 @@ const Regist = () => {
         }))
     }
 
-    const handleButtonClickLogin = () => {
-
-        navigate('/login');
-
-    }
-
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -53,7 +51,7 @@ const Regist = () => {
                 body: JSON.stringify(formData),
             });
 
-            if(response.ok) {
+            if (response.ok) {
 
                 console.log('Benutzer erfolgreich registriert!');
                 navigate('/login');
@@ -73,73 +71,73 @@ const Regist = () => {
     };
 
     return (
-        <>  
+        <>
             <div className="warpper">
 
                 <div className="formular">
 
-                <h2>Regist</h2>
+                    <h2>Regist</h2>
 
-                <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
 
-                    <label className="innerForm" >Firstname</label>
-                    <input 
-                        type="text"
-                        name="firstName" 
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Firstname</label>
+                        <input
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Lastname</label>
-                    <input 
-                        type="text"
-                        name="lastName" 
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Lastname</label>
+                        <input
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >E-Mail</label>
-                    <input 
-                        type="email"
-                        name="email" 
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >E-Mail</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Username</label>
-                    <input 
-                        type="text"
-                        name="userName" 
-                        value={formData.userName}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Username</label>
+                        <input
+                            type="text"
+                            name="userName"
+                            value={formData.userName}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Password</label>
-                    <input 
-                        type="password"
-                        name="password" 
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
-                    <label className="innerForm" >Repeat Password</label>
-                    <input 
-                        type="password"
-                        name="repeatpassword" 
-                        value={formData.repeatpassword}
-                        onChange={handleInputChange}
-                        className="innerForm" />
+                        <label className="innerForm" >Repeat Password</label>
+                        <input
+                            type="password"
+                            name="repeatpassword"
+                            value={formData.repeatpassword}
+                            onChange={handleInputChange}
+                            className="innerForm" />
 
 
-                    <a href="" className="forget">Forget password?</a>
+                        <a href="" className="forget">Forget password?</a>
 
-                    {registrationError && <p>Registrierung fehlgeschlagen!</p>}
-                    
-                    <button type="submit">Registrieren</button>
+                        {registrationError && <p>Registrierung fehlgeschlagen!</p>}
 
-                    <button onClick={handleButtonClickLogin}>Back to Login</button>
+                        <button type="submit">Registrieren</button>
 
-                </form>
+                        <button onClick={handleButtonClickLogin}>Back to Login</button>
+
+                    </form>
 
                 </div>
 

@@ -21,6 +21,12 @@ const Navbar = () => {
             </li>
 
             <li className="schrift">
+              <Link to="/leaderboard" className="schrift">
+                Leaderboard
+              </Link>
+            </li>
+
+            <li className="schrift">
               <Link to="/ueberuns" className="schrift">
                 Über uns
               </Link>
@@ -32,11 +38,6 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li className="schrift">
-              <Link to="/leaderboard" className="schrift">
-                Leaderboard
-              </Link>
-            </li>
           </ul>
         </div>
       </nav>
