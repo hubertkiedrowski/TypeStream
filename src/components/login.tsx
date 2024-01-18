@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import "./css/login.css";
 import { useNavigate } from 'react-router-dom';
+import Navbar from './navbar';
 
 
 interface FormData {
@@ -12,6 +13,8 @@ interface FormData {
 const Login = () => {
 
     const navigate = useNavigate();
+    const [userData, setUserData] = useState();
+    const [loggedInStatus, setLoggedInStatus] = useState(false);
 
     const [formData, setFormData] = useState<FormData>({
         userName: '',
@@ -49,6 +52,21 @@ const Login = () => {
 
             if (response.ok) {
 
+                const userDataLogged = await response.json();
+
+                // Rufe den set-session-Endpunkt auf, um dem Server mitzuteilen, dass der Benutzer eingeloggt ist
+                await fetch('http://localhost:3000/set-session', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userDataLogged),
+                });
+
+                // Setze den lokalen Zustand für den eingeloggten Benutzer
+                setUserData(userDataLogged);
+                setLoggedInStatus(true);
                 console.log('Benutzer erfolgreich eingeloggt!');
                 navigate('/loginErfolgreich', { state: { userName: formData.userName } });
 
@@ -117,7 +135,7 @@ const Login = () => {
                         <button onClick={handleButtonClick}>Regist</button>
 
                     </form>
-
+                    {loggedInStatus && <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />}
                 </div>
 
             </div>

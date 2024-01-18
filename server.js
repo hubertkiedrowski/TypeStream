@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PrismaClient } from "@prisma/client";
+import session from 'express-session';
 const app = express()
 const port = 3000
 const prisma = new PrismaClient();
@@ -15,6 +16,13 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.use(express.json());
+
+app.use(session({
+  secret: '248',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV === 'production'},
+}))
 
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
@@ -156,6 +164,13 @@ app.post('/regist', async (req, res) => {
 
 
 })
+
+// Serverseite
+app.post('/set-session', (req, res) => {
+  req.session.user = { id: req.body.id, email: req.body.email, userName: req.body.userName };
+  res.sendStatus(200);
+});
+
 
 // Login
 app.post('/login', async (req, res) => {

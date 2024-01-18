@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/navbar.css";
 import { Link } from "react-router-dom";
+import Login from './login';
+interface NavbarProps {
+  loggedInStatus: boolean;
+  setLoggedInStatus: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const Navbar = () => {
+const Navbar: React.FC<NavbarProps> = ({ loggedInStatus, setLoggedInStatus }) => {
+
   return (
     <>
       <nav>
@@ -31,12 +37,20 @@ const Navbar = () => {
                 Über uns
               </Link>
             </li>
-
-            <li className="schrift">
-              <Link to="/login" className="schrift">
-                Login
-              </Link>
-            </li>
+            
+            {loggedInStatus ?
+              <li className="schrift">
+                <Link to="/myProfile" className="schrift">
+                  MyProfile
+                </Link>
+              </li>
+            :
+              <li className="schrift">
+                 <Link to="/login" className="schrift">
+                  Login
+                </Link>
+              </li>
+            }
 
           </ul>
         </div>

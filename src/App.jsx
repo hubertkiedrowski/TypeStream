@@ -16,6 +16,7 @@ import ChooseKeyboard from "./components/chooseKeyboard";
 import Regist from "./components/regist";
 import LoginErfolgreich from "./components/loginErfolgreich";
 import Leaderboard from "./components/leaderboard";
+import MyProfile from "./components/myProfile";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/regist" element={<Regist />} />
         <Route exact path="/loginErfolgreich" element={<LoginErfolgreich />} />
         <Route exact path="/leaderboard" element={<Leaderboard />} />
+        <Route exact path="/myProfile" element={<MyProfile />} />
       </Routes>
     </Router>
   );
