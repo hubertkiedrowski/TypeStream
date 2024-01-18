@@ -1,131 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
-import { handleKeyDown, handleKeyUp, loadNextLines, checkInput } from "./keyboardfunctions";
+import React from "react";
+import useKeyboardState from "./keyboardstates";
 import "./css/keyboard.css";
 
 const Keyboard = () => {
-  const [targetText, setTargetText] = useState<string>("");
-  const [pressedKey, setPressedKey] = useState<number | null>(null);
-  const [enteredText, setEnteredText] = useState<string>("");
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [errorCount, setErrorCount] = useState<number>(0);
-  const [lastCorrectIndex, setLastCorrectIndex] = useState<number>(0);
-  const [coloredTargetText, setColoredTargetText] = useState<string[]>(
-      targetText.split("").map(() => "#aaa"));
-  const [incorrectLetters, setIncorrectLetters] = useState<number[]>([]);
-  const [lines, setLines] = useState<string[]>([]);
-  const [currentLine, setCurrentLine] = useState<number>(0);
-  const [nextLine, setNextLine] = useState<number>(1);
-  const [isDone, setIsDone] = useState<boolean>(false);
-  const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
-  
-
-  useEffect(() => {
-    fetch("./src/components/challenge1.txt")
-        .then((response) => response.text())
-        .then((data) => {
-          const linesArray = data.split("\n");
-          setLines(linesArray);
-          setTargetText(linesArray[0]);
-          setColoredTargetText(linesArray[0].split("").map(() => "#aaa"));
-        })
-        .catch((error) =>
-            console.error("Fehler beim Lesen der Datei:", error)
-        );
-
-  }, []);
-  
-  useEffect(() => {
-    if (currentIndex === targetText.length) {
-      console.log("Du hast alles korrekt eingegeben!");
-      const allLinesEntered = nextLine === lines.length;
-      if (allLinesEntered) {
-        console.log("Alle Zeilen fertig!");
-        setTargetText("You're done!");
-        setIsDone(true);
-      } else {
-        loadNextLines(lines, nextLine, setTargetText, setEnteredText, setLastCorrectIndex, setCurrentIndex, setColoredTargetText, setCurrentLine, setNextLine);
-      }
-    }
-  }, [currentIndex, targetText, nextLine, lines]);
-  
-  useEffect(() => {
-    const handleKeyDownListener = (event: KeyboardEvent) =>
-        handleKeyDown(
-            event,
-            isDone,
-            currentIndex,
-            targetText,
-            setEnteredText,
-            setPressedKey,
-            () => checkInput(
-                event.key, 
-                targetText[currentIndex],  
-                currentIndex,
-                targetText,
-                coloredTargetText,
-                incorrectLetters,
-                lastCorrectIndex,
-                setEnteredText,
-                setCurrentIndex,
-                setLastCorrectIndex,
-                setColoredTargetText,
-                setIncorrectLetters,
-                setBlinkIndex,
-                setErrorCount
-            )
-        );
-
-    const handleKeyUpListener = (event: KeyboardEvent) =>
-        handleKeyUp(
-            event,
-            isDone,
-            currentIndex,
-            targetText,
-            setEnteredText,
-            setPressedKey,
-            () => checkInput(
-                event.key,  
-                targetText[currentIndex],  
-                currentIndex,
-                targetText,
-                coloredTargetText,
-                incorrectLetters,
-                lastCorrectIndex,
-                setEnteredText,
-                setCurrentIndex,
-                setLastCorrectIndex,
-                setColoredTargetText,
-                setIncorrectLetters,
-                setBlinkIndex,
-                setErrorCount
-            )
-        );
-
-    document.addEventListener("keydown", handleKeyDownListener);
-    document.addEventListener("keyup", handleKeyUpListener);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDownListener);
-      document.removeEventListener("keyup", handleKeyUpListener);
-    };
-  }, [
-    isDone,
-    currentIndex,
+  const {
     targetText,
-    setEnteredText,
-    setPressedKey,
+    pressedKey,
+    enteredText,
+    currentIndex,
+    errorCount,
+    lastCorrectIndex,
     coloredTargetText,
     incorrectLetters,
-    lastCorrectIndex,
-    setColoredTargetText,
-    setIncorrectLetters,
-    setBlinkIndex,
-    setErrorCount
-  ]);
-
+    lines,
+    currentLine,
+    nextLine,
+    isDone,
+    blinkIndex
+  } = useKeyboardState();
 
   return (
-    <>
       <>
         <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "PaleVioletRed" }}>
           Fehler: {errorCount}
@@ -141,10 +35,9 @@ const Keyboard = () => {
                         color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
                       }}
                   >
-            {char === " " ? "\u00A0" : char}
-          </span>
+              {char === " " ? "\u00A0" : char}
+            </span>
               ))}
-              {/* Füge hier das Leerzeichen am Ende der Textzeile hinzu */}
               {targetText[targetText.length - 1] === " " && (
                   <span
                       style={{
@@ -152,15 +45,14 @@ const Keyboard = () => {
                         color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
                       }}
                   >
-            {" "}
-          </span>
+              {" "}
+            </span>
               )}
               <div style={{ color: "DimGrey", fontSize: "28px" }}>{lines[nextLine]}</div>
             </div>
         ) : (
             <div style={{ color: "Khaki", fontSize: "30px" }}>{targetText}</div>
         )}
-      </>
       
       <div id="keyboard">
         <ul className="cf">
