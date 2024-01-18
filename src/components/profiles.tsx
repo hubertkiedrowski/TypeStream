@@ -1,8 +1,5 @@
 import React from "react";
 import "./css/leaderboard.css";
-import { Link } from "react-router-dom";
-import { useFetchPoints, useFetchUserdata } from "./api";
-import { User } from "@prisma/client";
 import { Userdata, Points } from "./fetchedUserdata";
 
 const Item = () => {
@@ -18,7 +15,6 @@ const Item = () => {
               src="https://www.amaraventures.in/assets/uploads/testimonial/user.png"
               alt="picture"
             />
-
             <div className="info">
               <h3 className="name text-dark">{user?.userName}</h3>
               <span>{"Score: " + points?.[index].score}</span>

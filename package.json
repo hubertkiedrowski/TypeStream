@@ -25,7 +25,6 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "@types/bcryptjs": "^2.4.6",
-    "axios": "^1.6.4",
     "bcryptjs": "^2.4.3",
     "bcryptjs-react": "^2.4.6",
     "cors": "^2.8.5",

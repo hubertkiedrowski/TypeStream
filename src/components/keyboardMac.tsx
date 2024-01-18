@@ -32,7 +32,6 @@ const KeyboardMac = () => {
       keyElement.style.margin = "5px 5px 3px";
       keyElement.style.boxShadow = "0 0 25px #333, 0 0 3px #333";
       keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-
       keyElement.style.borderTop = "1px solid #000";
       setPressedKey(keyCode);
     }
@@ -265,7 +264,7 @@ const KeyboardMac = () => {
           </li>
           <li>
             <a href="#" className="key c219 alt">
-              <b>{}</b>
+              <b>{ }</b>
               <span>[</span>
             </a>
           </li>
