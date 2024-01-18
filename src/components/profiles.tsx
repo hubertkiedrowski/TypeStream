@@ -1,8 +1,5 @@
 import React from "react";
 import "./css/leaderboard.css";
-import { Link } from "react-router-dom";
-import { useFetchPoints, useFetchUserdata } from "./api";
-import { User } from "@prisma/client";
 import { Userdata, Points } from "./fetchedUserdata";
 
 const Item = () => {
