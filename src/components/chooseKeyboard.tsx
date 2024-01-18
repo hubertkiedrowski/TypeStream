@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./css/chooseKeyboard.css"
 
 const ChooseKeyboard = () => {
-
     return (
         <>
             <a href="/keyboard">
@@ -12,10 +11,8 @@ const ChooseKeyboard = () => {
             <a href="/keyboardWin">
                 <h1 className="chooseKeyboard">Win Keyboard</h1>
             </a>
-
         </>
     );
-
 };
 
 export default ChooseKeyboard;
