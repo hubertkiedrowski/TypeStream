@@ -25,6 +25,7 @@ async function main() {
       },
     });
   };
+  
   const user = await createUser("user@softwareEngeneering.de", "admini", "strator", "IKnowYourPassword", "$2a$10$PrkGZhUYCu6guZNqdUWUQOOtZ4w9pS2zEfRbv4u.fC4Flthps0rua");
   await createPoint(80, 101, user.id);
   await createPoint(801, 1011, user.id);

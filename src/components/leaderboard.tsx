@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./css/leaderboard.css";
 import Profiles from "./profiles";
-import { Link } from "react-router-dom";
 
 const handleClick = (e: { target: any }) => {
   console.log(e.target);

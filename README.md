@@ -61,13 +61,13 @@ npm run prisma-migrate
 npm run prisma-generate
 ```
 
-5. **Create and Seed Database**
+6. **Create and Seed Database**
 
 ```bash
 npm run prisma-seed
 ```
 
-5. **Open Prisma Studio**
+7. **Open Prisma Studio**
 
 ```bash
 npm run prisma-studio

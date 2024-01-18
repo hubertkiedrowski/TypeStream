@@ -1,5 +1,5 @@
 import { Point, User } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useFetchUserdata = (
   endpoint: string,
@@ -42,12 +42,16 @@ export const useFetchPoints = (endpoint: string): Point[] | null => {
         }
 
         const fetchedData: { data: Point[] } = await response.json();
+        if (data != null && data != undefined) {
+          setData(fetchedData.data);
+        }
         setData(fetchedData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
+
   }, [endpoint]);
 
   return data;
