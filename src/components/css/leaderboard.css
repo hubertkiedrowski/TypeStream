@@ -4,15 +4,19 @@
 
 .board {
     text-align: center;
+    background-color: lightslategray;
+    border-radius: 40px;
 }
 
 .board .leaderboard{
     margin-bottom: 1em;
+    margin: 70px;
 }
 
 .board .duration{
     display: flex;
     justify-content: center;
+    margin: 70px;
     gap: 1em;
 }
 

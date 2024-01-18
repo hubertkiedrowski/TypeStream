@@ -6,7 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Keyboard from "./components/keyboard";
+import KeyboardMac from "./components/keyboardMac";
 import KeyboardWin from "./components/keyboardWin";
 import Navbar from "./components/navbar";
 import Home from "./components/home";
@@ -25,7 +25,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/ueberuns" element={<Ueberuns />} />
         <Route exact path="/chooseKeyboard" element={<ChooseKeyboard />} />
-        <Route exact path="/keyboard" element={<Keyboard />} />
+        <Route exact path="/keyboard" element={<KeyboardMac />} />
         <Route exact path="/keyboardWin" element={<KeyboardWin />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/regist" element={<Regist />} />
