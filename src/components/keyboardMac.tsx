@@ -1,15 +1,16 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import "./css/keyboard.css";
-import { fetchPoints, fetchUserdata } from "./api";
+import { useFetchPoints, useFetchUserdata } from "./api";
 
-const Keyboard = () => {
+const KeyboardMac = () => {
   const [pressedKey, setPressedKey] = useState<number | null>(null);
 
   const handleKeyDown = (event: { keyCode: number }) => {
-
     const keyCode = event.keyCode;
     setPressedKey(keyCode);
-    const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
+    const keyElement = document.querySelector(
+      `.key.c${keyCode}`
+    ) as HTMLElement;
     if (keyElement) {
       keyElement.style.color = "#007fff";
       keyElement.style.textShadow = "0 0 10px #007fff";
@@ -19,9 +20,11 @@ const Keyboard = () => {
     }
   };
 
-  const handleKeyUp = async (event: { keyCode: number; }) => {
+  const handleKeyUp = async (event: { keyCode: number }) => {
     const keyCode = event.keyCode;
-    const keyElement = document.querySelector(`.key.c${keyCode}`) as HTMLElement;
+    const keyElement = document.querySelector(
+      `.key.c${keyCode}`
+    ) as HTMLElement;
 
     if (keyElement) {
       keyElement.style.color = "#aaa";
@@ -262,7 +265,7 @@ const Keyboard = () => {
           </li>
           <li>
             <a href="#" className="key c219 alt">
-              <b>{ }</b>
+              <b>{}</b>
               <span>[</span>
             </a>
           </li>
@@ -475,4 +478,4 @@ const Keyboard = () => {
   );
 };
 
-export default Keyboard;
+export default KeyboardMac;
