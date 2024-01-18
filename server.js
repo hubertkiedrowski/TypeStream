@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 app.use(cors({
   origin: process.env.origin_URL || 'http://localhost:5173',
   credentials: true,
+  headers: ['Content-Type', 'Authorization', 'Access-Control-Allow-Headers'],
 }));
 
 app.use(bodyParser.json());
