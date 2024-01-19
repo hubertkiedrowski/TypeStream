@@ -21,14 +21,14 @@ import MyProfile from "./components/myProfile";
 function App() {
   return (
     <Router>
-      <Navbar />
+      <Navbar/>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/ueberuns" element={<Ueberuns />} />
         <Route exact path="/chooseKeyboard" element={<ChooseKeyboard />} />
         <Route exact path="/keyboard" element={<KeyboardMac />} />
         <Route exact path="/keyboardWin" element={<KeyboardWin />} />
-        <Route exact path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route exact path="/regist" element={<Regist />} />
         <Route exact path="/loginErfolgreich" element={<LoginErfolgreich />} />
         <Route exact path="/leaderboard" element={<Leaderboard />} />

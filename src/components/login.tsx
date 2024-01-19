@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, createContext, useContext } from 'react';
 import "./css/login.css";
 import { useNavigate } from 'react-router-dom';
 import Navbar from './navbar';
@@ -15,7 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState();
     const [loggedInStatus, setLoggedInStatus] = useState(false);
-
+ 
     const [formData, setFormData] = useState<FormData>({
         userName: '',
         email: '',
@@ -67,6 +67,7 @@ const Login = () => {
                 // Setze den lokalen Zustand für den eingeloggten Benutzer
                 setUserData(userDataLogged);
                 setLoggedInStatus(true);
+
                 console.log('Benutzer erfolgreich eingeloggt!');
                 navigate('/loginErfolgreich', { state: { userName: formData.userName } });
 
@@ -135,7 +136,7 @@ const Login = () => {
                         <button onClick={handleButtonClick}>Regist</button>
 
                     </form>
-                    {loggedInStatus && <Navbar loggedInStatus={loggedInStatus} setLoggedInStatus={setLoggedInStatus} />}
+                    
                 </div>
 
             </div>

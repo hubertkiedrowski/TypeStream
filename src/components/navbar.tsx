@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import "./css/navbar.css";
 import { Link } from "react-router-dom";
 import Login from './login';
-interface NavbarProps {
-  loggedInStatus: boolean;
-  setLoggedInStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ loggedInStatus, setLoggedInStatus }) => {
+const Navbar = ({ loggedInStatus }: { loggedInStatus: boolean }) => {
 
   return (
     <>
