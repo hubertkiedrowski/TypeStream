@@ -1,53 +1,59 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React from "react";
+import useKeyboardState from "./keyboardstates";
 import "./css/keyboard.css";
-import { useFetchPoints, useFetchUserdata } from "./api";
 
 const KeyboardMac = () => {
-  const [pressedKey, setPressedKey] = useState<number | null>(null);
-
-  const handleKeyDown = (event: { keyCode: number }) => {
-    const keyCode = event.keyCode;
-    setPressedKey(keyCode);
-    const keyElement = document.querySelector(
-      `.key.c${keyCode}`
-    ) as HTMLElement;
-    if (keyElement) {
-      keyElement.style.color = "#007fff";
-      keyElement.style.textShadow = "0 0 10px #007fff";
-      keyElement.style.margin = "7px 5px 3px";
-      keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-      keyElement.style.borderTop = "1px solid #000";
-    }
-  };
-
-  const handleKeyUp = async (event: { keyCode: number }) => {
-    const keyCode = event.keyCode;
-    const keyElement = document.querySelector(
-      `.key.c${keyCode}`
-    ) as HTMLElement;
-
-    if (keyElement) {
-      keyElement.style.color = "#aaa";
-      keyElement.style.textShadow = "none";
-      keyElement.style.margin = "5px 5px 3px";
-      keyElement.style.boxShadow = "0 0 25px #333, 0 0 3px #333";
-      keyElement.style.boxShadow = "inset 0 0 25px #333, 0 0 3px #333";
-      keyElement.style.borderTop = "1px solid #000";
-      setPressedKey(keyCode);
-    }
-  };
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [pressedKey]);
+  const {
+    targetText,
+    pressedKey,
+    enteredText,
+    currentIndex,
+    errorCount,
+    lastCorrectIndex,
+    coloredTargetText,
+    incorrectLetters,
+    lines,
+    currentLine,
+    nextLine,
+    isDone,
+    blinkIndex
+  } = useKeyboardState();
 
   return (
-    <>
+      <>
+        <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "PaleVioletRed" }}>
+          Fehler: {errorCount}
+        </div>
+
+        {!isDone ? (
+            <div style={{ color: "Grey", fontSize: "30px" }}>
+              {targetText.split("").map((char, index) => (
+                  <span
+                      key={index}
+                      style={{
+                        backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
+                      }}
+                  >
+              {char === " " ? "\u00A0" : char}
+            </span>
+              ))}
+              {targetText[targetText.length - 1] === " " && (
+                  <span
+                      style={{
+                        backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
+                      }}
+                  >
+              {" "}
+            </span>
+              )}
+              <div style={{ color: "DimGrey", fontSize: "28px" }}>{lines[nextLine]}</div>
+            </div>
+        ) : (
+            <div style={{ color: "Khaki", fontSize: "30px" }}>{targetText}</div>
+        )}
+      
       <div id="keyboard">
         <ul className="cf">
           <li>
