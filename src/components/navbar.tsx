@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./css/navbar.css";
 import { Link } from "react-router-dom";
-import Login from './login';
 
 const Navbar = () => {
 
@@ -26,6 +25,7 @@ const Navbar = () => {
           setLoggedInUser(null);
           setLoggedInStatus(false);
         }
+
       } catch (error) {
         console.error('Fehler beim Überprüfen der Sitzung:', error);
       }
@@ -33,6 +33,7 @@ const Navbar = () => {
 
     checkSession();
   }, []);
+  
 
   return (
     <>

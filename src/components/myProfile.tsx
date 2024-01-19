@@ -53,8 +53,16 @@ const MyProfile = () => {
   return (
     <>
         <div>
+            <h1>Benutzerinfos</h1>
             {userData ?
-                <p>Benutzerinformationen: {JSON.stringify(userData)}</p>
+                <>  
+                    <p>Benutzerinformationen: {JSON.stringify(userData)}</p>
+                    <br/>
+                    <h2>Vorname: {JSON.stringify(userData.firstName)}</h2>
+                    <h2>Name: {userData.lastName}</h2>
+                    <h2>Username: {userData.userName}</h2>
+                    <h2>E-Mail: {userData.email}</h2>
+                </>
             : 
                 <p>Benutzerinformationen nicht verfügbar</p>
             }

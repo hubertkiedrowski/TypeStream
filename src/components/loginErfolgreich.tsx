@@ -9,6 +9,12 @@ const LoginErfolgreich = () => {
     console.log(location)
     const { userName } = location.state;
 
+    const handleButtonClick = () => {
+
+        navigate('/myProfile');
+
+    }
+
 
     return (
         <>
@@ -17,6 +23,8 @@ const LoginErfolgreich = () => {
                 <h1>Login Erfolgreich!</h1>
 
                 <h2>Willkommen {userName}</h2>
+
+                <button onClick={handleButtonClick}>MyProfile</button>
 
             </div>
         </>
