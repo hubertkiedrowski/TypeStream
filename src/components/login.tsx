@@ -38,7 +38,7 @@ const Login = () => {
         try {
             const authString = `${formData.email}:${formData.userName}:${formData.password}`;
             const base64Auth = btoa(authString);
-            console.log('Authentifizierungszeichenkette:', authString);
+            //console.log('Authentifizierungszeichenkette:', authString);
 
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
@@ -55,7 +55,7 @@ const Login = () => {
                 const userDataLogged = await response.json();
 
                 // Rufe den set-session-Endpunkt auf, um dem Server mitzuteilen, dass der Benutzer eingeloggt ist
-                await fetch('http://localhost:3000/set-session', {
+                const responseSession = await fetch('http://localhost:3000/set-session', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -64,12 +64,20 @@ const Login = () => {
                     body: JSON.stringify(userDataLogged),
                 });
 
-                // Setze den lokalen Zustand für den eingeloggten Benutzer
-                setUserData(userDataLogged);
-                setLoggedInStatus(true);
+                if(responseSession.ok){
 
-                console.log('Benutzer erfolgreich eingeloggt!');
-                navigate('/loginErfolgreich', { state: { userName: formData.userName } });
+                    // Setze den lokalen Zustand für den eingeloggten Benutzer
+                    setUserData(userDataLogged);
+                    setLoggedInStatus(true);
+
+                    console.log('Benutzer erfolgreich eingeloggt!');
+                    navigate('/loginErfolgreich', { state: { userName: formData.userName } });
+
+                } else {
+
+                    console.error("No session!")
+
+                }
 
             } else {
 

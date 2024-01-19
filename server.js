@@ -18,11 +18,15 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use(session({
-  secret: '248',
+  name: 'connect.sid',
+  secret: 'your-secret-key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production'},
-}))
+  cookie: {
+    httpOnly: true,
+    sameSite: 'None',
+  },
+}));
 
 app.get('/users/:userID', async (req, res) => {
   const userID = Number(req.params.userID)
@@ -67,8 +71,6 @@ app.get('/points/leaderboard/:topX', async (req, res) => {
     res.status(500).json({ error: 'Serverfehler' });
   }
 });
-
-
 
 // Alle Punktestände eines Benutzers
 app.get('/points/:userID', async (req, res) => {
@@ -167,10 +169,20 @@ app.post('/regist', async (req, res) => {
 
 // Serverseite
 app.post('/set-session', (req, res) => {
-  req.session.user = { id: req.body.id, email: req.body.email, userName: req.body.userName };
+  req.session.user = { id: req.body.id, email: req.body.email, userName: req.body.userName, firstName: req.body.firstName, lastName: req.body.lastName };
   res.sendStatus(200);
 });
 
+// Geschützte Ressource
+app.get('/myProfile', (req, res) => {
+  // Überprüfen Sie, ob der Benutzer authentifiziert ist
+  if (req.session.user) {
+    res.json({ message: 'Zugriff gewährt', user: req.session.user });
+  } else {
+    // Benutzer nicht authentifiziert - senden Sie einen 401 Unauthorized-Status
+    res.status(401).json({ message: 'Unbefugter Zugriff' });
+  }
+});
 
 // Login
 app.post('/login', async (req, res) => {
@@ -225,4 +237,15 @@ app.post('/login', async (req, res) => {
 
   }
 
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Fehler beim Logout:', err);
+      res.status(500).json({ message: 'Interner Serverfehler' });
+    } else {
+      res.json({ message: 'Logout erfolgreich' });
+    }
+  });
 });
