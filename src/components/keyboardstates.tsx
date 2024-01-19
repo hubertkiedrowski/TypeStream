@@ -24,12 +24,11 @@ const useKeyboardState = () => {
                 const linesArray = data.split("\n");
                 setLines(linesArray);
                 setTargetText(linesArray[0]);
-                setColoredTargetText(linesArray[0].split("").map(() => "#aaa"));
+                setColoredTargetText(linesArray[0].split("").map(() => "#2596be"));
             })
             .catch((error) =>
                 console.error("Fehler beim Lesen der Datei:", error)
             );
-
     }, []);
 
     useEffect(() => {
@@ -101,7 +100,7 @@ const useKeyboardState = () => {
 
         document.addEventListener("keydown", handleKeyDownListener);
         document.addEventListener("keyup", handleKeyUpListener);
-
+console.log(pressedKey)
         return () => {
             document.removeEventListener("keydown", handleKeyDownListener);
             document.removeEventListener("keyup", handleKeyUpListener);

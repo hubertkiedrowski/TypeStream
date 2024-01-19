@@ -21,12 +21,12 @@ const KeyboardMac = () => {
 
   return (
       <>
-        <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "PaleVioletRed" }}>
+        <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "black" }}>
           Fehler: {errorCount}
         </div>
 
         {!isDone ? (
-            <div style={{ color: "Grey", fontSize: "30px" }}>
+            <div style={{ color: "black", fontSize: "30px" }}>
               {targetText.split("").map((char, index) => (
                   <span
                       key={index}
@@ -48,7 +48,7 @@ const KeyboardMac = () => {
               {" "}
             </span>
               )}
-              <div style={{ color: "DimGrey", fontSize: "28px" }}>{lines[nextLine]}</div>
+              <div style={{ color: "black", fontSize: "28px" }}>{lines[nextLine]}</div>
             </div>
         ) : (
             <div style={{ color: "Khaki", fontSize: "30px" }}>{targetText}</div>
@@ -276,7 +276,7 @@ const KeyboardMac = () => {
           </li>
           <li>
             <a href="#" className="key c221 alt">
-              <b>foo</b>
+              <b></b>
               <span>]</span>
             </a>
           </li>

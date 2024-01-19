@@ -1,60 +1,58 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
 import "./css/keyboardWin.css";
+import useKeyboardState from "./keyboardstates";
 
 const KeyboardWin = () => {
 
-    const [pressedKey, setPressedKey] = useState<number|null>(null);
-
-    const handleKeyDown = (event: { keyCode: number; }) => {
-
-        const keyCode = event.keyCode;
-        setPressedKey(keyCode);
-        const keyElement = document.querySelector(`.keyWin.c${keyCode}`) as HTMLElement;
-
-        if (keyElement) {
-            keyElement.style.color = "#007fff";
-            keyElement.style.textShadow = "0 0 5px #007fff";
-            keyElement.style.marginTop = "-3px";
-            keyElement.style.boxShadow = "inset 0 0 15px #333, 0 0 3px #333";
-            keyElement.style.borderTop = "1px solid #000";
-        }
-
-    }; 
-
-    const handleKeyUp = (event: { keyCode: number; }) => {
-        const keyCode = event.keyCode;
-        console.log(keyCode);
-        const keyElement = document.querySelector(`.keyWin.c${keyCode}`) as HTMLElement;
-        
-        if (keyElement) {
-            keyElement.style.color = "#fff";
-            keyElement.style.background = "#333";
-            keyElement.style.textShadow = "";
-            keyElement.style.marginTop = "0px";
-            keyElement.style.marginLeft = "2px";
-            keyElement.style.marginBottom = "2px";
-            keyElement.style.boxShadow = "";     
-            keyElement.style.borderTop = "";
-
-            
-            setPressedKey(keyCode);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("keyup", handleKeyUp);
-
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("keyup", handleKeyUp);
-        };
-    }, [pressedKey]);
-
+    const {
+        targetText,
+        pressedKey,
+        enteredText,
+        currentIndex,
+        errorCount,
+        lastCorrectIndex,
+        coloredTargetText,
+        incorrectLetters,
+        lines,
+        currentLine,
+        nextLine,
+        isDone,
+        blinkIndex
+      } = useKeyboardState();
     return (
         <>
-
+<div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "black" }}>
+          Fehler: {errorCount}
+        </div>
+{!isDone ? (
+            <div style={{ color: "black", fontSize: "30px" }}>
+              {targetText.split("").map((char, index) => (
+                  <span
+                      key={index}
+                      style={{
+                        backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
+                      }}
+                  >
+              {char === " " ? "\u00A0" : char}
+            </span>
+              ))}
+              {targetText[targetText.length - 1] === " " && (
+                  <span
+                      style={{
+                        backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
+                        color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
+                      }}
+                  >
+              {" "}
+            </span>
+              )}
+              <div style={{ color: "black", fontSize: "28px" }}>{lines[nextLine]}</div>
+            </div>
+        ) : (
+            <div style={{ color: "red", fontSize: "30px" }}>{targetText}</div>
+        )}
             <div className="cable">
             </div>
             <div className="keyboard">
