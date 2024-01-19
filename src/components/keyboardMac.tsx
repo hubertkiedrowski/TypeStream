@@ -2,7 +2,7 @@ import React from "react";
 import useKeyboardState from "./keyboardstates";
 import "./css/keyboard.css";
 
-const Keyboard = () => {
+const KeyboardMac = () => {
   const {
     targetText,
     pressedKey,
@@ -483,4 +483,4 @@ const Keyboard = () => {
   );
 };
 
-export default Keyboard;
+export default KeyboardMac;
