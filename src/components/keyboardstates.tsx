@@ -4,18 +4,18 @@ import { handleKeyDown, handleKeyUp, loadNextLines, checkInput } from "./keyboar
 
 const useKeyboardState = () => {
     const [targetText, setTargetText] = useState("");
-    const [pressedKey, setPressedKey] = useState(null);
+    const [pressedKey, setPressedKey] = useState<number | null>(null);
     const [enteredText, setEnteredText] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [errorCount, setErrorCount] = useState(0);
     const [lastCorrectIndex, setLastCorrectIndex] = useState(0);
-    const [coloredTargetText, setColoredTargetText] = useState([]);
-    const [incorrectLetters, setIncorrectLetters] = useState([]);
-    const [lines, setLines] = useState([]);
+    const [coloredTargetText, setColoredTargetText] = useState<string[]>([]);
+    const [incorrectLetters, setIncorrectLetters] = useState<number[]>([]);
+    const [lines, setLines] = useState<string[]>([]);
     const [currentLine, setCurrentLine] = useState(0);
     const [nextLine, setNextLine] = useState(1);
     const [isDone, setIsDone] = useState(false);
-    const [blinkIndex, setBlinkIndex] = useState(null);
+    const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
 
     useEffect(() => {
         fetch("./src/components/challenge1.txt")
@@ -47,7 +47,7 @@ const useKeyboardState = () => {
     }, [currentIndex, targetText, nextLine, lines]);
 
     useEffect(() => {
-        const handleKeyDownListener = (event) =>
+        const handleKeyDownListener = (event:any) =>
             handleKeyDown(
                 event,
                 isDone,
@@ -73,7 +73,7 @@ const useKeyboardState = () => {
                 )
             );
 
-        const handleKeyUpListener = (event) =>
+        const handleKeyUpListener = (event: any) =>
             handleKeyUp(
                 event,
                 isDone,
