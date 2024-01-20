@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useFetchPoints as useFetchPoints, useFetchUserdata } from "./api";
+import { sendUserDataToBackendAndCreateDBEntry, useFetchPoints as useFetchPoints, useFetchUserdata } from "./api";
 import { User } from "@prisma/client";
 
 export const Userdata = () => {
@@ -34,9 +34,15 @@ export const Userdata = () => {
     userData5,
   ];
 
+  //TODO hier wird die funktion ausgeführt sobald man auf /leaderboard geht oder dort refresht
+  //und schau mal in dei browserkonsole
+
+  console.log("HIER DIE DATEN BEVOR SIE LOSGESCHICKT WERDEN");
+  console.log(userData5)
+  sendUserDataToBackendAndCreateDBEntry(userData5);
+
   return top5Users;
 };
-
 export const Points = () => {
   const points = useFetchPoints("/points/leaderboard/5");
 

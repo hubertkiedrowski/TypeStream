@@ -3,6 +3,10 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
+
+// TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
+// sobald auskommentiert schlägt das hochfahren fehl
+// import { createUser } from "./prisma/utils/createUser";
 const app = express();
 const port = 3000;
 const prisma = new PrismaClient();
@@ -191,3 +195,13 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Interner Serverfehler" });
   }
 });
+
+//TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
+// app.post("/users", async (req, res) => {
+//   try {
+//     const newUser = await createUser(req.body);
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });

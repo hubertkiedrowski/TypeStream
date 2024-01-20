@@ -19,40 +19,41 @@ const KeyboardWin = () => {
         nextLine,
         isDone,
         blinkIndex
-      } = useKeyboardState();
+    } = useKeyboardState();
     return (
         <>
-<div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "black" }}>
-          Fehler: {errorCount}
-        </div>
-{!isDone ? (
-            <div style={{ color: "black", fontSize: "30px" }}>
-              {targetText.split("").map((char, index) => (
-                  <span
-                      key={index}
-                      style={{
-                        backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
-                        color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
-                      }}
-                  >
-              {char === " " ? "\u00A0" : char}
-            </span>
-              ))}
-              {targetText[targetText.length - 1] === " " && (
-                  <span
-                      style={{
-                        backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
-                        color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
-                      }}
-                  >
-              {" "}
-            </span>
-              )}
-              <div style={{ color: "black", fontSize: "28px" }}>{lines[nextLine]}</div>
+            <div style={{ textAlign: "center", margin: "10px", fontSize: "20px", color: "black" }}>
+                Fehler: {errorCount}
             </div>
-        ) : (
-            <div style={{ color: "red", fontSize: "30px" }}>{targetText}</div>
-        )}
+            {!isDone ? (
+                <div style={{ color: "black", fontSize: "30px" }}>
+                    {targetText.split("").map((char, index) => (
+                        <span
+                            key={index}
+                            style={{
+                                backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                                color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index],
+                            }}
+                        >
+                            {char === " " ? "\u00A0" : char}
+                        </span>
+                    ))}
+                    {targetText[targetText.length - 1] === " " && (
+                        <span
+                            style={{
+                                backgroundColor: blinkIndex === targetText.length - 1 ? "PaleVioletRed" : "transparent",
+                                color: incorrectLetters.includes(targetText.length - 1) ? "PaleVioletRed" : "#aaa",
+                            }}
+                        >
+                            {" "}
+                        </span>
+                    )}
+                    <div style={{ color: "black", fontSize: "28px" }}>{lines[nextLine]}</div>
+                </div>
+            ) : (
+                <div style={{ color: "red", fontSize: "30px" }}>{targetText}</div>
+            )}
+
             <div className="cable">
             </div>
             <div className="keyboard">
@@ -235,7 +236,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin dual">
                         {'<'}
-                        <br/>
+                        <br />
                         {'>'} |
                     </div>
                     <div className="keyWin c89 letter">
@@ -263,7 +264,7 @@ const KeyboardWin = () => {
                         . <br /> :
                     </div>
                     <div className="keyWin c109 dual">
-                    _<br />-
+                        _<br />-
                     </div>
                     <div className="keyWin c16 shift right">
                         Shift
@@ -279,7 +280,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin c32 space">
 
-                    Space
+                        Space
 
                     </div>
                     <div className="keyWin other">

@@ -56,3 +56,24 @@ export const useFetchPoints = (endpoint: string): Point[] | null => {
 
   return data;
 };
+
+export async function sendUserDataToBackendAndCreateDBEntry(userData:any) {
+  try {
+    const response = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) {
+      const errorBody = await response.json();
+      console.error('Fehler beim Senden der Daten:', errorBody);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Es gab ein Problem mit dem Senden der Daten:', error);
+  }
+}
