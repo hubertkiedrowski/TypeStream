@@ -38,8 +38,8 @@ export const Userdata = () => {
   //und schau mal in dei browserkonsole
 
   console.log("HIER DIE DATEN BEVOR SIE LOSGESCHICKT WERDEN");
-  console.log(userData5)
-  sendUserDataToBackendAndCreateDBEntry(userData5);
+  console.log(points?.[4]) 
+  sendUserDataToBackendAndCreateDBEntry(points?.[4]);
 
   return top5Users;
 };

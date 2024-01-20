@@ -1,4 +1,4 @@
-import { PrismaClient, User, Point } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 //TODO hier die funktion zum anlegen
 export async function createUser({
   email,
@@ -26,3 +26,4 @@ export async function createUser({
     throw error;
   }
 }
+export default createUser;

@@ -18,3 +18,5 @@ export async function createPoint({ timePlayed, score, userId }) {
     throw error;
   }
 }
+
+export default createPoint;
