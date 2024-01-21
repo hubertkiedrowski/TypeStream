@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./css/leaderboard.css";
 import Profiles from "./profiles";
 
+//const [challenge, setChallenge] = useState(0);
+
 const handleClick = (e: { target: any }) => {
   console.log(e.target);
 };
@@ -11,11 +13,11 @@ const Leaderboard = () => {
       <div className="board">
         <h1 className="leaderboard">Leaderboard</h1>
 
-        <div className="duration">
-          <button onClick={handleClick} data-id="7">
+        <div className="challenge">
+          <button onClick={handleClick} data-id="challenge 1">
             Challenge 1
           </button>
-          <button onClick={handleClick} data-id="30">
+          <button onClick={handleClick} data-id="challenge 2">
             Challenge 2
           </button>
         </div>
