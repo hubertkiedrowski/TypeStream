@@ -57,9 +57,30 @@ export const useFetchPoints = (endpoint: string): Point[] | null => {
   return data;
 };
 
-export async function sendUserDataToBackendAndCreateDBEntry(userData:any) {
+export async function createPointDBEntry(pointData:any) {
   try {
-    const response = await fetch('http://localhost:3000/users', {
+    const response = await fetch('http://localhost:3000/create/points', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pointData),
+    });
+    if (!response.ok) {
+      const errorBody = await response.json();
+      console.error('Fehler beim Senden der Daten:', errorBody);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Es gab ein Problem mit dem Senden der Daten:', error);
+  }
+}
+
+export async function createUserDBEntry(userData:any) {
+  try {
+    const response = await fetch('http://localhost:3000/create/user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

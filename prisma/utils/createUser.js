@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-//TODO hier die funktion zum anlegen
 export async function createUser({
   email,
   firstName,
@@ -18,6 +17,7 @@ export async function createUser({
         password,
       },
     });
+    console.log("punkt angelegt");
     await prisma.$disconnect();
     return user;
   } catch (error) {

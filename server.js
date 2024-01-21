@@ -7,7 +7,7 @@ import { PrismaClient } from "@prisma/client";
 // TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
 // sobald auskommentiert schlägt das hochfahren fehl
 import { createUser } from "./prisma/utils/createUser.js";
-import { createPoint } from "./prisma/utils/createUser.js";
+import { createPoint } from "./prisma/utils/createPoints.js";
 
 const app = express();
 const port = 3000;
@@ -199,10 +199,25 @@ app.post("/login", async (req, res) => {
 });
 
 //TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
-app.post("/users", async (req, res) => {
+app.post("/create/points", async (req, res) => {
+  try {
+    const newPoint = await createPoint(req.body);
+
+    if (newPoint != null) {
+      res.status(201).json(newUser);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/create/user", async (req, res) => {
   try {
     const newUser = await createUser(req.body);
-    res.status(201).json(newUser);
+
+    if (newUser != null) {
+      res.status(201).json(newUser);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
