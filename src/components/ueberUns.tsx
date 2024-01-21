@@ -20,7 +20,7 @@ const ueberUns = () => {
                         </h3>
                         <h3>
                             Hubert Kiedrowski
-                        </h3>ß
+                        </h3>
                         <h3>
                             Marcus Constantin Möller
                         </h3>
