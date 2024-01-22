@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
-import {loadNextLines, handleKeyDownWin, handleKeyUpWin, checkInput} from "./keyboardfunctions";
+import { loadNextLines, handleKeyDownWin, handleKeyUpWin, checkInput } from "./keyboardfunctions";
 import "./css/keyboardWin.css";
 
 const KeyboardWin = () => {
@@ -111,7 +111,7 @@ const KeyboardWin = () => {
 
     return (
         <>
-            <div style={{ textAlign: "center", margin: "10px", fontSize: "25px", color: "PaleVioletRed", fontWeight: "bold"}}>
+            <div style={{ textAlign: "center", margin: "10px", fontSize: "25px", color: "PaleVioletRed", fontWeight: "bold" }}>
                 Fehler: {errorCount}
             </div>
             {!isDone ? (
@@ -123,13 +123,13 @@ const KeyboardWin = () => {
                                 backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
                                 color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index]
                             }}>
-              {char === " " ? "\u00A0" : char}
-            </span>
+                            {char === " " ? "\u00A0" : char}
+                        </span>
                     ))}
                     <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
                 </div>
             ) : (
-                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px" , fontWeight: "bold"}}>{targetText}</div>
+                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold" }}>{targetText}</div>
             )}
             <br />
             <div className="keyboard">
@@ -312,7 +312,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin dual">
                         {'<'}
-                        <br/>
+                        <br />
                         {'>'} |
                     </div>
                     <div className="keyWin c89 letter">
@@ -327,12 +327,12 @@ const KeyboardWin = () => {
                     <div className="keyWin c86 letter">
                         V
                     </div><div className="keyWin c66 letter">
-                    B
-                </div><div className="keyWin c78 letter">
-                    N
-                </div><div className="keyWin c77 letter">
-                    M
-                </div>
+                        B
+                    </div><div className="keyWin c78 letter">
+                        N
+                    </div><div className="keyWin c77 letter">
+                        M
+                    </div>
                     <div className="keyWin c188 dual">
                         , <br /> ;
                     </div>

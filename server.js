@@ -3,6 +3,12 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
+
+// TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
+// sobald auskommentiert schlägt das hochfahren fehl
+import { createUser } from "./prisma/utils/createUser.js";
+import { createPoint } from "./prisma/utils/createPoints.js";
+
 const app = express();
 const port = 3000;
 const prisma = new PrismaClient();
@@ -16,17 +22,9 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.get("/users/:userID", async (req, res) => {
-  const userID = Number(req.params.userID);
-  if (userID > 0) {
-    const user = await prisma.user.findFirst({
-      where: { id: userID },
-    });
-    res.json(user);
-  } else if (userID == 0) {
-    const user = await prisma.user.findMany();
-    res.json(user);
-  }
+app.get("/users/", async (req, res) => {
+  const user = await prisma.user.findMany();
+  res.json(user);
 });
 
 app.get("/users/:userID", async (req, res) => {
@@ -34,7 +32,7 @@ app.get("/users/:userID", async (req, res) => {
   const user = await prisma.user.findFirst({
     where: { id: userID },
   });
-  res.json({ firstName: user.firstName, lastName: user.lastName });
+  res.json(user);
 });
 
 // Findet die obersten x Punktestände
@@ -51,7 +49,7 @@ app.get("/points/leaderboard/:topX", async (req, res) => {
         user: true, // Dies nimmt die Benutzerinformationen mit auf
       },
     });
-    res.json({ data: topScores });
+    res.json(topScores);
   } catch (error) {
     console.error("Fehler beim Abfragen der Punktestände:", error);
     res.status(500).json({ error: "Serverfehler" });
@@ -189,5 +187,30 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Fehler bei der Anmeldung:", error);
     res.status(500).json({ message: "Interner Serverfehler" });
+  }
+});
+
+//TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
+app.post("/create/points", async (req, res) => {
+  try {
+    const newPoint = await createPoint(req.body);
+
+    if (newPoint != null) {
+      res.status(201).json(newUser);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/create/user", async (req, res) => {
+  try {
+    const newUser = await createUser(req.body);
+
+    if (newUser != null) {
+      res.status(201).json(newUser);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
