@@ -1,16 +1,28 @@
 import React from "react";
 import "./css/chooseKeyboard.css"
+import { Link, useNavigate } from 'react-router-dom';
 
 const ChooseKeyboard = () => {
+
+    const navigate = useNavigate();
+
+    const onClickMac = () => {
+        navigate("/keyboard");
+    }
+
+    const onClickWin = () => {
+        navigate("/keyboardWin");
+    }
+    
     return (
         <>
-            <a href="/keyboard">
-                <h1 className="chooseKeyboard">Mac Keybaord</h1>
-            </a>
+            <div className="keyButton">
+                <button onClick={onClickMac}>Mac-Keyboard</button>
+            </div>
 
-            <a href="/keyboardWin">
-                <h1 className="chooseKeyboard">Win Keyboard</h1>
-            </a>
+            <div className="keyButton">
+                <button onClick={onClickWin}>Win-Keyboard</button>
+            </div>
         </>
     );
 };
