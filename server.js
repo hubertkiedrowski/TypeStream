@@ -22,17 +22,9 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.get("/users/:userID", async (req, res) => {
-  const userID = Number(req.params.userID);
-  if (userID > 0) {
-    const user = await prisma.user.findFirst({
-      where: { id: userID },
-    });
-    res.json(user);
-  } else if (userID == 0) {
-    const user = await prisma.user.findMany();
-    res.json(user);
-  }
+app.get("/users/", async (req, res) => {
+  const user = await prisma.user.findMany();
+  res.json(user);
 });
 
 app.get("/users/:userID", async (req, res) => {
@@ -40,7 +32,7 @@ app.get("/users/:userID", async (req, res) => {
   const user = await prisma.user.findFirst({
     where: { id: userID },
   });
-  res.json({ firstName: user.firstName, lastName: user.lastName });
+  res.json(user);
 });
 
 // Findet die obersten x Punktestände
@@ -57,7 +49,7 @@ app.get("/points/leaderboard/:topX", async (req, res) => {
         user: true, // Dies nimmt die Benutzerinformationen mit auf
       },
     });
-    res.json({ data: topScores });
+    res.json(topScores);
   } catch (error) {
     console.error("Fehler beim Abfragen der Punktestände:", error);
     res.status(500).json({ error: "Serverfehler" });

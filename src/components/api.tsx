@@ -1,31 +1,48 @@
 import { Point, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-export const useFetchUserdata = ( // TODO: Jox async hierher 
-  endpoint: string,
-  doIt: boolean // TODO: JOX wieso brauchen wir das? => FE "zu schnell" lol
-): User | null => {
-  const [data, setData] = useState<User | null>(null);
-
-  const fetchData = async () => { // TODO: JOX brauchen wir diese funktion?
-    try {
-      const response = await fetch("http://localhost:3000" + endpoint, {
-        credentials: "include",
-      });
-      const fetchedData = await response.json();
-      setData(fetchedData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  if (doIt) {
-    fetchData();
+export const useFetchOneUser = async (id: string) => {
+  // const [data, setData] = useState<User | null>(null);
+  let fetchedData
+  try {
+    const response = await fetch(`http://localhost:3000/users/${id}`, {
+      credentials: "include",
+    });
+    fetchedData = await response.json();
+    // setData(fetchedData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 
-  return data;
+  return fetchedData;
 };
 
-export const useFetchPoints = async (endpoint: string): Promise<{ id: number; timePlayed: number; score: number; userId: number; createdAt: Date; }[] | null> => {
+export const useFetchManyUsers = async () => {
+  try {
+    fetch(`http://localhost:3000/users/`, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        return r
+      })
+
+
+    // const response = await fetch("http://localhost:3000/users/");
+    // const fetchedData = await response.json();
+
+
+
+    // return fetchedData;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+
+};
+// export const useFetch
+
+// TODO RENAME und aufteilen in zwei endpoints
+export const useFetchPoints = async (endpoint: string) => {
   const [data, setData] = useState<Point[] | null>(null);
 
   try {
