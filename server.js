@@ -186,6 +186,11 @@ app.get('/myProfile', (req, res) => {
 
 // Login
 app.post('/login', async (req, res) => {
+
+  if(req.session.user){
+    return res.status(403).json({ message: 'Du bist bereits eingeloggt'})
+  }
+
   const authHeader = req.headers.authorization;
 
   // Logge den Authorization-Header

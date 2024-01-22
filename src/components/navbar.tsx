@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./css/navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
 
   const [loggedInUser, setLoggedInUser] = useState<any>(null);
   const [loggedInStatus, setLoggedInStatus] = useState(false);
@@ -32,8 +34,28 @@ const Navbar = () => {
     };
 
     checkSession();
-  }, []);
+  }, [navigate]);
   
+  const handleLogout = async () => {
+
+    try{
+
+        const response = await fetch('http://localhost:3000/logout', {
+        method: 'POST',
+        credentials: 'include',
+        });
+        if(response.ok){
+            navigate('/login');
+        }else {
+            console.log("Fehler beim Logout");
+        }
+        
+    } catch(error){
+        console.error('Fehler beim Verarbeiten des Klicks:', error);
+    }
+    
+  }
+
 
   return (
     <>
@@ -65,11 +87,13 @@ const Navbar = () => {
             </li>
             
             {loggedInStatus ?
+            <>
               <li className="schrift">
                 <Link to="/myProfile" className="schrift">
                   MyProfile {loggedInUser.username}
                 </Link>
               </li>
+            </>
             :
               <li className="schrift">
                  <Link to="/login" className="schrift">

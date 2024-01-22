@@ -1,8 +1,6 @@
 import React, { FormEvent, useState, createContext, useContext } from 'react';
 import "./css/login.css";
 import { useNavigate } from 'react-router-dom';
-import Navbar from './navbar';
-
 
 interface FormData {
     userName: string;
@@ -71,6 +69,7 @@ const Login = () => {
                     setLoggedInStatus(true);
 
                     console.log('Benutzer erfolgreich eingeloggt!');
+
                     navigate('/loginErfolgreich', { state: { userName: formData.userName } });
 
                 } else {
