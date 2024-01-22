@@ -1,15 +1,17 @@
+import React from "react";
+import "./css/navbar.css";
+import { Link } from "react-router-dom";
+import Navbar from "../components/navbar";
+
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import { describe, expect, it } from "vitest";
-import React from "react";
-import test from "vitest";
-import UeberUns from "../components/ueberUns";
 
-describe("Über Uns", () => {
+describe("Navbar", () => {
   it("Renders Über Uns", () => {
     //Arrange
-    render(<UeberUns />);
+    render(<Navbar />);
 
     //Assert
     expect(screen.getByRole("heading", { level: 4 })).toHaveTextContent(
