@@ -53,7 +53,7 @@ export const useFetchBestPlayersByPoints = async (bestx: number) => {
     })
 }
 
-// TODO RENAME und aufteilen sin zwei endpoints
+// TODO RENAME und aufteilen in zwei endpoints
 export const useFetchPoints = async (endpoint: string) => {
   const [data, setData] = useState<Point[] | null>(null);
 
@@ -78,27 +78,50 @@ export const useFetchPoints = async (endpoint: string) => {
 
 };
 
-
-export async function createPointDBEntry(pointData: any) {
-  try {
-    const response = await fetch('http://localhost:3000/create/points', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(pointData),
+export function createPointDBEntry(pointData: any) {
+  return fetch('http://localhost:3000/create/points', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(pointData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((errorBody) => {
+          console.error('Fehler beim Senden der Daten:', errorBody);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error('Es gab ein Problem mit dem Senden der Daten:', error);
+      throw error;
     });
-    if (!response.ok) {
-      const errorBody = await response.json();
-      console.error('Fehler beim Senden der Daten:', errorBody);
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Es gab ein Problem mit dem Senden der Daten:', error);
-  }
 }
+
+
+// export async function createPointDBEntry(pointData: any) {
+//   try {
+//     const response = await fetch('http://localhost:3000/create/points', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(pointData),
+//     });
+//     if (!response.ok) {
+//       const errorBody = await response.json();
+//       console.error('Fehler beim Senden der Daten:', errorBody);
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Es gab ein Problem mit dem Senden der Daten:', error);
+//   }
+// }
 
 export async function createUserDBEntry(userData: any) {
   try {

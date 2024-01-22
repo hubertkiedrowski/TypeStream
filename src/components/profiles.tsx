@@ -6,24 +6,26 @@ import { useFetchManyUsers } from "./api";
 const Item = () => {
   const [top5Users, setTop5Users] = useState<any>(null);
   const [points, setPoints] = useState<any>(null);
-
   useEffect(() => {
+
     fetch(`http://localhost:3000/users/`, {
       credentials: "include",
     })
       .then((r) => r.json())
       .then((r) => {
         setTop5Users(r);
-      })
+      });
+
     fetch(`http://localhost:3000/points/leaderboard/5`, {
       credentials: "include",
     })
       .then((r) => r.json())
       .then((r) => {
         setPoints(r);
-      })
-    console.log(useFetchManyUsers())
+      });
+
   }, []);
+
 
 
 
