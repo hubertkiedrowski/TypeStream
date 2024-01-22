@@ -17,6 +17,7 @@ export const useFetchOneUser = async (id: string) => {
   return fetchedData;
 };
 
+
 export const useFetchManyUsers = async () => {
   try {
     fetch(`http://localhost:3000/users/`, {
@@ -39,9 +40,20 @@ export const useFetchManyUsers = async () => {
   }
 
 };
-// export const useFetch
 
-// TODO RENAME und aufteilen in zwei endpoints
+export const useFetchBestPlayersByPoints = async (bestx: number) => {
+  fetch(`http://localhost:3000/points/leaderboard/${bestx}`, {
+    credentials: "include",
+  })
+    .then((r) => r.json())
+    .then((r) => {
+      console.log(r)
+
+      return (r);
+    })
+}
+
+// TODO RENAME und aufteilen sin zwei endpoints
 export const useFetchPoints = async (endpoint: string) => {
   const [data, setData] = useState<Point[] | null>(null);
 
@@ -108,3 +120,6 @@ export async function createUserDBEntry(userData: any) {
     console.error('Es gab ein Problem mit dem Senden der Daten:', error);
   }
 }
+
+
+export default { useFetchBestPlayersByPoints }

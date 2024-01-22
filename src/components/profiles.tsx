@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
 
-import { Point } from "@prisma/client";
-import { createUserDBEntry, useFetchPoints } from "./api";
+import { useFetchManyUsers } from "./api";
 
 const Item = () => {
   const [top5Users, setTop5Users] = useState<any>(null);
@@ -15,10 +14,7 @@ const Item = () => {
       .then((r) => r.json())
       .then((r) => {
         setTop5Users(r);
-        console.log(top5Users)
       })
-
-
     fetch(`http://localhost:3000/points/leaderboard/5`, {
       credentials: "include",
     })
@@ -26,8 +22,7 @@ const Item = () => {
       .then((r) => {
         setPoints(r);
       })
-
-    // createUserDBEntry()
+    console.log(useFetchManyUsers())
   }, []);
 
 
