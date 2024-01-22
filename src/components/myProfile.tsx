@@ -43,7 +43,6 @@ const MyProfile = () => {
             console.log("Fehler beim Logout");
         }
         
-
     } catch(error){
         console.error('Fehler beim Verarbeiten des Klicks:', error);
     }
