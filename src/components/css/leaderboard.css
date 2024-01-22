@@ -1,32 +1,63 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
+* > * {
+  font-family: "Poppins", cursive;
+  margin: 10;
+}
+
+:root {
+  --color-dark: #f3f3f2;
+  --color-light: #f3f3f2;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .board {
   text-align: center;
-  background-color: lightslategray;
   border-radius: 40px;
+  display: grid;
+  border: 2px solid black;
+  border-radius: 30px;
+  background-color: #333; /* Hintergrundfarbe anpassen */
+  margin: 5%;
+  padding: 5%;
+  margin-top: 15%;
+  padding-top: 2%;
 }
 
 .board .leaderboard {
-  margin-bottom: 1em;
-  margin: 70px;
+  padding-top: 0%;
+  padding-bottom: 0%;
+  margin: 30px;
+  /* margin: 70px; */
+  color: white;
+  justify-content: center;
 }
 
-.board .duration {
+.board .challenge {
   display: flex;
   justify-content: center;
-  margin: 70px;
+  /* margin: 70px; */
   gap: 1em;
+  padding-bottom: 5%;
+  padding-top: 5%;
 }
 
-.board .duration > button {
+.board .challenge > button {
   border: 1px solid var(--color-light);
-  padding: 0.5em 2em;
+  /* padding: .5em 2em; */
   border-radius: 50px;
   background-color: transparent;
   cursor: pointer;
+  color: #f3f3f2;
 }
 
-.board .duration > button:hover {
+.board .challenge > button:hover {
   background-color: var(--color-dark);
   color: var(--color-light);
 }
@@ -39,7 +70,8 @@
 #profile {
   /* display: flex; */
 
-  margin-top: 3em;
+  /* margin-top: 3em; */
+  /* margin: 2%; */
 }
 
 #profile .flex {

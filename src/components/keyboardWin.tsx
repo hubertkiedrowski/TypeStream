@@ -1,10 +1,25 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
+import {loadNextLines, handleKeyDownWin, handleKeyUpWin, checkInput} from "./keyboardfunctions";
 import "./css/keyboardWin.css";
 import useKeyboardState from "./keyboardstates";
 
 const KeyboardWin = () => {
+    const [targetText, setTargetText] = useState<string>("");
+    const [pressedKey, setPressedKey] = useState<number | null>(null);
+    const [enteredText, setEnteredText] = useState<string>("");
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [errorCount, setErrorCount] = useState<number>(0);
+    const [lastCorrectIndex, setLastCorrectIndex] = useState<number>(0);
+    const [coloredTargetText, setColoredTargetText] = useState<string[]>(targetText.split("").map(() => "#aaa"));
+    const [incorrectLetters, setIncorrectLetters] = useState<number[]>([]);
+    const [lines, setLines] = useState<string[]>([]);
+    const [currentLine, setCurrentLine] = useState<number>(0);
+    const [nextLine, setNextLine] = useState<number>(1);
+    const [isDone, setIsDone] = useState<boolean>(false);
+    const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
 
+<<<<<<< HEAD
     const {
         targetText,
         pressedKey,
@@ -55,7 +70,122 @@ const KeyboardWin = () => {
             )}
 
             <div className="cable">
+=======
+    //Lade Challenge
+    useEffect(() => {
+        fetch("./src/components/challenge1.txt")
+            .then((response) => response.text())
+            .then((data) => {
+                const linesArray = data.split("\n");
+                setLines(linesArray);
+                setTargetText(linesArray[0]);
+                setColoredTargetText(linesArray[0].split("").map(() => "#262626FF"));
+            })
+            .catch((error) =>
+                console.error("Fehler beim Lesen der Datei:", error)
+            );
+    }, []);
+
+    //Check ob Challenge geschafft und laden der Lines
+    useEffect(() => {
+        if (currentIndex === targetText.length) {
+            console.log("Du hast alles korrekt eingegeben!");
+            const allLinesEntered = nextLine === lines.length;
+            if (allLinesEntered) {
+                console.log("Alle Zeilen fertig!");
+                setTargetText("You're done!");
+                setIsDone(true);
+            } else {
+                loadNextLines(
+                    lines,
+                    nextLine,
+                    setTargetText,
+                    setEnteredText,
+                    setLastCorrectIndex,
+                    setCurrentIndex,
+                    setColoredTargetText,
+                    setCurrentLine,
+                    setNextLine
+                );
+            }
+        }
+    }, [currentIndex, targetText, nextLine, lines]);
+
+    //Aufrufen der Funktionen/Listener
+    useEffect(() => {
+        const handleKeyDownListenerWin = (event: KeyboardEvent) =>
+            handleKeyDownWin(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, () =>
+                checkInput(
+                    event.key,
+                    targetText[currentIndex],
+                    currentIndex,
+                    targetText,
+                    coloredTargetText,
+                    incorrectLetters,
+                    lastCorrectIndex,
+                    setEnteredText,
+                    setCurrentIndex,
+                    setLastCorrectIndex,
+                    setColoredTargetText,
+                    setIncorrectLetters,
+                    setBlinkIndex,
+                    setErrorCount
+                )
+            );
+
+        const handleKeyUpListenerWin = (event: KeyboardEvent) =>
+            handleKeyUpWin(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, () =>
+                checkInput(
+                    event.key,
+                    targetText[currentIndex],
+                    currentIndex,
+                    targetText,
+                    coloredTargetText,
+                    incorrectLetters,
+                    lastCorrectIndex,
+                    setEnteredText,
+                    setCurrentIndex,
+                    setLastCorrectIndex,
+                    setColoredTargetText,
+                    setIncorrectLetters,
+                    setBlinkIndex,
+                    setErrorCount
+                )
+            );
+
+        document.addEventListener("keydown", handleKeyDownListenerWin);
+        document.addEventListener("keyup", handleKeyUpListenerWin);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDownListenerWin);
+            document.removeEventListener("keyup", handleKeyUpListenerWin);
+        };
+    }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
+
+    return (
+        <>
+            <div style={{ textAlign: "center", margin: "10px", fontSize: "25px", color: "PaleVioletRed", fontWeight: "bold"}}>
+                Fehler: {errorCount}
+>>>>>>> 0eb3bf33ec0b3540be2bf34cac52af3e8a68d07b
             </div>
+            {!isDone ? (
+                <div style={{ color: "Grey", fontSize: "30px" }}>
+                    {targetText.split("").map((char, index) => (
+                        <span
+                            key={index}
+                            style={{
+                                backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                                color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index]
+                            }}>
+              {char === " " ? "\u00A0" : char}
+            </span>
+                    ))}
+                    <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
+                </div>
+            ) : (
+                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px" , fontWeight: "bold"}}>{targetText}</div>
+            )}
+            <br />
             <div className="keyboard">
 
                 <div className="section-a">
@@ -251,12 +381,12 @@ const KeyboardWin = () => {
                     <div className="keyWin c86 letter">
                         V
                     </div><div className="keyWin c66 letter">
-                        B
-                    </div><div className="keyWin c78 letter">
-                        N
-                    </div><div className="keyWin c77 letter">
-                        M
-                    </div>
+                    B
+                </div><div className="keyWin c78 letter">
+                    N
+                </div><div className="keyWin c77 letter">
+                    M
+                </div>
                     <div className="keyWin c188 dual">
                         , <br /> ;
                     </div>
