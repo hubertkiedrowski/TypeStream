@@ -37,7 +37,9 @@ const ueberUns = () => {
                             <p className="socials">
                                 Folge uns auf Social Media:
                             </p>
-                            <img src={"src/components/img/socials.png"} alt="Socials" width={200}/>
+                            <a href="https://www.instagram.com/marcusnurderhsv?igsh=MW12NGxhYTlyYW9vOA==">
+                                <img src={"src/components/img/socials.png"} alt="Socials" width={200}/>
+                            </a>
                         </div>
                     </div>
 
