@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export const Userdata = () => {
   const points = useFetchPoints("/points/leaderboard/5");
 
-  const userData1 = useFetchUserdata(
+  const userData1 = useFetchUserdata( // TODO: JOX use Fetch all/many
     "/users/" + points?.[0].userId,
     points != null
   );
@@ -46,14 +46,14 @@ export const Points = () => {
     points != null
   );
   createUserDBEntry(userData5)
-  
-    if (points?.[4]) {
-      console.log("HIER DIE DATEN BEVOR SIE LOSGESCHICKT WERDEN");
-      console.log(points[4]);
-      createPointDBEntry(points[4]);
-      return points;
-    }
-  
+
+  if (points?.[4]) {
+    console.log("HIER DIE DATEN BEVOR SIE LOSGESCHICKT WERDEN");
+    console.log(points[4]);
+    createPointDBEntry(points[4]);
+    return points;
+  }
+
 
   return points;
 };

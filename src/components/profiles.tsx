@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./css/leaderboard.css";
 import { Userdata, Points } from "./fetchedUserdata";
-
+import { Point } from "@prisma/client";
+let top5Users: any[] = [];
+let points: Point[] | null;
+useEffect(() => {
+  top5Users = Userdata();
+  points = Points();
+}, []);
 const Item = () => {
-  const top5Users = Userdata();
-  const points = Points();
 
   return (
     <>

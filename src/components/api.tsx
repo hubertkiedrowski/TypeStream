@@ -1,63 +1,56 @@
 import { Point, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-export const useFetchUserdata = (
+export const useFetchUserdata = ( // TODO: Jox async hierher 
   endpoint: string,
-  doIt: boolean
+  doIt: boolean // TODO: JOX wieso brauchen wir das? => FE "zu schnell" lol
 ): User | null => {
   const [data, setData] = useState<User | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000" + endpoint, {
-          credentials: "include",
-        });
-        const fetchedData = await response.json();
-        setData(fetchedData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    if (doIt) {
-      fetchData();
+  const fetchData = async () => { // TODO: JOX brauchen wir diese funktion?
+    try {
+      const response = await fetch("http://localhost:3000" + endpoint, {
+        credentials: "include",
+      });
+      const fetchedData = await response.json();
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  }, [endpoint, doIt]);
+  };
+  if (doIt) {
+    fetchData();
+  }
 
   return data;
 };
 
-export const useFetchPoints = (endpoint: string): Point[] | null => {
+export const useFetchPoints = async (endpoint: string): Promise<{ id: number; timePlayed: number; score: number; userId: number; createdAt: Date; }[] | null> => {
   const [data, setData] = useState<Point[] | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3000" + endpoint, {
-          credentials: "include",
-        });
+  try {
+    const response = await fetch("http://localhost:3000" + endpoint, {
+      credentials: "include",
+    });
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
 
-        const fetchedData: { data: Point[] } = await response.json();
-        if (data != null && data != undefined) {
-          setData(fetchedData.data);
-        }
-        setData(fetchedData.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-
-  }, [endpoint]);
-
+    const fetchedData: { data: Point[] } = await response.json();
+    if (data != null && data != undefined) {
+      setData(fetchedData.data);
+    }
+    setData(fetchedData.data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
   return data;
+
 };
 
-export async function createPointDBEntry(pointData:any) {
+
+export async function createPointDBEntry(pointData: any) {
   try {
     const response = await fetch('http://localhost:3000/create/points', {
       method: 'POST',
@@ -71,14 +64,14 @@ export async function createPointDBEntry(pointData:any) {
       console.error('Fehler beim Senden der Daten:', errorBody);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Es gab ein Problem mit dem Senden der Daten:', error);
   }
 }
 
-export async function createUserDBEntry(userData:any) {
+export async function createUserDBEntry(userData: any) {
   try {
     const response = await fetch('http://localhost:3000/create/user', {
       method: 'POST',
@@ -92,7 +85,7 @@ export async function createUserDBEntry(userData:any) {
       console.error('Fehler beim Senden der Daten:', errorBody);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Es gab ein Problem mit dem Senden der Daten:', error);
