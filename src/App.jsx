@@ -22,8 +22,6 @@ import MyProfile from "./components/myProfile";
 
 function App() {
 
-
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
