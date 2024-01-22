@@ -1,6 +1,6 @@
 // useKeyboardState.js
 import { useEffect, useState } from "react";
-import { handleKeyDown, handleKeyUp, loadNextLines, checkInput } from "./keyboardfunctions";
+import { handleKeyDownMac, handleKeyUpMac, loadNextLines, checkInput } from "./keyboardfunctions";
 
 const useKeyboardState = () => {
     const [targetText, setTargetText] = useState("");
@@ -46,8 +46,8 @@ const useKeyboardState = () => {
     }, [currentIndex, targetText, nextLine, lines]);
 
     useEffect(() => {
-        const handleKeyDownListener = (event:any) =>
-            handleKeyDown(
+        const handleKeyDownListener = (event: any) =>
+            handleKeyDownMac(
                 event,
                 isDone,
                 currentIndex,
@@ -73,7 +73,7 @@ const useKeyboardState = () => {
             );
 
         const handleKeyUpListener = (event: any) =>
-            handleKeyUp(
+            handleKeyUpMac(
                 event,
                 isDone,
                 currentIndex,
@@ -100,7 +100,7 @@ const useKeyboardState = () => {
 
         document.addEventListener("keydown", handleKeyDownListener);
         document.addEventListener("keyup", handleKeyUpListener);
-console.log(pressedKey)
+        console.log(pressedKey)
         return () => {
             document.removeEventListener("keydown", handleKeyDownListener);
             document.removeEventListener("keyup", handleKeyUpListener);
