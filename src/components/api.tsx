@@ -9,7 +9,6 @@ export const useFetchOneUser = async (id: string) => {
       credentials: "include",
     });
     fetchedData = await response.json();
-    // setData(fetchedData);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -27,19 +26,22 @@ export const useFetchManyUsers = async () => {
       .then((r) => {
         return r
       })
-
-
-    // const response = await fetch("http://localhost:3000/users/");
-    // const fetchedData = await response.json();
-
-
-
-    // return fetchedData;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-
 };
+
+export function getUserDataApi(userId: number) {
+  useEffect(() => {
+    fetch(`http://localhost:3000/users/${userId}`, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        return (r);
+      });
+  }, []);
+}
 
 export const useFetchBestPlayersByPoints = async (bestx: number) => {
   fetch(`http://localhost:3000/points/leaderboard/${bestx}`, {
@@ -75,7 +77,6 @@ export const useFetchPoints = async (endpoint: string) => {
     console.error("Error fetching data:", error);
   }
   return data;
-
 };
 
 export function createPointDBEntry(pointData: any) {
@@ -145,4 +146,3 @@ export async function createUserDBEntry(userData: any) {
 }
 
 
-export default { useFetchBestPlayersByPoints }

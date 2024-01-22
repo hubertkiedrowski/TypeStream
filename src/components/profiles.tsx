@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
 
-import { useFetchManyUsers } from "./api";
+import { getUserDataApi, useFetchManyUsers } from "./api";
 
 const Item = () => {
   const [top5Users, setTop5Users] = useState<any>(null);
   const [points, setPoints] = useState<any>(null);
+
   useEffect(() => {
 
     fetch(`http://localhost:3000/users/`, {
@@ -23,11 +24,7 @@ const Item = () => {
       .then((r) => {
         setPoints(r);
       });
-
   }, []);
-
-
-
 
   return (
     <>
