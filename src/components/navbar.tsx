@@ -101,8 +101,14 @@ const Navbar = () => {
                 </Link>
               </li>
             }
-
           </ul>
+        </div>
+        <div>
+          {loggedInStatus? 
+            <button onClick={handleLogout}>Logout</button>
+            :
+            <></>
+          }
         </div>
       </nav>
     </>

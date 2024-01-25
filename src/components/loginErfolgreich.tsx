@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect} from 'react';
 import "./css/login.css";
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -14,7 +15,6 @@ const LoginErfolgreich = () => {
         navigate('/myProfile');
 
     }
-
 
     return (
         <>

@@ -29,7 +29,7 @@ const MyProfile = () => {
     fetchMyProfile();
   }, []); // Führen Sie dies nur einmal aus
 
-  const handleButtonClick = async () => {
+  const handleLogout = async () => {
 
     try{
 
@@ -68,7 +68,7 @@ const MyProfile = () => {
         </div>
     
         <div>
-        <button type="button" onClick={handleButtonClick}>Logout</button>
+        <button type="button" onClick={handleLogout}>Logout</button>
         </div>
     </>
   );

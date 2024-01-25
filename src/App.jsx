@@ -5,8 +5,6 @@ import {
   Route,
   Routes,
   Navigate,
-  useNavigate,
-  useLocation,
 } from "react-router-dom";
 import KeyboardMac from "./components/keyboardMac";
 import KeyboardWin from "./components/keyboardWin";
@@ -20,20 +18,23 @@ import LoginErfolgreich from "./components/loginErfolgreich";
 import Leaderboard from "./components/leaderboard";
 import MyProfile from "./components/myProfile";
 
-function App() {
+const App = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [some, setSome] = useState(0);
+
+  let i = 0;
 
   useEffect(() => {
-    // Prüfen Sie die Sitzung, wenn die Komponente montiert wird
     const checkSession = async () => {
+      console.log("Checksession ausgeführt")
       try {
         const response = await fetch('http://localhost:3000/myProfile', {
           method: 'GET',
           credentials: 'include',
         });
-
+    
         if (response.ok) {
           const user = await response.json();
           setLoggedIn(true);
@@ -43,20 +44,34 @@ function App() {
           setLoggedIn(false);
           setUser(null);
         }
-
+    
       } catch (error) {
         console.error('Fehler bei Routen', error);
       }
     };
-
+    
     checkSession();
-  }, []);
+  }, [some]);
+
+  const updateState= () => {
+
+    i++;
+  
+    if(i > 3){
+      i = 0;
+    }
+  
+    setSome(i);
+  
+    console.log("did something");
+  
+  }
 
   return (
     <Router>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="" element={<Home updateState={updateState}/>} />
         <Route path="/ueberuns" element={<Ueberuns />} />
         <Route path="/chooseKeyboard" element={<ChooseKeyboard />} />
         <Route path="/keyboard" element={<KeyboardMac />} />
@@ -64,11 +79,11 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route
           path="/login"
-          element={loggedIn ? <Navigate to="/myProfile" /> : <Login />}
+          element={loggedIn ? <Navigate to="/myProfile" /> : <Login to="/login" />}
         />
         <Route
           path="/regist"
-          element={loggedIn ? <Navigate to="/myProfile" /> : <Regist />}
+          element={loggedIn ? <Navigate to="/myProfile" /> : <Regist to="/regist" />}
         />
         <Route
           path="/myProfile"
@@ -85,7 +100,7 @@ function App() {
       </Routes>
     </Router>
   );
-
+          
   // apicall auf localhost:3000/user/ID
   // react fetch data
 }
