@@ -28,6 +28,16 @@
     transform: scale(1.3);
   }
 
+  .schriftLogin{
+    /*font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+    font-size: 25px;
+    color: whitesmoke;
+  }
+
+  .schriftLogin:hover{
+    color: whitesmoke;
+  }
   .schriftLogout{
     /*font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
     font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
@@ -63,7 +73,8 @@
 .loginButtonDiv{
     background-color: darkolivegreen;
     border-radius: 10px;
-    padding: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin: 1px;
     transition: background-color 0.5s ease;
     transition: transform 0.5s ease;
@@ -71,8 +82,24 @@
 
 .loginButtonDiv:hover{
   background-color: darkolivegreen;
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
+
+.logoutButtonDiv{
+  background-color: darkolivegreen;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 1px;
+  transition: background-color 0.5s ease;
+  transition: transform 0.5s ease;
+}
+
+.logoutButtonDiv:hover{
+background-color: darkolivegreen;
+transform: scale(1.2);
+}
+
 
 .regist{
   border: 2px solid black;
