@@ -5,13 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { logout } from '../reducer';
+import { Userdata } from "./fetchedUserdata";
 
 const MyProfile = () => {
 
   const [userData, setUserData] = useState<any>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const fetchMyProfile = async () => {
       try {
@@ -63,7 +64,7 @@ const MyProfile = () => {
                 <>  
                     <p>Benutzerinformationen: {JSON.stringify(userData)}</p>
                     <br/>
-                    <h2>Vorname: {JSON.stringify(userData.firstName)}</h2>
+                    <h2>Vorname: {userData.firstname}</h2>
                     <h2>Name: {userData.lastName}</h2>
                     <h2>Username: {userData.userName}</h2>
                     <h2>E-Mail: {userData.email}</h2>
