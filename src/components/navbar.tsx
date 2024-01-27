@@ -68,7 +68,7 @@ const Navbar = () => {
             <>
               <li className="schrift">
                 <Link to="/myProfile" className="schrift">
-                  MyProfile {user?.userName}
+                  {user?.userName}
                 </Link>
               </li>
             </>

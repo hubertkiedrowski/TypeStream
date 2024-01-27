@@ -1,9 +1,8 @@
-// Beispielreducer in reducers.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface LoginState {
   loggedIn: boolean,
-  user: null | { userName: string; email: string }
+  user: null | { userName: string; email: string };
 }
 
 const initialState: LoginState = {
