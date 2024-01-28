@@ -1,5 +1,5 @@
 import React from 'react';
-//import "./css/homenew.css";
+import "./css/homenew.css";
 import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
