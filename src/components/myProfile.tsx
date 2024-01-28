@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { logout } from '../reducer';
-import { Userdata } from "./fetchedUserdata";
+//import { Userdata } from "./fetchedUserdata";
 
 const MyProfile = () => {
 

@@ -152,11 +152,15 @@ app.post("/regist", async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       // Speicher User in datenbank
 
-      const user = createUser(email,
-        firstName,
-        lastName,
-        userName,
-        hashedPassword);
+      const user = await prisma.user.create({
+        data: {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          userName: userName,
+          password: hashedPassword,
+        },
+      });
 
       res.status(201).json({ message: "Benutzer erfolreich Registriert!" });
       console.log("Regist erfolgreich!");
