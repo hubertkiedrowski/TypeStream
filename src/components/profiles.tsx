@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
+import { useFetchBestPlayersByPoints, useFetchJson, useUserDataApi } from "./api";
 
-import { getUserDataApi, useFetchManyUsers } from "./api";
 
 const Item = () => {
-  const [top5Users, setTop5Users] = useState<any>(null);
-  const [points, setPoints] = useState<any>(null);
+  const [top5Users, setTop5Users] = useState<any[] | undefined>();
+
+  const fetchedUsers = useFetchBestPlayersByPoints(5);
 
   useEffect(() => {
-
-    fetch(`http://localhost:3000/users/`, {
-      credentials: "include",
-    })
-      .then((r) => r.json())
-      .then((r) => {
-        setTop5Users(r);
-      });
-
-    fetch(`http://localhost:3000/points/leaderboard/5`, {
-      credentials: "include",
-    })
-      .then((r) => r.json())
-      .then((r) => {
-        setPoints(r);
-      });
-  }, []);
+    if (fetchedUsers) {
+      setTop5Users(fetchedUsers);
+    }
+  }, [fetchedUsers]);
 
   return (
     <>
-      {top5Users && top5Users.map((user: { userName: string }, index: number) => (
+      {top5Users && top5Users.map((user, index) => (
         <div className="flex" key={index}>
           <div className="item">
             <img
@@ -36,12 +24,12 @@ const Item = () => {
               alt="picture"
             />
             <div className="info">
-              <h3 className="name text-dark">{user?.userName}</h3>
-              <span>{"Score: " + points?.[index].score}</span>
+              <h3 className="name text-dark">{user.user?.userName}</h3>
+              <span>{"Score: " + user.score}</span>
             </div>
           </div>
           <div className="item">
-            <span>{"Time Played: " + points?.[index].timePlayed}</span>
+            <span>{"Time Played: " + user.timePlayed}</span>
           </div>
         </div>
       ))}
