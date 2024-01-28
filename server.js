@@ -150,8 +150,8 @@ app.post("/regist", async (req, res) => {
   ) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+      
       // Speicher User in datenbank
-
       const user = await prisma.user.create({
         data: {
           email: email,
