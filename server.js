@@ -4,8 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
 import session from 'express-session';
-const app = express()
-const port = 3000
 
 // TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
 // sobald auskommentiert schlägt das hochfahren fehl
@@ -47,6 +45,7 @@ app.get('/users/:userID', async (req, res) => {
     const user = await prisma.user.findMany()
     res.json(user)
   }
+});
 
 app.get("/users/", async (req, res) => {
   const user = await prisma.user.findMany();
