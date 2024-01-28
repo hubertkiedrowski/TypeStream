@@ -17,6 +17,7 @@ const KeyboardWin = () => {
     const [nextLine, setNextLine] = useState<number>(1);
     const [isDone, setIsDone] = useState<boolean>(false);
     const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
+    const [score, setScore] = useState(0);
 
     //Lade Challenge
     useEffect(() => {
@@ -108,6 +109,22 @@ const KeyboardWin = () => {
             document.removeEventListener("keyup", handleKeyUpListenerWin);
         };
     }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
+
+    const saveScore = () => {
+        
+        setScore(1000 - errorCount);
+
+        useEffect(() => {
+
+            const response = fetch('http://localhost:3000/points/:userID', {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(score),
+            });
+
+          }, []);
+
+    } 
 
     return (
         <>
