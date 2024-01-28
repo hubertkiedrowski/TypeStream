@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
-import { Userdata, Points } from "./fetchedUserdata";
+
+import { getUserDataApi, useFetchManyUsers } from "./api";
 
 const Item = () => {
-  const top5Users = Userdata();
-  const points = Points();
+  const [top5Users, setTop5Users] = useState<any>(null);
+  const [points, setPoints] = useState<any>(null);
+
+  useEffect(() => {
+
+    fetch(`http://localhost:3000/users/`, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        setTop5Users(r);
+      });
+
+    fetch(`http://localhost:3000/points/leaderboard/5`, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        setPoints(r);
+      });
+  }, []);
 
   return (
     <>
-      {top5Users.map((user, index) => (
+      {top5Users && top5Users.map((user: { userName: string }, index: number) => (
         <div className="flex" key={index}>
           <div className="item">
             <img

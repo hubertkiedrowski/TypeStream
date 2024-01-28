@@ -1,62 +1,137 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
+import { loadNextLines, handleKeyDownWin, handleKeyUpWin, checkInput } from "./keyboardfunctions";
 import "./css/keyboardWin.css";
 
 const KeyboardWin = () => {
+    const [targetText, setTargetText] = useState<string>("");
+    const [pressedKey, setPressedKey] = useState<number | null>(null);
+    const [enteredText, setEnteredText] = useState<string>("");
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [errorCount, setErrorCount] = useState<number>(0);
+    const [lastCorrectIndex, setLastCorrectIndex] = useState<number>(0);
+    const [coloredTargetText, setColoredTargetText] = useState<string[]>(targetText.split("").map(() => "#aaa"));
+    const [incorrectLetters, setIncorrectLetters] = useState<number[]>([]);
+    const [lines, setLines] = useState<string[]>([]);
+    const [currentLine, setCurrentLine] = useState<number>(0);
+    const [nextLine, setNextLine] = useState<number>(1);
+    const [isDone, setIsDone] = useState<boolean>(false);
+    const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
 
-    const [pressedKey, setPressedKey] = useState<number|null>(null);
-
-    const handleKeyDown = (event: { keyCode: number; }) => {
-
-        const keyCode = event.keyCode;
-        setPressedKey(keyCode);
-        const keyElement = document.querySelector(`.keyWin.c${keyCode}`) as HTMLElement;
-
-        if (keyElement) {
-            keyElement.style.color = "#007fff";
-            keyElement.style.textShadow = "0 0 5px #007fff";
-            keyElement.style.marginTop = "-3px";
-            keyElement.style.boxShadow = "inset 0 0 15px #333, 0 0 3px #333";
-            keyElement.style.borderTop = "1px solid #000";
-        }
-
-    }; 
-
-    const handleKeyUp = (event: { keyCode: number; }) => {
-        const keyCode = event.keyCode;
-        console.log(keyCode);
-        const keyElement = document.querySelector(`.keyWin.c${keyCode}`) as HTMLElement;
-        
-        if (keyElement) {
-            keyElement.style.color = "#fff";
-            keyElement.style.background = "#333";
-            keyElement.style.textShadow = "";
-            keyElement.style.marginTop = "0px";
-            keyElement.style.marginLeft = "2px";
-            keyElement.style.marginBottom = "2px";
-            keyElement.style.boxShadow = "";     
-            keyElement.style.borderTop = "";
-
-            
-            setPressedKey(keyCode);
-        }
-    };
-
+    //Lade Challenge
     useEffect(() => {
-        document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("keyup", handleKeyUp);
+        fetch("./src/components/challenge1.txt")
+            .then((response) => response.text())
+            .then((data) => {
+                const linesArray = data.split("\n");
+                setLines(linesArray);
+                setTargetText(linesArray[0]);
+                setColoredTargetText(linesArray[0].split("").map(() => "#262626FF"));
+            })
+            .catch((error) =>
+                console.error("Fehler beim Lesen der Datei:", error)
+            );
+    }, []);
+
+    //Check ob Challenge geschafft und laden der Lines
+    useEffect(() => {
+        if (currentIndex === targetText.length) {
+            console.log("Du hast alles korrekt eingegeben!");
+            const allLinesEntered = nextLine === lines.length;
+            if (allLinesEntered) {
+                console.log("Alle Zeilen fertig!");
+                setTargetText("You're done!");
+                setIsDone(true);
+            } else {
+                loadNextLines(
+                    lines,
+                    nextLine,
+                    setTargetText,
+                    setEnteredText,
+                    setLastCorrectIndex,
+                    setCurrentIndex,
+                    setColoredTargetText,
+                    setCurrentLine,
+                    setNextLine
+                );
+            }
+        }
+    }, [currentIndex, targetText, nextLine, lines]);
+
+    //Aufrufen der Funktionen/Listener
+    useEffect(() => {
+        const handleKeyDownListenerWin = (event: KeyboardEvent) =>
+            handleKeyDownWin(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, () =>
+                checkInput(
+                    event.key,
+                    targetText[currentIndex],
+                    currentIndex,
+                    targetText,
+                    coloredTargetText,
+                    incorrectLetters,
+                    lastCorrectIndex,
+                    setEnteredText,
+                    setCurrentIndex,
+                    setLastCorrectIndex,
+                    setColoredTargetText,
+                    setIncorrectLetters,
+                    setBlinkIndex,
+                    setErrorCount
+                )
+            );
+
+        const handleKeyUpListenerWin = (event: KeyboardEvent) =>
+            handleKeyUpWin(event, isDone, currentIndex, targetText, setEnteredText, setPressedKey, () =>
+                checkInput(
+                    event.key,
+                    targetText[currentIndex],
+                    currentIndex,
+                    targetText,
+                    coloredTargetText,
+                    incorrectLetters,
+                    lastCorrectIndex,
+                    setEnteredText,
+                    setCurrentIndex,
+                    setLastCorrectIndex,
+                    setColoredTargetText,
+                    setIncorrectLetters,
+                    setBlinkIndex,
+                    setErrorCount
+                )
+            );
+
+        document.addEventListener("keydown", handleKeyDownListenerWin);
+        document.addEventListener("keyup", handleKeyUpListenerWin);
 
         return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("keyup", handleKeyUp);
+            document.removeEventListener("keydown", handleKeyDownListenerWin);
+            document.removeEventListener("keyup", handleKeyUpListenerWin);
         };
-    }, [pressedKey]);
+    }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
 
     return (
         <>
-
-            <div className="cable">
+            <div style={{ textAlign: "center", margin: "10px", fontSize: "25px", color: "PaleVioletRed", fontWeight: "bold" }}>
+                Fehler: {errorCount}
             </div>
+            {!isDone ? (
+                <div style={{ color: "Grey", fontSize: "30px" }}>
+                    {targetText.split("").map((char, index) => (
+                        <span
+                            key={index}
+                            style={{
+                                backgroundColor: blinkIndex === index ? "PaleVioletRed" : "transparent",
+                                color: incorrectLetters.includes(index) ? "PaleVioletRed" : coloredTargetText[index]
+                            }}>
+                            {char === " " ? "\u00A0" : char}
+                        </span>
+                    ))}
+                    <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
+                </div>
+            ) : (
+                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold" }}>{targetText}</div>
+            )}
+            <br />
             <div className="keyboard">
 
                 <div className="section-a">
@@ -237,7 +312,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin dual">
                         {'<'}
-                        <br/>
+                        <br />
                         {'>'} |
                     </div>
                     <div className="keyWin c89 letter">
@@ -265,7 +340,7 @@ const KeyboardWin = () => {
                         . <br /> :
                     </div>
                     <div className="keyWin c109 dual">
-                    _<br />-
+                        _<br />-
                     </div>
                     <div className="keyWin c16 shift right">
                         Shift
@@ -281,7 +356,7 @@ const KeyboardWin = () => {
                     </div>
                     <div className="keyWin c32 space">
 
-                    Space
+                        Space
 
                     </div>
                     <div className="keyWin other">
