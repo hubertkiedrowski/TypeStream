@@ -74,16 +74,16 @@ const Navbar = () => {
             </>
             :
             <div className="loginButtonDiv">
-              <li className="li">
+              <li className="schriftLogin">
                 <Link to="/login" className="schriftLogin">
                   Login
                 </Link>
               </li>
-          </div>
+            </div>
             }
               {isLoggedIn? 
               <div className="logoutButtonDiv">
-                <li className="schriftLogout li" onClick={handleLogout}>
+                <li className="schriftLogout" onClick={handleLogout}>
                   <Link to="/login" className="schriftLogout">
                     Logout
                   </Link>
