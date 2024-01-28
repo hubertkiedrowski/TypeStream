@@ -34,7 +34,7 @@ Follow these steps to set up and run the project on your local machine:
 1. **Install Dependencies**
 
 ```bash
-npm ci
+npm run prisma
 ```
 
 2. **Run Server**

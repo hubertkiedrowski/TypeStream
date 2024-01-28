@@ -11,7 +11,6 @@ interface FormData {
     repeatpassword: string,
 }
 
-
 const Regist = () => {
 
     const navigate = useNavigate();

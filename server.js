@@ -17,6 +17,7 @@ app.use(
   cors({
     origin: process.env.origin_URL || "http://localhost:5173",
     credentials: true,
+    headers: ['Content-Type', 'Authorization', 'Access-Control-Allow-Headers'],
   })
 );
 
@@ -136,8 +137,7 @@ app.listen(port, () => {
 
 // Regist
 app.post("/regist", async (req, res) => {
-  const { firstName, lastName, email, userName, password, repeatpassword } =
-    req.body;
+  const { firstName, lastName, email, userName, password, repeatpassword } = req.body;
 
   if (
     password == repeatpassword &&
@@ -151,15 +151,12 @@ app.post("/regist", async (req, res) => {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       // Speicher User in datenbank
-      const user = await prisma.user.create({
-        data: {
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          userName: userName,
-          password: hashedPassword,
-        },
-      });
+
+      const user = createUser(email,
+        firstName,
+        lastName,
+        userName,
+        hashedPassword);
 
       res.status(201).json({ message: "Benutzer erfolreich Registriert!" });
       console.log("Regist erfolgreich!");
