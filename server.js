@@ -3,6 +3,9 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
+import session from 'express-session';
+const app = express()
+const port = 3000
 
 // TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
 // sobald auskommentiert schlägt das hochfahren fehl
@@ -21,6 +24,29 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(express.json());
+
+app.use(session({
+  name: 'connect.sid',
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'None',
+  },
+}));
+
+app.get('/users/:userID', async (req, res) => {
+  const userID = Number(req.params.userID)
+  if (userID > 0) {
+    const user = await prisma.user.findFirst({
+      where: { id: userID },
+    })
+    res.json(user)
+  } else if (userID == 0) {
+    const user = await prisma.user.findMany()
+    res.json(user)
+  }
 
 app.get("/users/", async (req, res) => {
   const user = await prisma.user.findMany();
@@ -147,8 +173,30 @@ app.post("/regist", async (req, res) => {
   }
 });
 
+// Serverseite
+app.post('/set-session', (req, res) => {
+  req.session.user = { id: req.body.id, email: req.body.email, userName: req.body.userName, firstName: req.body.firstName, lastName: req.body.lastName };
+  res.sendStatus(200);
+});
+
+// Geschützte Ressource
+app.get('/myProfile', (req, res) => {
+  // Überprüfen Sie, ob der Benutzer authentifiziert ist
+  if (req.session.user) {
+    res.json({ message: 'Zugriff gewährt', user: req.session.user });
+  } else {
+    // Benutzer nicht authentifiziert - senden Sie einen 401 Unauthorized-Status
+    res.status(401).json({ message: 'Unbefugter Zugriff' });
+  }
+});
+
 // Login
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
+
+  if(req.session.user){
+    return res.status(403).json({ message: 'Du bist bereits eingeloggt'})
+  }
+
   const authHeader = req.headers.authorization;
 
   // Logge den Authorization-Header
@@ -213,4 +261,17 @@ app.post("/create/user", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Fehler beim Logout:', err);
+      res.status(500).json({ message: 'Interner Serverfehler' });
+    } else {
+      res.json({ message: 'Logout erfolgreich' });
+    }
+  });
+
 });

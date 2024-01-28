@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import "./css/regist.css";
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ interface FormData {
     password: string;
     repeatpassword: string,
 }
+
 
 const Regist = () => {
 
