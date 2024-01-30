@@ -11,7 +11,6 @@ export async function createPoint({ score, userId }) {
     }
     const point = await prisma.point.create({
       data: {
-        timePlayed,
         score,
         userId,
       },

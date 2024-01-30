@@ -102,10 +102,18 @@ app.get("/points/:userID", async (req, res) => {
   }
 });
 
+app.get('/get-session', (req, res) => {
+  if (req.session.user) {
+    res.send(req.session.user);
+  } else {
+    res.sendStatus(401); // Unauthorized
+  }
+});
+
 app.post("/newPoints/:userID", async (req, res) => {
-  const userID = Number(req.session.id);
+  const userID = Number(req.params.userID);
   const score = req.body.score;
-  console.log(userID, score, req.session.id)
+  console.log(userID, score, req.params.userID)
   try {
     const userScore = await prisma.point.update({
       where: { id: userID }, 
@@ -114,7 +122,6 @@ app.post("/newPoints/:userID", async (req, res) => {
 
     res.status(200).json({ message: 'Score erfolgreich aktualisiert', userScore });
   } catch (error) {
-    console.log(userID, score)
     console.error("Fehler beim Abfragen des neuen Scores:", error);
     res.status(500).json({ error: "Serverfehler" });
   }
@@ -248,7 +255,7 @@ app.post('/login', async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
       req.session.userID = user.id;
-      res.status(200).json({ email: user.email, userName: user.userName });
+      res.status(200).json({ email: user.email, userName: user.userName, id: user.id });
     } else {
       res.status(401).json({ message: "Ungültige Anmeldeinformationen!" });
     }
