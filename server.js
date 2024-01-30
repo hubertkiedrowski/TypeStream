@@ -32,6 +32,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     sameSite: 'None',
+    secure: false,
   },
 }));
 
@@ -97,6 +98,24 @@ app.get("/points/:userID", async (req, res) => {
     res.json({ data: userScores });
   } catch (error) {
     console.error("Fehler beim Abfragen der Punktestände:", error);
+    res.status(500).json({ error: "Serverfehler" });
+  }
+});
+
+app.post("/newPoints/:userID", async (req, res) => {
+  const userID = Number(req.session.id);
+  const score = req.body.score;
+  console.log(userID, score, req.session.id)
+  try {
+    const userScore = await prisma.point.update({
+      where: { id: userID }, 
+      data: { score: score }
+    });
+
+    res.status(200).json({ message: 'Score erfolgreich aktualisiert', userScore });
+  } catch (error) {
+    console.log(userID, score)
+    console.error("Fehler beim Abfragen des neuen Scores:", error);
     res.status(500).json({ error: "Serverfehler" });
   }
 });
@@ -228,6 +247,7 @@ app.post('/login', async (req, res) => {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
+      req.session.userID = user.id;
       res.status(200).json({ email: user.email, userName: user.userName });
     } else {
       res.status(401).json({ message: "Ungültige Anmeldeinformationen!" });
@@ -240,8 +260,11 @@ app.post('/login', async (req, res) => {
 
 //TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
 app.post("/create/points", async (req, res) => {
+  const userID = req.session.id;
+  const score = req.body.score;
+  console.log(userID, score, req.session.id)
   try {
-    const newPoint = await createPoint(req.body);
+    const newPoint = await createPoint(score, userID);
 
     if (newPoint != null) {
       res.status(201).json(newUser);

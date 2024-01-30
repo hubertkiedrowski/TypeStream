@@ -110,21 +110,32 @@ const KeyboardWin = () => {
         };
     }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
 
-    const saveScore = () => {
+    useEffect(() => {
+
+        const saveScore = async () => {
         
-        setScore(1000 - errorCount);
+            setScore(100000 - errorCount);
 
-        useEffect(() => {
-
-            const response = fetch('http://localhost:3000/points/:userID', {
+            const response = await fetch('http://localhost:3000/newPoints/:userID', {
                 method: 'POST',
                 credentials: 'include',
-                body: JSON.stringify(score),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({score: score}),
             });
+    
+            if(response.ok){
+                console.log('Score erfolgreich übermittelt');
+            } else {
+                console.log("Fehler beim übertragen des Scores!");
+            }
+        }  
+        
+        saveScore();
 
-          }, []);
-
-    } 
+    }, [isDone]);
+    
 
     return (
         <>

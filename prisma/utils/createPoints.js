@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-export async function createPoint({ timePlayed, score, userId }) {
+export async function createPoint({ score, userId }) {
   const prisma = new PrismaClient();
   try {
     if (
-      (timePlayed === undefined) |
       (score === undefined) |
       (userId === undefined)
     ) {
