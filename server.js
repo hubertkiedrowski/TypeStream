@@ -113,12 +113,11 @@ app.get('/get-session', (req, res) => {
 app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
+  const timePlayed = 10;
+  // const user = req.body.user;
   console.log(userID, score, req.params.userID)
   try {
-    const userScore = await prisma.point.update({
-      where: { id: userID }, 
-      data: { score: score }
-    });
+    await createPoint(score, userID ,timePlayed);
 
     res.status(200).json({ message: 'Score erfolgreich aktualisiert', userScore });
   } catch (error) {

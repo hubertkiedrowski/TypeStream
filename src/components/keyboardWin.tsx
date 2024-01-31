@@ -134,7 +134,7 @@ const KeyboardWin = () => {
   useEffect(() => {
     const saveScore = async () => {
       setScore(100000 - errorCount);
-
+      const timeplayed = 10;
       fetch("http://localhost:3000/get-session", {
         method: "GET",
         credentials: "include",
@@ -149,6 +149,7 @@ const KeyboardWin = () => {
         .then(async (data) => {
             
             const userID = data.id;
+            const user = data;
 
             const responsePost = await fetch(
                 `http://localhost:3000/newPoints/${userID}`,
@@ -158,7 +159,7 @@ const KeyboardWin = () => {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({ score: score }),
+                  body: JSON.stringify({ score: score, timePlayed: timeplayed, user: user }),
                 }
               );
         
