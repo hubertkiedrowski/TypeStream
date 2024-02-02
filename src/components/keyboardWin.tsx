@@ -25,8 +25,6 @@ const KeyboardWin = () => {
   const [nextLine, setNextLine] = useState<number>(1);
   const [isDone, setIsDone] = useState<boolean>(false);
   const [blinkIndex, setBlinkIndex] = useState<number | null>(null);
-  const [score, setScore] = useState(0);
-  const [userID, setUserID] = useState(0);
 
   //Lade Challenge
   useEffect(() => {
@@ -133,8 +131,7 @@ const KeyboardWin = () => {
 
   useEffect(() => {
     const saveScore = async () => {
-      setScore(100000 - errorCount);
-      const timeplayed = 10;
+      const timeplayed = 60;
       fetch("http://localhost:3000/get-session", {
         method: "GET",
         credentials: "include",
@@ -159,7 +156,7 @@ const KeyboardWin = () => {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({ score: score, timePlayed: timeplayed, user: user }),
+                  body: JSON.stringify({ score: 10000 - errorCount, timePlayed: timeplayed, user: user }),
                 }
               );
         
@@ -176,8 +173,10 @@ const KeyboardWin = () => {
         });
         
     };
-
-    saveScore();
+    if(isDone){
+      saveScore();
+    }
+    
   }, [isDone]);
 
   return (

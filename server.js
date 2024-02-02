@@ -26,7 +26,7 @@ app.use(express.json());
 
 app.use(session({
   name: 'connect.sid',
-  secret: 'your-secret-key',
+  secret: '5203',
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -113,7 +113,7 @@ app.get('/get-session', (req, res) => {
 app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
-  const timePlayed = 10;
+  const timePlayed = req.body.timePlayed;
   // const user = req.body.user;
   console.log(userID, score, req.params.userID)
   try {
@@ -251,10 +251,11 @@ app.post('/login', async (req, res) => {
         .json({ message: "Ungültige Anmeldeinformationen2" });
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = bcrypt.compare(password, user.password);
     if (passwordMatch) {
       req.session.userID = user.id;
       res.status(200).json({ email: user.email, userName: user.userName, id: user.id });
+      console.log("Anmeldung erfolgreich!")
     } else {
       res.status(401).json({ message: "Ungültige Anmeldeinformationen!" });
     }
