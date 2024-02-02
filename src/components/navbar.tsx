@@ -67,7 +67,7 @@ const Navbar = () => {
             {isLoggedIn ?
             <>
               <li className="li">
-                <Link to="/myProfile" className="schrift">
+                <Link to="/ownLeaderboard" className="schrift">
                   {user?.userName}
                 </Link>
               </li>

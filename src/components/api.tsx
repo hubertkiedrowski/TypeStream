@@ -16,7 +16,6 @@ export const useFetchOneUser = async (id: string) => {
   return fetchedData;
 };
 
-
 export const useFetchManyUsers = async () => {
   try {
     fetch(`http://localhost:3000/users/`, {
@@ -31,9 +30,24 @@ export const useFetchManyUsers = async () => {
   }
 };
 
-export function getUserDataApi(userId: number) {
+// DEN!!!!!!!!
+export function getUserPointsApi(userID: number | null) {
+
+    fetch(`http://localhost:3000/points/${userID}`, {
+      credentials: "include",
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Fehler beim Abrufen der Punkte");
+      }
+      return response.json();
+    });
+}
+
+
+export function getUserDataApi(userID: number) {
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${userId}`, {
+    fetch(`http://localhost:3000/users/${userID}`, {
       credentials: "include",
     })
       .then((r) => r.json())
@@ -43,17 +57,76 @@ export function getUserDataApi(userId: number) {
   }, []);
 }
 
-export const useFetchBestPlayersByPoints = async (bestx: number) => {
-  fetch(`http://localhost:3000/points/leaderboard/${bestx}`, {
-    credentials: "include",
-  })
-    .then((r) => r.json())
-    .then((r) => {
-      console.log(r)
+// DEN!!!!!!!!!
+export const getSessionUserID = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/get-session", {
+      method: 'GET',
+      credentials: "include",
+    });
 
-      return (r);
-    })
+    if (!response.ok) {
+      throw new Error("Unauthorized");
+    }
+
+    const data = await response.json();
+    const userID = Number(data.id);
+    console.log("Nur der HSV ", data, userID)
+    return userID;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
+// export const getSessionUserID = async () => {
+//   fetch("http://localhost:3000/get-session", {
+//     method: 'GET',
+//     credentials: "include",
+//   })
+//   .then((response) => {
+//     if (response.ok) {
+//         console.log("Scheiß St. Pauli ",response.json())
+//         return response.json();
+//       } else {
+//         throw new Error("Unauthorized");
+//       }
+//     })
+//     .then(async (data) => {
+//         const userID = data.id;
+//         console.log("Nur der HSV ",data, userID)
+//         return userID;
+//     });
+// }
+
+export function useFetchJson<TData>(url: string) {
+  const [data, setData] = useState<TData | undefined>(undefined)
+
+  useEffect(() => {
+    fetch(url, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => setData(r));
+  }, []);
+
+  return data
+}
+
+// export const getSessionUserID= async () => {
+//   return useFetchJson<Number>(`http://localhost:3000/get-session`)
+
+// }
+export function useUserDataApi(userId: number) {
+  return useFetchJson<User[]>(`http://localhost:3000/users/${userId}`)
+}
+
+export const useFetchBestPlayersByPoints = (bestx: number) => {
+  return useFetchJson<User[]>(`http://localhost:3000/points/leaderboard/${bestx}`);
+};
+
+export const useFetchPlayerPointsApi = (bestx: number | null) => {
+  return useFetchJson<Point[]>(`http://localhost:3000/points/${bestx}`);
+};
 
 // TODO RENAME und aufteilen in zwei endpoints
 export const useFetchPoints = async (endpoint: string) => {

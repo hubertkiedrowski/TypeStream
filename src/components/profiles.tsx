@@ -19,7 +19,7 @@ const Item = () => {
 
   return (
     <>
-      {points && points.map((_user: { userName: string }, index: number) => (
+      {points && points.map((user: { userName: string }, index: number) => (
         <div className="flex" key={index}>
           <div className="item">
             <img
