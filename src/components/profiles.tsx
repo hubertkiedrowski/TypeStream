@@ -4,19 +4,22 @@ import { useFetchBestPlayersByPoints, useFetchJson, useUserDataApi } from "./api
 
 
 const Item = () => {
-  const [top5Users, setTop5Users] = useState<any[] | undefined>();
-
-  const fetchedUsers = useFetchBestPlayersByPoints(5);
+  const [points, setPoints] = useState<any>(null);
 
   useEffect(() => {
-    if (fetchedUsers) {
-      setTop5Users(fetchedUsers);
-    }
-  }, [fetchedUsers]);
+
+    fetch(`http://localhost:3000/points/leaderboard/5`, {
+      credentials: "include",
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        setPoints(r);
+      });
+  }, []);
 
   return (
     <>
-      {top5Users && top5Users.map((user, index) => (
+      {points && points.map((user: { userName: string }, index: number) => (
         <div className="flex" key={index}>
           <div className="item">
             <img
@@ -24,12 +27,12 @@ const Item = () => {
               alt="picture"
             />
             <div className="info">
-              <h3 className="name text-dark">{user.user?.userName}</h3>
-              <span>{"Score: " + user.score}</span>
+              <h3 className="name text-dark">{points?.[index].user.userName}</h3>
+              <span>{"Score: " + points?.[index].score}</span>
             </div>
           </div>
           <div className="item">
-            <span>{"Time Played: " + user.timePlayed}</span>
+            <span>{"Time Played: " + points?.[index].timePlayed}</span>
           </div>
         </div>
       ))}

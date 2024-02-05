@@ -1,85 +1,72 @@
-// Beispiel: Zugriff auf myProfile in einer React-Komponente
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { logout } from '../reducer';
-import { Userdata } from "./fetchedUserdata";
+import "./css/leaderboard.css";
+import { getSessionUserID, getUserPointsApi } from "./api";
+//import { Userdata } from "./fetchedUserdata";
 
-const MyProfile = () => {
-
-  const [userData, setUserData] = useState<any>(null);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const Item = () => {
+  const [pointsFromUser, setPointsFromUser] = useState<any>(null);
+  const [UserId, setUserId] = useState<any>();
 
   useEffect(() => {
-    const fetchMyProfile = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/myProfile', {
-          method: 'GET',
-          credentials: 'include',
-        });
+        const userId = await getSessionUserID(); 
+        setUserId(userId);
+        console.log("OwnUserId", userId, typeof userId);
 
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data);
-        } else {
-          console.error('Fehler beim Abrufen des Profils Else:', response.statusText);
+        const fetchedPoints = await getUserPointsApi(userId);
+        console.log("points from user", fetchedPoints);
+
+        if (fetchedPoints === undefined) {
+          throw new Error("FetchedPoints gleich null")
+        }else {
+          setPointsFromUser(fetchedPoints);
+          console.log("points from user 2", fetchedPoints);
         }
+
       } catch (error) {
-        console.error('Fehler beim Abrufen des Profils Catch:', error);
+        console.error("Fehler beim Abrufen der Benutzerdaten", error);
       }
     };
 
-    fetchMyProfile();
-  }, []); // Führen Sie dies nur einmal aus
+    fetchData();
+  }, []);
+  
+    return (
+      <>
+        {pointsFromUser && Object.values(pointsFromUser).map((point: any, index: number) => (
+          <div className="flex" key={index}>
+            <div className="item">
+              <img
+                src="https://www.amaraventures.in/assets/uploads/testimonial/user.png"
+                alt="picture"
+              />
+              <div className="info">
+              <h3 className="name text-dark">{pointsFromUser?.[index].user.userName}</h3>
+              <span>{"Score: " + pointsFromUser?.[index].score}</span>
+              </div>
+            </div>
+            <div className="item">
+              <span>{"Time Played: " + pointsFromUser?.[index].timePlayed}</span>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+}
 
-  const handleLogout = async () => {
-
-    try{
-
-        const response = await fetch('http://localhost:3000/logout', {
-        method: 'POST',
-        credentials: 'include',
-        });
-        if(response.ok){
-            dispatch(logout());
-            navigate('/login');
-        }else {
-            console.log("Fehler beim Logout");
-        }
-        
-    } catch(error){
-        console.error('Fehler beim Verarbeiten des Klicks:', error);
-    }
-    
-  }
+const MyProfile = () => {
 
   return (
     <>
-        <div>
-            <h1>Benutzerinfos</h1>
-            {userData ?
-                <>  
-                    <p>Benutzerinformationen: {JSON.stringify(userData)}</p>
-                    <br/>
-                    <h2>Vorname: {userData.firstname}</h2>
-                    <h2>Name: {userData.lastName}</h2>
-                    <h2>Username: {userData.userName}</h2>
-                    <h2>E-Mail: {userData.email}</h2>
-                </>
-            : 
-                <p>Benutzerinformationen nicht verfügbar</p>
-            }
-        </div>
-    
-        <div>
-        <button type="button" onClick={handleLogout}>Logout</button>
-        </div>
+      <div id="profile">{Item()}</div>
     </>
   );
-  
-};
+  };
 
 export default MyProfile;

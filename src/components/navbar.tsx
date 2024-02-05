@@ -40,25 +40,25 @@ const Navbar = () => {
       <nav>
         <div className="container">
           <ul className="container1">
-            <li className="schrift">
+            <li className="li">
               <Link to="/" className="schrift">
                 Home
               </Link>
             </li>
 
-            <li className="schrift">
+            <li className="li">
               <Link to="/chooseKeyboard" className="schrift">
                 Keyboard
               </Link>
             </li>
 
-            <li className="schrift">
+            <li className="li">
               <Link to="/leaderboard" className="schrift">
                 Leaderboard
               </Link>
             </li>
 
-            <li className="schrift">
+            <li className="li">
               <Link to="/ueberuns" className="schrift">
                 Über uns
               </Link>
@@ -66,8 +66,8 @@ const Navbar = () => {
             
             {isLoggedIn ?
             <>
-              <li className="schrift">
-                <Link to="/myProfile" className="schrift">
+              <li className="li">
+                <Link to="/ownLeaderboard" className="schrift">
                   {user?.userName}
                 </Link>
               </li>
@@ -79,7 +79,7 @@ const Navbar = () => {
                   Login
                 </Link>
               </li>
-          </div>
+            </div>
             }
               {isLoggedIn? 
               <div className="logoutButtonDiv">

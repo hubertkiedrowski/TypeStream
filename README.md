@@ -7,7 +7,7 @@ Welcome to Tipplerner! This project utilizes various frameworks and tools to cre
 ### Testing
 
 - [Jest](https://jestjs.io/): A delightful JavaScript Testing Framework with a focus on simplicity.
-- [Playwright](https://playwright.dev/): A Node library to automate the browser, supports multiple browsers (Chromium, Firefox, WebKit).
+- [Vitest](https://vitest.dev/): A Node library to automate the browser, supports multiple browsers (Chromium, Firefox, WebKit).
 
 ### Backend
 
@@ -34,7 +34,7 @@ Follow these steps to set up and run the project on your local machine:
 1. **Install Dependencies**
 
 ```bash
-npm ci
+npm run prisma
 ```
 
 2. **Run Server**
@@ -71,6 +71,12 @@ npm run prisma-seed
 
 ```bash
 npm run prisma-studio
+```
+
+8. **Run Tests**
+
+```bash
+npm run Test
 ```
 
 ## Don't forget to create a .env file with your environment for the right localhost and database variables
