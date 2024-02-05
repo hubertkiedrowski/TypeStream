@@ -10,6 +10,7 @@ import "./css/keyboardWin.css";
 import Cookies from "js-cookie";
 
 const KeyboardWin = () => {
+
   const [targetText, setTargetText] = useState<string>("");
   const [pressedKey, setPressedKey] = useState<number | null>(null);
   const [enteredText, setEnteredText] = useState<string>("");

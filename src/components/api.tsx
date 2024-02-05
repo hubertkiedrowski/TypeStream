@@ -29,16 +29,18 @@ export const useFetchManyUsers = async () => {
   }
 };
 
-export function getUserDataApi(userID: number) {
+
+export function useFetchJson<TData>(url: string) {
+  const [data, setData] = useState<TData | undefined>(undefined)
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${userID}`, {
+    fetch(url, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((r) => {
-        return (r);
-      });
+      .then((r) => setData(r));
   }, []);
+
+  return data
 }
 
 export const getUserPointsApi = async (userID: number | null) => {
@@ -98,9 +100,11 @@ export const useFetchBestPlayersByPoints = (bestx: number) => {
   return useFetchJson<User[]>(`http://localhost:3000/points/leaderboard/${bestx}`);
 };
 
+
 export const useFetchPlayerPointsApi = (bestx: number | null) => {
   return useFetchJson<Point[]>(`http://localhost:3000/points/${bestx}`);
 };
+
 
 // TODO RENAME und aufteilen in zwei endpoints
 export const useFetchPoints = async (endpoint: string) => {
