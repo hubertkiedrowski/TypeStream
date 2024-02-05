@@ -7,7 +7,6 @@ import {
   checkInput,
 } from "./keyboardfunctions";
 import "./css/keyboardWin.css";
-import Cookies from "js-cookie";
 
 const KeyboardWin = () => {
 

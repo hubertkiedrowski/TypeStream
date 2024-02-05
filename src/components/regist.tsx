@@ -1,6 +1,6 @@
 import React, { FormEvent, useState, useEffect } from "react";
 import "./css/regist.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   firstName: string;

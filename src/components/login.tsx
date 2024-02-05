@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, useEffect} from 'react';
+import React, { FormEvent, useState } from 'react';
 import "./css/login.css";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -38,7 +38,6 @@ const Login: React.FC = () => {
         try {
             const authString = `${formData.email}:${formData.userName}:${formData.password}`;
             const base64Auth = btoa(authString);
-            //console.log('Authentifizierungszeichenkette:', authString);
 
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
@@ -85,15 +84,12 @@ const Login: React.FC = () => {
 
             } else {
 
-                console.error('Fehler beim Einloggen1', response.statusText);
-
                 console.log('Fehlerobjekt:', await response.json());
 
                 setLoginError(true);
             }
         } catch (error) {
 
-            console.error('Fehler beim Einloggen:2', error);
             setLoginError(true);
 
         }

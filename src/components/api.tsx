@@ -72,7 +72,6 @@ export const getSessionUserID = async () => {
     }
     const data = await response.json();
     const userID = Number(data.id);
-    console.log("Nur der HSV ", data, userID)
     return userID;
   } catch (error) {
     console.error(error);

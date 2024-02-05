@@ -109,7 +109,6 @@ app.get("/points/:userID", async (req, res) => {
         user: true,
       }
     });
-    console.log("UserScores", userScores);
     res.json(userScores);
   } catch (error) {
     console.error("Fehler beim Abfragen der Punktestände:", error);
@@ -129,7 +128,6 @@ app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
   const timePlayed = req.body.timePlayed;
-  // const user = req.body.user;
   console.log(userID, score, req.params.userID)
   try {
     await createPoint(score, userID ,timePlayed);

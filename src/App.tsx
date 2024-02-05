@@ -16,7 +16,6 @@ import Ueberuns from "./components/ueberUns";
 import Login from "./components/login";
 import ChooseKeyboard from "./components/chooseKeyboard";
 import Regist from "./components/regist";
-import LoginErfolgreich from "./components/loginErfolgreich";
 import Leaderboard from "./components/leaderboard";
 import OwnLeaderboard from "./components/ownLeaderboard";
 
@@ -46,12 +45,6 @@ const App: React.FC = () => {
           path="/ownLeaderboard"
           element={
             loggedIn ? <OwnLeaderboard /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/loginErfolgreich"
-          element={
-            loggedIn ? <LoginErfolgreich /> : <Navigate to="/regist" />
           }
         />
       </Routes>
