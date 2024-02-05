@@ -4,9 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
 import session from 'express-session';
-
-// TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
-// sobald auskommentiert schlägt das hochfahren fehl
 import { createUser } from "./prisma/utils/createUser.js";
 import { createPoint } from "./prisma/utils/createPoints.js";
 
@@ -269,7 +266,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-//TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
 app.post("/create/points", async (req, res) => {
   const userID = req.session.id;
   const score = req.body.score;
