@@ -115,7 +115,7 @@ const KeyboardWin = () => {
                 Fehler: {errorCount}
             </div>
             {!isDone ? (
-                <div style={{ color: "Grey", fontSize: "30px" }}>
+                <div style={{ color: "Grey", fontSize: "30px", backgroundColor: "rgba(150, 150, 150, 0.4)"}}>
                     {targetText.split("").map((char, index) => (
                         <span
                             key={index}
@@ -129,7 +129,7 @@ const KeyboardWin = () => {
                     <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
                 </div>
             ) : (
-                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold" }}>{targetText}</div>
+                <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold", backgroundColor: "rgba(150, 150, 150, 0.4)" }}>{targetText}</div>
             )}
             <br />
             <div className="keyboard">

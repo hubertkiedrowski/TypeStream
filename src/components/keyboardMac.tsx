@@ -120,7 +120,7 @@ const KeyboardMac = () => {
 
       {/* Check, ob Text vollstänig eingegeben, wenn nicht wird jeder Index aus dem Text ein Span-Element */}
       {!isDone ? (
-        <div style={{ color: "black", fontSize: "30px" }}>
+        <div style={{ color: "black", fontSize: "30px", backgroundColor: "rgba(150, 150, 150, 0.4)" }}>
           {targetText.split("").map((char, index) => (
             <span
               key={index}
@@ -137,7 +137,7 @@ const KeyboardMac = () => {
           <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
         </div>
       ) : (
-        <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold" }}>{targetText}</div>
+        <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold", backgroundColor: "rgba(150, 150, 150, 0.4)"}}>{targetText}</div>
       )}
 
       <div id="keyboard">
