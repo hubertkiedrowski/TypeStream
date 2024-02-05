@@ -140,7 +140,7 @@ export const useFetchPoints = async (endpoint: string) => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-
+// new comment
     const fetchedData: { data: Point[] } = await response.json();
     if (data != null && data != undefined) {
       setData(fetchedData.data);
