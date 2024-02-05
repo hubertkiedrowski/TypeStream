@@ -32,7 +32,7 @@ const Item = () => {
             </div>
           </div>
           <div className="item">
-            <span>{"Time Played: " + user.timePlayed}</span>
+            <span>{"Time Played: " + points?.[index].timePlayed}</span>
           </div>
         </div>
       ))}

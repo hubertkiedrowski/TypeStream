@@ -1,4 +1,3 @@
-// Beispiel: Zugriff auf myProfile in einer React-Komponente
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
