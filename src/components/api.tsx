@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
  * @returns A Promise that resolves to the fetched user data.
  */
 export const useFetchOneUser = async (id: string) => {
-  let fetchedData
   let fetchedData;
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
@@ -45,6 +44,42 @@ export const useFetchManyUsers = async () => {
  * @param {string} url - The URL to fetch the JSON data from.
  * @returns {TData | undefined} - The fetched JSON data or undefined if not yet fetched.
  */
+
+export const getUserPointsApi = async (userID: number | null) => {
+
+  const response = await fetch(`http://localhost:3000/points/${userID}`, {
+    credentials: "include",
+  })
+
+  if (!response.ok) {
+      throw new Error("Fehler beim Abrufen der Punkte");
+  }
+  const userData = await response.json();
+  console.log(userData);
+  return userData;
+
+}
+
+export const getSessionUserID = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/get-session", {
+      method: 'GET',
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Unauthorized");
+    }
+    const data = await response.json();
+    const userID = Number(data.id);
+    console.log("Nur der HSV ", data, userID)
+    return userID;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export function useFetchJson<TData>(url: string) {
   const [data, setData] = useState<TData | undefined>(undefined)
 
