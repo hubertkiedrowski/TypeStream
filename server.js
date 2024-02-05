@@ -3,12 +3,9 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
-import session from "express-session";
+import session from 'express-session';
 import { createUser } from "./prisma/utils/createUser.js";
 import { createPoint } from "./prisma/utils/createPoints.js";
-
-// TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
-// sobald auskommentiert schlägt das hochfahren fehl
 
 const app = express();
 const port = 3000;
@@ -288,7 +285,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//TODO hier die funktion die funktionieren könnte sobald das import problem gelöst ist
 app.post("/create/points", async (req, res) => {
   const userID = req.session.id;
   const score = req.body.score;

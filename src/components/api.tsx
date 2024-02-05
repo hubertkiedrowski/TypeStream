@@ -2,7 +2,6 @@ import { Point, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export const useFetchOneUser = async (id: string) => {
-  // const [data, setData] = useState<User | null>(null);
   let fetchedData
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
@@ -44,7 +43,6 @@ export function useFetchJson<TData>(url: string) {
   return data
 }
 
-// DEN!!!!!!!!
 export const getUserPointsApi = async (userID: number | null) => {
 
   const response = await fetch(`http://localhost:3000/points/${userID}`, {
@@ -60,7 +58,6 @@ export const getUserPointsApi = async (userID: number | null) => {
 
 }
 
-// DEN!!!!!!!!!
 export const getSessionUserID = async () => {
   try {
     const response = await fetch("http://localhost:3000/get-session", {
@@ -80,25 +77,6 @@ export const getSessionUserID = async () => {
     return null;
   }
 }
-// export const getSessionUserID = async () => {
-//   fetch("http://localhost:3000/get-session", {
-//     method: 'GET',
-//     credentials: "include",
-//   })
-//   .then((response) => {
-//     if (response.ok) {
-//         console.log("Scheiß St. Pauli ",response.json())
-//         return response.json();
-//       } else {
-//         throw new Error("Unauthorized");
-//       }
-//     })
-//     .then(async (data) => {
-//         const userID = data.id;
-//         console.log("Nur der HSV ",data, userID)
-//         return userID;
-//     });
-// }
 
 export function useFetchJson<TData>(url: string) {
   const [data, setData] = useState<TData | undefined>(undefined)
@@ -114,10 +92,6 @@ export function useFetchJson<TData>(url: string) {
   return data
 }
 
-// export const getSessionUserID= async () => {
-//   return useFetchJson<Number>(`http://localhost:3000/get-session`)
-
-// }
 export function useUserDataApi(userId: number) {
   return useFetchJson<User[]>(`http://localhost:3000/users/${userId}`)
 }
