@@ -18,7 +18,7 @@ import ChooseKeyboard from "./components/chooseKeyboard";
 import Regist from "./components/regist";
 import LoginErfolgreich from "./components/loginErfolgreich";
 import Leaderboard from "./components/leaderboard";
-import MyProfile from "./components/myProfile";
+import OwnLeaderboard from "./components/ownLeaderboard";
 
 const App: React.FC = () => {
 
@@ -36,16 +36,16 @@ const App: React.FC = () => {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route
           path="/login"
-          element={loggedIn ? <Navigate to="/myProfile" /> : <Login />}
+          element={loggedIn ? <Navigate to="/ownLeaderboard" /> : <Login />}
         />
         <Route
           path="/regist"
-          element={loggedIn ? <Navigate to="/myProfile" /> : <Regist />}
+          element={loggedIn ? <Navigate to="/ownLeaderboard" /> : <Regist />}
         />
         <Route
-          path="/myProfile"
+          path="/ownLeaderboard"
           element={
-            loggedIn ? <MyProfile /> : <Navigate to="/login" />
+            loggedIn ? <OwnLeaderboard /> : <Navigate to="/login" />
           }
         />
         <Route
