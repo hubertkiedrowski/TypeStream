@@ -20,12 +20,16 @@ const Item = () => {
         setUserId(userId);
         console.log("OwnUserId", userId, typeof userId);
 
-        const fetchedPoints = getUserPointsApi(userId);
+        const fetchedPoints = await getUserPointsApi(userId);
         console.log("points from user", fetchedPoints);
-        if (fetchedPoints !=undefined) {
+
+        if (fetchedPoints === undefined) {
+          throw new Error("FetchedPoints gleich null")
+        }else {
           setPointsFromUser(fetchedPoints);
           console.log("points from user 2", fetchedPoints);
         }
+
       } catch (error) {
         console.error("Fehler beim Abrufen der Benutzerdaten", error);
       }
@@ -36,7 +40,7 @@ const Item = () => {
   
     return (
       <>
-        {pointsFromUser && pointsFromUser.map((index: number) => (
+        {pointsFromUser && Object.values(pointsFromUser).map((point: any, index: number) => (
           <div className="flex" key={index}>
             <div className="item">
               <img
@@ -44,8 +48,8 @@ const Item = () => {
                 alt="picture"
               />
               <div className="info">
-                <h3 className="name text-dark">{pointsFromUser}</h3>
-                <span>{"Score: " + pointsFromUser?.[index].score}</span>
+              <h3 className="name text-dark">{pointsFromUser?.[index].user.userName}</h3>
+              <span>{"Score: " + pointsFromUser?.[index].score}</span>
               </div>
             </div>
             <div className="item">

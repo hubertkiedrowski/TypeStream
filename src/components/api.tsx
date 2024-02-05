@@ -30,21 +30,6 @@ export const useFetchManyUsers = async () => {
   }
 };
 
-// DEN!!!!!!!!
-export function getUserPointsApi(userID: number | null) {
-
-    fetch(`http://localhost:3000/points/${userID}`, {
-      credentials: "include",
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Fehler beim Abrufen der Punkte");
-      }
-      return response.json();
-    });
-}
-
-
 export function getUserDataApi(userID: number) {
   useEffect(() => {
     fetch(`http://localhost:3000/users/${userID}`, {
@@ -55,6 +40,22 @@ export function getUserDataApi(userID: number) {
         return (r);
       });
   }, []);
+}
+
+// DEN!!!!!!!!
+export const getUserPointsApi = async (userID: number | null) => {
+
+  const response = await fetch(`http://localhost:3000/points/${userID}`, {
+    credentials: "include",
+  })
+
+  if (!response.ok) {
+      throw new Error("Fehler beim Abrufen der Punkte");
+  }
+  const userData = await response.json();
+  console.log(userData);
+  return userData;
+
 }
 
 // DEN!!!!!!!!!
@@ -68,7 +69,6 @@ export const getSessionUserID = async () => {
     if (!response.ok) {
       throw new Error("Unauthorized");
     }
-
     const data = await response.json();
     const userID = Number(data.id);
     console.log("Nur der HSV ", data, userID)

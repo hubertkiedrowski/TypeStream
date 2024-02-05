@@ -89,13 +89,17 @@ app.get("/points/:userID", async (req, res) => {
 
   try {
     const userScores = await prisma.point.findMany({
+      take: 5,
       where: { userId: userID }, // Verwenden Sie hier 'userId' anstelle von 'id'
       orderBy: {
         score: "desc", // Sortiere absteigend nach Punktestand
       },
+      include: {
+        user: true,
+      }
     });
-
-    res.json({ data: userScores });
+    console.log("UserScores", userScores);
+    res.json(userScores);
   } catch (error) {
     console.error("Fehler beim Abfragen der Punktestände:", error);
     res.status(500).json({ error: "Serverfehler" });
