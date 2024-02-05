@@ -10,7 +10,7 @@
     margin: 0 auto; /* Hinzugefügt: Zentriert die Navbar horizontal */
   }
 
-  li {
+  .li {
     padding: 5px;
   }
 
@@ -64,10 +64,6 @@
 .container1{
   display: flex;
   justify-content: space-evenly;
-}
-
-.ul{
-    border: 10px solid green;
 }
 
 .loginButtonDiv{

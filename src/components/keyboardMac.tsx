@@ -110,6 +110,55 @@ const KeyboardMac = () => {
     };
   }, [isDone, currentIndex, targetText, setEnteredText, setPressedKey]);
 
+  useEffect(() => {
+    const saveScore = async () => {
+      const timeplayed = 60;
+      fetch("http://localhost:3000/get-session", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Unauthorized");
+          }
+        })
+        .then(async (data) => {
+            
+            const userID = data.id;
+            const user = data;
+
+            const responsePost = await fetch(
+                `http://localhost:3000/newPoints/${userID}`,
+                {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ score: 10000 - errorCount, timePlayed: timeplayed, user: user }),
+                }
+              );
+        
+              if (responsePost.ok) {
+                console.log("Score erfolgreich übermittelt");
+              } else {
+                console.log("Fehler beim übertragen des Scores!");
+              }
+
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+        
+    };
+    if(isDone){
+      saveScore();
+    }
+    
+  }, [isDone]);
 
   return (
     <>
@@ -120,7 +169,7 @@ const KeyboardMac = () => {
 
       {/* Check, ob Text vollstänig eingegeben, wenn nicht wird jeder Index aus dem Text ein Span-Element */}
       {!isDone ? (
-        <div style={{ color: "black", fontSize: "30px" }}>
+        <div style={{ color: "black", fontSize: "30px", backgroundColor: "rgba(150, 150, 150, 0.4)" }}>
           {targetText.split("").map((char, index) => (
             <span
               key={index}
@@ -137,7 +186,7 @@ const KeyboardMac = () => {
           <div style={{ color: "DarkSlateGray", fontSize: "28px" }}>{lines[nextLine]}</div>
         </div>
       ) : (
-        <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold" }}>{targetText}</div>
+        <div style={{ color: "LightGoldenRodYellow", fontSize: "30px", fontWeight: "bold", backgroundColor: "rgba(150, 150, 150, 0.4)"}}>{targetText}</div>
       )}
 
       <div id="keyboard">

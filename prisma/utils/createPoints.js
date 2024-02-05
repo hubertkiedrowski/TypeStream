@@ -1,22 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 
-export async function createPoint({ timePlayed, score, userId }) {
+export async function createPoint( score, userId ,timePlayed) {
   const prisma = new PrismaClient();
   try {
-    if (
-      (timePlayed === undefined) |
-      (score === undefined) |
-      (userId === undefined)
-    ) {
-      throw new Error("something is undefined");
-    }
+    console.log("createPoint:",score, userId ,timePlayed)
+    // if (
+    //   (score == undefined) ||
+    //   (userId == undefined) ||
+    //   (timePlayed == undefined) 
+    // ) {
+    //   throw new Error(`score${score} userid ${userId} userid ${timePlayed}`);
+    // }
     const point = await prisma.point.create({
       data: {
-        timePlayed,
         score,
         userId,
+        timePlayed
       },
     });
+    console.log("createPoint succesfull:",score, userId ,timePlayed)
     await prisma.$disconnect();
     console.log("punkt angelegt");
     return point;
