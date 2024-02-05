@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./css/leaderboard.css";
 import MyProfiles from "./myProfile";
 
-//const [challenge, setChallenge] = useState(0);
-
 const handleClick = (e: { target: any }) => {
   console.log(e.target);
 };

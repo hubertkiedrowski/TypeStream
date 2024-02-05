@@ -1,12 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { logout } from '../reducer';
 import "./css/leaderboard.css";
 import { getSessionUserID, getUserPointsApi } from "./api";
-//import { Userdata } from "./fetchedUserdata";
 
 const Item = () => {
   const [pointsFromUser, setPointsFromUser] = useState<any>(null);
@@ -17,16 +12,13 @@ const Item = () => {
       try {
         const userId = await getSessionUserID(); 
         setUserId(userId);
-        console.log("OwnUserId", userId, typeof userId);
 
         const fetchedPoints = await getUserPointsApi(userId);
-        console.log("points from user", fetchedPoints);
 
         if (fetchedPoints === undefined) {
           throw new Error("FetchedPoints gleich null")
         }else {
           setPointsFromUser(fetchedPoints);
-          console.log("points from user 2", fetchedPoints);
         }
 
       } catch (error) {

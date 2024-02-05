@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
-import { useFetchBestPlayersByPoints, useFetchJson, useUserDataApi } from "./api";
-
 
 const Item = () => {
   const [points, setPoints] = useState<any>(null);

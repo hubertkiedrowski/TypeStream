@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/chooseKeyboard.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ChooseKeyboard = () => {
   const navigate = useNavigate();
