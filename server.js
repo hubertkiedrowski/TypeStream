@@ -3,12 +3,12 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
-import session from 'express-session';
+import session from "express-session";
+import { createUser } from "./prisma/utils/createUser.js";
+import { createPoint } from "./prisma/utils/createPoints.js";
 
 // TODO hier ist der eigentlich richtige import für die funktion zum alegen eines users,
 // sobald auskommentiert schlägt das hochfahren fehl
-import { createUser } from "./prisma/utils/createUser.js";
-import { createPoint } from "./prisma/utils/createPoints.js";
 
 const app = express();
 const port = 3000;
@@ -49,6 +49,20 @@ app.get('/users/:userID', async (req, res) => {
   }
 });
 
+
+app.get("/users/:userID"),
+  async (req, res) => {
+    const userID = Number(req.params.userID);
+    if (userID > 0) {
+      const user = await prisma.user.findFirst({
+        where: { id: userID },
+      });
+      res.json(user);
+    } else if (userID == 0) {
+      const user = await prisma.user.findMany();
+      res.json(user);
+    }
+  };
 app.get("/users/", async (req, res) => {
   const user = await prisma.user.findMany();
   res.json(user);
@@ -203,27 +217,32 @@ app.post("/regist", async (req, res) => {
 });
 
 // Serverseite
-app.post('/set-session', (req, res) => {
-  req.session.user = { id: req.body.id, email: req.body.email, userName: req.body.userName, firstName: req.body.firstName, lastName: req.body.lastName };
+app.post("/set-session", (req, res) => {
+  req.session.user = {
+    id: req.body.id,
+    email: req.body.email,
+    userName: req.body.userName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+  };
   res.sendStatus(200);
 });
 
 // Geschützte Ressource
-app.get('/myProfile', (req, res) => {
+app.get("/myProfile", (req, res) => {
   // Überprüfen Sie, ob der Benutzer authentifiziert ist
   if (req.session.user) {
-    res.json({ message: 'Zugriff gewährt', user: req.session.user });
+    res.json({ message: "Zugriff gewährt", user: req.session.user });
   } else {
     // Benutzer nicht authentifiziert - senden Sie einen 401 Unauthorized-Status
-    res.status(401).json({ message: 'Unbefugter Zugriff' });
+    res.status(401).json({ message: "Unbefugter Zugriff" });
   }
 });
 
 // Login
-app.post('/login', async (req, res) => {
-
-  if(req.session.user){
-    return res.status(403).json({ message: 'Du bist bereits eingeloggt'})
+app.post("/login", async (req, res) => {
+  if (req.session.user) {
+    return res.status(403).json({ message: "Du bist bereits eingeloggt" });
   }
 
   const authHeader = req.headers.authorization;
@@ -295,17 +314,15 @@ app.post("/create/user", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-
 });
 
-app.post('/logout', (req, res) => {
+app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error('Fehler beim Logout:', err);
-      res.status(500).json({ message: 'Interner Serverfehler' });
+      console.error("Fehler beim Logout:", err);
+      res.status(500).json({ message: "Interner Serverfehler" });
     } else {
-      res.json({ message: 'Logout erfolgreich' });
+      res.json({ message: "Logout erfolgreich" });
     }
   });
-
 });

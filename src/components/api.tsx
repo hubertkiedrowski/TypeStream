@@ -30,16 +30,18 @@ export const useFetchManyUsers = async () => {
   }
 };
 
-export function getUserDataApi(userID: number) {
+
+export function useFetchJson<TData>(url: string) {
+  const [data, setData] = useState<TData | undefined>(undefined)
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${userID}`, {
+    fetch(url, {
       credentials: "include",
     })
       .then((r) => r.json())
-      .then((r) => {
-        return (r);
-      });
+      .then((r) => setData(r));
   }, []);
+
+  return data
 }
 
 // DEN!!!!!!!!
@@ -124,9 +126,11 @@ export const useFetchBestPlayersByPoints = (bestx: number) => {
   return useFetchJson<User[]>(`http://localhost:3000/points/leaderboard/${bestx}`);
 };
 
+
 export const useFetchPlayerPointsApi = (bestx: number | null) => {
   return useFetchJson<Point[]>(`http://localhost:3000/points/${bestx}`);
 };
+
 
 // TODO RENAME und aufteilen in zwei endpoints
 export const useFetchPoints = async (endpoint: string) => {
@@ -174,28 +178,6 @@ export function createPointDBEntry(pointData: any) {
       throw error;
     });
 }
-
-
-// export async function createPointDBEntry(pointData: any) {
-//   try {
-//     const response = await fetch('http://localhost:3000/create/points', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(pointData),
-//     });
-//     if (!response.ok) {
-//       const errorBody = await response.json();
-//       console.error('Fehler beim Senden der Daten:', errorBody);
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-
-//     return await response.json();
-//   } catch (error) {
-//     console.error('Es gab ein Problem mit dem Senden der Daten:', error);
-//   }
-// }
 
 export async function createUserDBEntry(userData: any) {
   try {

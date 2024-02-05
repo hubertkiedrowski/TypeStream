@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./css/leaderboard.css";
+import { useFetchBestPlayersByPoints, useFetchJson, useUserDataApi } from "./api";
 
-import { getUserDataApi, useFetchManyUsers } from "./api";
 
 const Item = () => {
   const [points, setPoints] = useState<any>(null);
@@ -32,7 +32,7 @@ const Item = () => {
             </div>
           </div>
           <div className="item">
-            <span>{"Time Played: " + points?.[index].timePlayed}</span>
+            <span>{"Time Played: " + user.timePlayed}</span>
           </div>
         </div>
       ))}
