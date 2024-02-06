@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { useFetchJson } from "../components/api";
+import { useFetchJson } from "../components/utils/api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock global.fetch before each test

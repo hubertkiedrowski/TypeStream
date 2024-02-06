@@ -5,7 +5,7 @@ import {
   useFetchPoints,
   useFetchOneUser,
   useFetchManyUsers
-} from "../components/api";
+} from "../components/utils/api";
 import { User } from "@prisma/client";
 
 export const Userdata = () => {
