@@ -1,6 +1,6 @@
-# Tipplerner
+# TypeStream
 
-Welcome to Tipplerner! This project utilizes various frameworks and tools to create a seamless software development experience.
+Welcome to TypeStream! This project utilizes various frameworks and tools to create a seamless software development experience.
 
 ### Used Frameworks
 
