@@ -52,10 +52,9 @@ export const getUserPointsApi = async (userID: number | null) => {
   })
 
   if (!response.ok) {
-      throw new Error("Fehler beim Abrufen der Punkte");
+    throw new Error("Fehler beim Abrufen der Punkte");
   }
   const userData = await response.json();
-  console.log(userData);
   return userData;
 
 }

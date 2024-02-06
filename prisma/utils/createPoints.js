@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
  * @param {number} score - The score value for the point.
  * @param {number} userId - The ID of the user associated with the point.
  * @param {number} timePlayed - The time played value.
- * @returns {Promise<object>} - The created point object.
  * @throws {Error} - If any of the required parameters are undefined.
  */
 export async function createPoint(score, userId, timePlayed) {

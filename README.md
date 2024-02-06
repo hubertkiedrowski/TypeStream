@@ -34,43 +34,43 @@ Follow these steps to set up and run the project on your local machine:
 1. **Install Dependencies**
 
 ```bash
-npm run prisma
+npm install
 ```
 
-2. **Run Server**
-
-```bash
-npm run server
-```
-
-3. **Run Frontend**
+2. **Run Frontend**
 
 ```bash
 npm run dev
 ```
 
-4. **Prisma Migration**
+3. **Prisma Migration**
 
 ```bash
 npm run prisma-migrate
 ```
 
-5. **Generate Prisma Client**
+4. **Generate Prisma Client**
 
 ```bash
 npm run prisma-generate
 ```
 
-6. **Create and Seed Database**
+5. **Create and Seed Database**
 
 ```bash
 npm run prisma-seed
 ```
 
-7. **Open Prisma Studio**
+6. **Open Prisma Studio**
 
 ```bash
 npm run prisma-studio
+```
+
+7. **Run Server**
+
+```bash
+npm run server
 ```
 
 8. **Run Tests**
@@ -81,7 +81,7 @@ npm run test
 
 ## Login Credentials
 
-- [Email] <user@softwareEngeneering.de>>
+- [Email] <user@softwareEngeneering.de>
 - [Username] IKnowYourPassword
 - [Password] 123456
 

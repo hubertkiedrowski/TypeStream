@@ -139,7 +139,6 @@ app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
   const timePlayed = req.body.timePlayed;
-  console.log(userID, score, req.params.userID);
   try {
     await createPoint(score, userID, timePlayed);
 
@@ -227,9 +226,7 @@ app.post("/regist", async (req, res) => {
       });
 
       res.status(201).json({ message: "Benutzer erfolreich Registriert!" });
-      console.log("Regist erfolgreich!");
     } catch (error) {
-      console.log("Fehler beim Registrieren:", error);
       res.status(500).json({ message: "Interner Serverfehler" });
     }
   } else {
@@ -301,7 +298,6 @@ app.post("/login", async (req, res) => {
       res
         .status(200)
         .json({ email: user.email, userName: user.userName, id: user.id });
-      console.log("Anmeldung erfolgreich!");
     } else {
       res.status(401).json({ message: "Ungültige Anmeldeinformationen!" });
     }
@@ -320,7 +316,6 @@ app.post("/login", async (req, res) => {
 app.post("/create/points", async (req, res) => {
   const userID = req.session.id;
   const score = req.body.score;
-  console.log(userID, score, req.session.id);
   try {
     const newPoint = await createPoint(score, userID);
 
