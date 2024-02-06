@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { PrismaClient } from "@prisma/client";
-import session from 'express-session';
+import session from "express-session";
 import { createUser } from "./prisma/utils/createUser.js";
 import { createPoint } from "./prisma/utils/createPoints.js";
 
@@ -14,38 +14,39 @@ app.use(
   cors({
     origin: process.env.origin_URL || "http://localhost:5173",
     credentials: true,
-    headers: ['Content-Type', 'Authorization', 'Access-Control-Allow-Headers'],
+    headers: ["Content-Type", "Authorization", "Access-Control-Allow-Headers"],
   })
 );
 
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.use(session({
-  name: 'connect.sid',
-  secret: '5203',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    sameSite: 'None',
-    secure: false,
-  },
-}));
+app.use(
+  session({
+    name: "connect.sid",
+    secret: "5203",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "None",
+      secure: false,
+    },
+  })
+);
 
-app.get('/users/:userID', async (req, res) => {
-  const userID = Number(req.params.userID)
+app.get("/users/:userID", async (req, res) => {
+  const userID = Number(req.params.userID);
   if (userID > 0) {
     const user = await prisma.user.findFirst({
       where: { id: userID },
-    })
-    res.json(user)
+    });
+    res.json(user);
   } else if (userID == 0) {
-    const user = await prisma.user.findMany()
-    res.json(user)
+    const user = await prisma.user.findMany();
+    res.json(user);
   }
 });
-
 
 app.get("/users/:userID"),
   async (req, res) => {
@@ -107,7 +108,7 @@ app.get("/points/:userID", async (req, res) => {
       },
       include: {
         user: true,
-      }
+      },
     });
     res.json(userScores);
   } catch (error) {
@@ -116,7 +117,7 @@ app.get("/points/:userID", async (req, res) => {
   }
 });
 
-app.get('/get-session', (req, res) => {
+app.get("/get-session", (req, res) => {
   if (req.session.user) {
     res.send(req.session.user);
   } else {
@@ -128,11 +129,13 @@ app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
   const timePlayed = req.body.timePlayed;
-  console.log(userID, score, req.params.userID)
+  console.log(userID, score, req.params.userID);
   try {
-    await createPoint(score, userID ,timePlayed);
+    await createPoint(score, userID, timePlayed);
 
-    res.status(200).json({ message: 'Score erfolgreich aktualisiert', userScore });
+    res
+      .status(200)
+      .json({ message: "Score erfolgreich aktualisiert", userScore });
   } catch (error) {
     console.error("Fehler beim Abfragen des neuen Scores:", error);
     res.status(500).json({ error: "Serverfehler" });
@@ -175,7 +178,8 @@ app.listen(port, () => {
 
 // Regist
 app.post("/regist", async (req, res) => {
-  const { firstName, lastName, email, userName, password, repeatpassword } = req.body;
+  const { firstName, lastName, email, userName, password, repeatpassword } =
+    req.body;
 
   if (
     password == repeatpassword &&
@@ -188,7 +192,7 @@ app.post("/regist", async (req, res) => {
   ) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      
+
       // Speicher User in datenbank
       const user = await prisma.user.create({
         data: {
@@ -272,8 +276,10 @@ app.post("/login", async (req, res) => {
     const passwordMatch = bcrypt.compare(password, user.password);
     if (passwordMatch) {
       req.session.userID = user.id;
-      res.status(200).json({ email: user.email, userName: user.userName, id: user.id });
-      console.log("Anmeldung erfolgreich!")
+      res
+        .status(200)
+        .json({ email: user.email, userName: user.userName, id: user.id });
+      console.log("Anmeldung erfolgreich!");
     } else {
       res.status(401).json({ message: "Ungültige Anmeldeinformationen!" });
     }
@@ -286,7 +292,7 @@ app.post("/login", async (req, res) => {
 app.post("/create/points", async (req, res) => {
   const userID = req.session.id;
   const score = req.body.score;
-  console.log(userID, score, req.session.id)
+  console.log(userID, score, req.session.id);
   try {
     const newPoint = await createPoint(score, userID);
 

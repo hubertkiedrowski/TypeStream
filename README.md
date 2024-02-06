@@ -79,4 +79,22 @@ npm run prisma-studio
 npm run Test
 ```
 
-## Don't forget to create a .env file with your environment for the right localhost and database variables
+# Environment Variables Configuration
+
+To run this project successfully, it is necessary to create an `.env` file in the root directory of your project. This file should contain all the necessary environment variables required for configuring the application.
+
+## Steps to Create the `.env` File
+
+1. Create a new file in the root directory of your project and name it `.env`.
+2. Add the following environment variables to the `.env` file:
+
+```env
+DATABASE_URL="file:./dev.db"
+ORIGIN_URL='http://localhost:5173' 
+ORIGIN_SERVER_URL='http://127.0.0.1:3000/'
+```
+
+### Important Note on `ORIGIN_URL`
+
+- `ORIGIN_URL` should be the URL that you see in your browser after starting the application with `npm run dev`. This is the URL where your frontend application will be accessible.
+- Depending on your operating system (OS) and the configuration of your development environment, you might need to adjust this URL. The default URL is `http://localhost:5173`, but it may vary based on the port settings or specific setup of your system.
