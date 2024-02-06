@@ -34,46 +34,40 @@ Follow these steps to set up and run the project on your local machine:
 1. **Install Dependencies**
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
-2. **Run Frontend**
-
-```bash
-npm run dev
-```
-
-3. **Prisma Migration**
+2. **Prisma Migration**
 
 ```bash
 npm run prisma-migrate
 ```
 
-4. **Generate Prisma Client**
+3. **Generate Prisma Client**
 
 ```bash
 npm run prisma-generate
 ```
 
-5. **Create and Seed Database**
+4. **Create and Seed Database**
 
 ```bash
 npm run prisma-seed
 ```
 
-6. **Open Prisma Studio**
-
-```bash
-npm run prisma-studio
-```
-
-7. **Run Server**
+5. **Run Server**
 
 ```bash
 npm run server
 ```
 
-8. **Run Tests**
+6. **Run Server**
+
+```bash
+npm run dev
+```
+
+7. **Run Tests**
 
 ```bash
 npm run test
