@@ -76,8 +76,14 @@ npm run prisma-studio
 8. **Run Tests**
 
 ```bash
-npm run Test
+npm run test
 ```
+
+## Login Credentials
+
+- [Email] <user@softwareEngeneering.de>>
+- [Username] IKnowYourPassword
+- [Password] 123456
 
 # Environment Variables Configuration
 

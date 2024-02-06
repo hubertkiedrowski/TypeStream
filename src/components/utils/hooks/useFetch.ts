@@ -78,12 +78,9 @@ export function useFetch<T = unknown>(
 
     void fetchData();
 
-    // Use the cleanup function for avoiding a possibly...
-    // ...state update after the component was unmounted
     return () => {
       cancelRequest.current = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
   return state;

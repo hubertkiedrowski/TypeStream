@@ -6,6 +6,15 @@ import { PrismaClient } from "@prisma/client";
 import session from "express-session";
 import { createUser } from "./prisma/utils/createUser.js";
 import { createPoint } from "./prisma/utils/createPoints.js";
+/**
+ * This is the server.js file for a software engineering project.
+ * It contains the implementation of various routes and endpoints for handling user registration, login, session management, and data retrieval.
+ * The server is built using Express.js and interacts with a PostgreSQL database using Prisma ORM.
+ * The routes handle operations such as creating new users, retrieving user information, retrieving leaderboard scores, and managing user sessions.
+ * The file also includes utility functions for creating users and points in the database.
+ * @fileoverview Server implementation for the software engineering project.
+ * @module server
+ */
 
 const app = express();
 const port = 3000;
@@ -35,19 +44,11 @@ app.use(
   })
 );
 
-app.get("/users/:userID", async (req, res) => {
-  const userID = Number(req.params.userID);
-  if (userID > 0) {
-    const user = await prisma.user.findFirst({
-      where: { id: userID },
-    });
-    res.json(user);
-  } else if (userID == 0) {
-    const user = await prisma.user.findMany();
-    res.json(user);
-  }
-});
-
+/**
+ * Retrieves the user by his unique ID.
+ * @typedef {Object} User
+ * @property {number} id - The unique identifier of the user.
+ */
 app.get("/users/:userID"),
   async (req, res) => {
     const userID = Number(req.params.userID);
@@ -61,23 +62,23 @@ app.get("/users/:userID"),
       res.json(user);
     }
   };
+
+/**
+ * Returns all Users.
+ * @typedef {Object} User
+ */
 app.get("/users/", async (req, res) => {
   const user = await prisma.user.findMany();
   res.json(user);
 });
 
-app.get("/users/:userID", async (req, res) => {
-  const userID = Number(req.params.userID);
-  const user = await prisma.user.findFirst({
-    where: { id: userID },
-  });
-  res.json(user);
-});
-
-// Findet die obersten x Punktestände
+/**
+ * Retrieves the top scores from the database.
+ *
+ * @returns {<Array<Object>>} An array of objects representing the top scores, including user information.
+ */
 app.get("/points/leaderboard/:topX", async (req, res) => {
   const topX = Number(req.params.topX);
-
   try {
     const topScores = await prisma.point.findMany({
       take: topX,
@@ -95,16 +96,21 @@ app.get("/points/leaderboard/:topX", async (req, res) => {
   }
 });
 
-// Alle Punktestände eines Benutzers
+/**
+ * Retrieves the top 5 user scores for a given user ID.
+ *
+ * @param {number} userID - The ID of the user.
+ * @returns {Promise<Array<Object>>} - A promise that resolves to an array of user scores, including the associated user information.
+ */
 app.get("/points/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
 
   try {
     const userScores = await prisma.point.findMany({
       take: 5,
-      where: { userId: userID }, // Verwenden Sie hier 'userId' anstelle von 'id'
+      where: { userId: userID },
       orderBy: {
-        score: "desc", // Sortiere absteigend nach Punktestand
+        score: "desc",
       },
       include: {
         user: true,
@@ -125,6 +131,10 @@ app.get("/get-session", (req, res) => {
   }
 });
 
+/**
+ * creates a new score for the given userID.
+ * @type {number}
+ */
 app.post("/newPoints/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
   const score = req.body.score;
@@ -142,7 +152,11 @@ app.post("/newPoints/:userID", async (req, res) => {
   }
 });
 
-//get username
+/**
+ * Retrieves Username by ID.
+ * @typedef {Object} User
+ * @property {number} id  - The unique identifier of the user.
+ */
 app.get("/username/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
 
@@ -152,7 +166,11 @@ app.get("/username/:userID", async (req, res) => {
   res.json({ firstName: user.userName });
 });
 
-//get firstname
+/**
+ * Retrieves firstname by ID.
+ * @typedef {Object} User
+ * @property {number} id - The unique identifier of the user.
+ */
 app.get("/firstname/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
 
@@ -162,7 +180,11 @@ app.get("/firstname/:userID", async (req, res) => {
   res.json({ firstName: user.firstName });
 });
 
-//get lastname
+/**
+ * Retrieves lastName by ID.
+ * @typedef {Object} User
+ * @property {number} id - The unique identifier of the user.
+ */
 app.get("/lastname/:userID", async (req, res) => {
   const userID = Number(req.params.userID);
 
@@ -289,6 +311,12 @@ app.post("/login", async (req, res) => {
   }
 });
 
+/**
+ * Represents a newly created point.
+ * @typedef {Object} NewPoint
+ * @property {number} score - The score of the point.
+ * @property {string} userID - The ID of the user who created the point.
+ */
 app.post("/create/points", async (req, res) => {
   const userID = req.session.id;
   const score = req.body.score;
@@ -304,6 +332,13 @@ app.post("/create/points", async (req, res) => {
   }
 });
 
+/**
+ * Represents a newly created user.
+ * @typedef {Object} newUser
+ * @property {string} username - The username of the user.
+ * @property {string} email - The email address of the user.
+ * @property {string} password - The password of the user.
+ */
 app.post("/create/user", async (req, res) => {
   try {
     const newUser = await createUser(req.body);
